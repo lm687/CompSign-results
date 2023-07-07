@@ -40,40 +40,6 @@ sh make_config.sh
 
 `make_config` contains the arguments (i.e. parameters, for the most part) for the different Simulation Generations. Note using `bash make_config.sh` will throw an error - use sh instead.
 
-## copying
-scp lm687@login-cpu.hpc.cam.ac.uk:/home/lm687/Global_Differential_Abundance_Pipeline/data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedProstAdenoCAPCAWG* data/assessing_models_simulation/datasets/
-
-scp lm687@login-cpu.hpc.cam.ac.uk:/home/lm687/Global_Differential_Abundance_Pipeline/data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedProstAdenoCAPCAWG* data/assessing_models_simulation/inference_results/TMB/nlminb/
-
-scp lm687@login-cpu.hpc.cam.ac.uk:/home/lm687/Global_Differential_Abundance_Pipeline/data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGProstAdenoCAPCAWG* data/assessing_models_simulation/datasets/
-
-scp lm687@login-cpu.hpc.cam.ac.uk:/home/lm687/Global_Differential_Abundance_Pipeline/data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGProstAdenoCAPCAWG* data/assessing_models_simulation/inference_results/TMB/nlminb/
-
-
-## Synthetic datasets
-- Generation A: 20200625. There is a beta intercept of zero
-
-
-
-
-## Code details
-### Stan files for inference
-The folder `code/2_inference/` contains all the files for inference.
-
-### Simulation under the parameters
-
-To simulate data under the parameters see file `code/3_analysis/posterior_predictive_checks.R`, section `Lower-dimensional representation of posteriors and of observed values [2]`. The corresponding results are in the folder `results/simulation_from_params/`
-
-## Results for the PCAWG cohort
-
-Multinomial             |  Dirichlet-Multinomial
-:-------------------------:|:-------------------------:
-![betas tracksig comparison M](results/betas/all_betas_zeros.png "")  | ![betas tracksig comparison DM](results/betas/all_betas_zeros_DM.png "")
-
-Multinomial             |  Dirichlet-Multinomial
-:-------------------------:|:-------------------------:
-![betas tracksig comparison M](results/betas/betas_tracksig_comparison_M.png "")  | ![betas tracksig comparison DM](results/betas/betas_tracksig_comparison_DM.png "")
-
 ## Other considerations
 ### PCAWG samples for which there is no VCF file
 These files appear in the metadata and may have them in the mutccf file, but I don't have their VCF, which is the only file that contains what mutation it is (in mutccf you can have the position and CCF, but not mutation type).
