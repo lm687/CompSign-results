@@ -8,16 +8,16 @@ if(local){
   setwd("/Users/morril01/Documents/PhD/GlobalDA/code")
   
   optimiser <- 'nlminb'
-
+  
   # multiple_GenerationJnorm_200_180_20_3_0_fullREDM_betaintercept1d2_betaslope1d2_covmat1d2_dataset
   
   ## setsim_multiple_GenerationJnorm_nlminb_200_180_2_5_0_diagREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_betacorrelation.pdf
   # name_dataset <- 'multiple_GenerationMGnorm_'
   name_dataset <- 'multiple_GenerationJnorm_'
   
-  model <- "fullREDM_"
+  # model <- "fullREDM_"
   # model <- "singleREDM_"
-  # model <- "diagREDM_"
+  model <- "diagREDM_"
   
   # idx_dataset_betaintercept <- "betaintercept3"
   # idx_dataset_betaslope <- "betaslope3"
@@ -34,10 +34,10 @@ if(local){
   # arg_lambda <- 2
   # arg_lambda <- 20
   arg_lambda <- 100
-
+  
   arg_d <- 5
   arg_beta_gamma_shape <- 0
-
+  
   lst <- list.files(paste0("../data/assessing_models_simulation/inference_results/TMB/", optimiser, "/"), full.names = T)
   lst <- lst[grepl(name_dataset, lst)]
   lst <- lst[!grepl('_NC.RDS', lst)]
@@ -104,7 +104,7 @@ if(local){
                 help="Shape parameter for gamma distribution for beta (i.e. slope coefficient for changes in exposure between groups)", metavar="numeric"),
     make_option(c("--lambda"), type="numeric", default=0,
                 help="Overdispersion parameter", metavar="numeric")
-    );
+  );
   opt_parser = OptionParser(option_list=option_list);
   opt = parse_args(opt_parser);
   
@@ -170,12 +170,12 @@ runs <- runs[tryerror]
 lst <- lst[tryerror]
 
 print(paste0("../data/assessing_models_simulation/datasets/",
-                      gsub(paste0(opt$model, "_"), "", basename(lst[1]))))
+             gsub(paste0(opt$model, "_"), "", basename(lst[1]))))
 
 ### load datasets
 cat("Loading datasets...\n")
 x <- lapply(lst, function(i) (readRDS(paste0("../data/assessing_models_simulation/datasets/",
-                                       gsub(paste0(opt$model, "_"), "", basename(i))))))
+                                             gsub(paste0(opt$model, "_"), "", basename(i))))))
 cat("... datasets loaded.\n")
 
 cat("Creating summaries of runs\n")
@@ -249,9 +249,9 @@ if(model %in% c("fullREM")){
   true_vals = c(as.vector(x[[1]]$beta), ## betas
                 rep(0,((x[[1]]$d-1)**2-(x[[1]]$d-1))/2), ## covariances RE
                 sds) ##sd RE ## this is particular to GenerationCnorm
-# }else if(model %in% c("diagREM")){
-#   true_vals = c(as.vector(x[[1]]$beta), ## betas
-#                 sds) ##sd RE ## this is particular to GenerationCnorm
+  # }else if(model %in% c("diagREM")){
+  #   true_vals = c(as.vector(x[[1]]$beta), ## betas
+  #                 sds) ##sd RE ## this is particular to GenerationCnorm
 }else if(model %in% c("fullREDM", "fullREDMsinglelambda")){
   if(model == "fullREDM"){
     overdisp <- x[[1]]$lambda
@@ -264,7 +264,7 @@ if(model %in% c("fullREM")){
     }
     overdisp <- x[[1]]$lambda[1]
   }
-
+  
   if(covs_true){
     ## we have covariances
     covs <- covs
@@ -416,18 +416,13 @@ ggplot(df_coverage[df_coverage$type_param %in% c("Intercept",  "Slope"),],
         axis.ticks.x=element_blank())
 ggsave(paste0(first_part_output, "coverage_beta.pdf"), width = 2.5, height = 2.8)
 
-# pbinomprobs <- qbinom(p = c(0.925, 0.975), size = sum(all_pd_list), prob = 0.95)/ sum(all_pd_list)
 draws_binom <- rbinom(n = 1000, size = sum(all_pd_list), prob = 0.95)
 hist(draws_binom)
 var(draws_binom)
-# quantile(draws_binom, probs = c(0.925, 0.975))/ sum(all_pd_list)
-pbinomprobs <- data.frame(t(quantile(draws_binom, probs = c(0.05, 0.95))/ sum(all_pd_list)))
+pbinomprobs <- data.frame(t(quantile(draws_binom, probs = c(0.025, 0.975))/ sum(all_pd_list)))
 colnames(pbinomprobs) <- c('x1', 'x2')
-# pbinomprobs$parameter = 'beta.0'
-# pbinomprobs$CI <- 0
-# pbinomprobs$type_param='Intercept'
 
-# (1+idx_param) %/% 2,
+
 df_coverage[df_coverage$parameter == 'beta','parameter'] <- 'beta.0'
 
 pbinomprobs <- data.frame(t(apply(df_coverage[df_coverage$type_param %in% c("Intercept",  "Slope"),c('parameter', 'type_param')],
@@ -438,9 +433,16 @@ pbinomprobs$x2 <- as.numeric(pbinomprobs$x2)
 
 transformparam <- function(parameter) 1+as.numeric(gsub('.*[.]', '', parameter)) %/% 2
 
+if(min(df_coverage[grepl('beta', df_coverage$parameter),'CI']) < 0.3){
+  min_y = min(df_coverage[grepl('beta', df_coverage$parameter),'CI'])
+  min_y_2 = min(df_coverage[grepl('beta', df_coverage$parameter),'CI'])
+}else{
+  min_y = 0.3
+  min_y_2 = 0.7
+}
+
 library(cowplot)
-pdf(paste0(first_part_output, "coverage_beta_v2.pdf"), width = 2.2, height = 2)
-plot_grid(ggplot(df_coverage[df_coverage$type_param %in% c("Intercept"),])+
+A <- ggplot(df_coverage[df_coverage$type_param %in% c("Intercept"),])+
   geom_ribbon(data = pbinomprobs[pbinomprobs$type_param %in% c("Intercept"),], aes(x=transformparam(parameter), ymin=x1, ymax=x2, group=type_param),
               fill='yellow', alpha=0.9)+
   geom_abline(slope = 0, intercept = 0.95, col='blue', lty='dashed')+
@@ -453,33 +455,36 @@ plot_grid(ggplot(df_coverage[df_coverage$type_param %in% c("Intercept"),])+
   labs(shape="", x='Beta', y='Coverage')+
   theme(axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+
-  ylim(min=c(0.3, 1))+
-  geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=0.31, ymax=0.32), col='black', fill="white", alpha=0.2, lty=1)+
-  annotate(geom="label",x=-Inf,y=0.315,label="   //", fill="white", col='black', label.size = NA)+
-  annotate(geom="label",x=Inf,y=0.315,label="//   ", fill="white", col='black', label.size = NA),
-  ggplot(df_coverage[df_coverage$type_param %in% c("Slope"),])+
-    geom_ribbon(data = pbinomprobs[pbinomprobs$type_param %in% c("Slope"),], aes(x=transformparam(parameter), ymin=x1, ymax=x2, group=type_param),
-                fill='yellow', alpha=0.9)+
-    geom_abline(slope = 0, intercept = 0.95, col='blue', lty='dashed')+
-    geom_line(aes(x=(1+as.numeric(gsub('.*[.]', '', parameter)) %/% 2), y=CI,
-                  group=1))+geom_point(aes(x=transformparam(parameter), y=CI,
-                                           group=1))+
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()+#lims(y=c(0,1))+
-    theme(legend.position = "bottom")+
-    scale_y_continuous(position = "right", limits = c(0.7, 1))+
-    facet_wrap(.~type_param)+
-    labs(shape="", x='Beta', y='Coverage')+
-    theme(axis.text.x=element_blank(),
-          axis.ticks.x=element_blank(), axis.title.y=element_blank())+
-    geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=0.71, ymax=0.715), col='black', fill="white", alpha=0.2, lty=1)+
-    annotate(geom="label",x=-Inf,y=0.715,label="   //", fill="white", col='black', label.size = NA)+
-    annotate(geom="label",x=Inf,y=0.715,label="//   ", fill="white", col='black', label.size = NA), nrow=1, rel_widths = c(1.1, 0.95))
+  ylim(min=c(min_y, 1))
+if(min_y == 0.3){
+  A <- A+annotate(geom="label",x=-Inf,y=0.315,label="   //", fill="white", col='black', label.size = NA)+
+    annotate(geom="label",x=Inf,y=0.315,label="//   ", fill="white", col='black', label.size = NA)+
+    geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=0.31, ymax=0.32), col='black', fill="white", alpha=0.2, lty=1)
+}
+B <- ggplot(df_coverage[df_coverage$type_param %in% c("Slope"),])+
+  geom_ribbon(data = pbinomprobs[pbinomprobs$type_param %in% c("Slope"),], aes(x=transformparam(parameter), ymin=x1, ymax=x2, group=type_param),
+              fill='yellow', alpha=0.9)+
+  geom_abline(slope = 0, intercept = 0.95, col='blue', lty='dashed')+
+  geom_line(aes(x=(1+as.numeric(gsub('.*[.]', '', parameter)) %/% 2), y=CI,
+                group=1))+geom_point(aes(x=transformparam(parameter), y=CI,
+                                         group=1))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()+#lims(y=c(0,1))+
+  theme(legend.position = "bottom")+
+  scale_y_continuous(position = "right", limits = c(min_y_2, 1))+
+  facet_wrap(.~type_param)+
+  labs(shape="", x='Beta', y='Coverage')+
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(), axis.title.y=element_blank())
+if(min_y == 0.3){
+  B <- B+  annotate(geom="label",x=-Inf,y=0.715,label="   //", fill="white", col='black', label.size = NA)+
+    annotate(geom="label",x=Inf,y=0.715,label="//   ", fill="white", col='black', label.size = NA)+
+    geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=0.71, ymax=0.715), col='black', fill="white", alpha=0.2, lty=1)
+}
+
+
+pdf(paste0(first_part_output, "coverage_beta_v3.pdf"), width = 2.2, height = 2)
+plot_grid(A, B, nrow=1, rel_widths = c(1.1, 0.95))
 dev.off()
-
-# summaries[[1]]
-# true_vals
-
-# sapply(x, `[`, 'beta')
 
 as.vector(x[[1]]$beta)
 python_like_select_rownames(summaries[[1]], 'beta')[,1]
@@ -574,43 +579,3 @@ if((length(runs_nonconverged_list) > 0) & (length(runs) > 0) ){
     model
   }
 }
-
-##----------------------------------------------------------------------------------------------------------##
-## what is the difference between runs that converge and those that don't?
-# table(all_pd_list)
-# all_pd_list
-# dataset
-# length(x) ## datasets
-# length(fles) ## datasets
-# length(runs) ## runs
-# length(lst) ## runs
-# 
-# xxxxx <- sapply((basename(lst)), function(i) paste0(strsplit(i, '_')[[1]][-8], collapse = "_"))
-# xxxxx2 <- (basename(fles))
-# 
-# x_ordered <- x[match(toupper(xxxxx), toupper(xxxxx2))]
-# names(x_ordered) <- xxxxx
-# names(x_ordered)[1]
-# basename(lst)[1]
-# 
-# runs_pdHess <- sapply(runs, `[`, 'pdHess')
-# 
-# x_ordered_pdHessF <- x_ordered[as.vector(runs_pdHess) == F]
-# x_ordered_pdHessT <- x_ordered[as.vector(runs_pdHess) == T]
-# 
-# ## difference in mean value of counts
-# ggplot(melt(list(pdHessF=sapply(x_ordered_pdHessF, function(j) colSums(j$W)),
-#                  pdHessT=sapply(x_ordered_pdHessT, function(j) colSums(j$W)))),
-#        aes(x=Var1, y=value, col=L1, group=interaction(Var1, L1)))+geom_boxplot()
-# ggplot(melt(list(pdHessF=sapply(x_ordered_pdHessF, function(j) colSums(j$W)),
-#                  pdHessT=sapply(x_ordered_pdHessT, function(j) colSums(j$W)))),
-#        aes(x=Var1, y=value, col=L1, group=interaction(Var1, L1)))+geom_boxplot()+facet_wrap(.~Var1, scales = "free")
-# 
-# ## difference in zeros
-# ggplot(melt(list(pdHessF=sapply(x_ordered_pdHessF, function(j) colSums(j$W == 0)),
-#                  pdHessT=sapply(x_ordered_pdHessT, function(j) colSums(j$W == 0)))),
-#        aes(x=Var1, y=value, col=L1, group=interaction(Var1, L1)))+geom_boxplot()+facet_wrap(.~Var1, scales = "free")
-# 
-# sum(toupper(xxxxx) %in% toupper(xxxxx2))
-# View(xxxxx)
-# View(xxxxx2)
