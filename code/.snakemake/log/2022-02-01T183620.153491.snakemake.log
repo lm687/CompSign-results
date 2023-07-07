@@ -1,0 +1,263 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	4	analyse_simulation_TMB_multiple
+	1	analyse_simulation_TMB_multiple_integrate
+	1057	inference_simulation_TMB_multiple
+	264	simulate_for_comparison_multiple
+	1327
+
+[Tue Feb  1 18:36:38 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_-8_NA_NA_NA_dataset7.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_-8_diagREDM_NA_NA_NA_dataset7.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_-8_ModeldiagREDM_NA_NA_NA_dataset7.log
+    jobid: 2273
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-8, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=7
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_-8_NA_NA_NA_dataset7.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_-8_diagREDM_NA_NA_NA_dataset7.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:36:59 2022]
+Finished job 2273.
+1 of 1327 steps (0.08%) done
+
+[Tue Feb  1 18:36:59 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedCNSGBMPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS
+    jobid: 3215
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-1, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=9
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedCNSGBMPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedCNSGBMPCAWG --d 4 --n 200 --nlambda 200 --lambda 80 --beta_gamma_shape -1 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Tue Feb  1 18:36:59 2022]
+Finished job 3215.
+2 of 1327 steps (0.15%) done
+
+[Tue Feb  1 18:36:59 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_diagREDMsinglelambda_NA_NA_NA_dataset9.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_ModeldiagREDMsinglelambda_NA_NA_NA_dataset9.log
+    jobid: 1895
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-1, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=9
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_diagREDMsinglelambda_NA_NA_NA_dataset9.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:37:17 2022]
+Finished job 1895.
+3 of 1327 steps (0.23%) done
+
+[Tue Feb  1 18:37:17 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_fullREDMsinglelambda_NA_NA_NA_dataset9.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_ModelfullREDMsinglelambda_NA_NA_NA_dataset9.log
+    jobid: 1235
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-1, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=9
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_fullREDMsinglelambda_NA_NA_NA_dataset9.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:37:37 2022]
+Finished job 1235.
+4 of 1327 steps (0.30%) done
+
+[Tue Feb  1 18:37:37 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_fullREM_NA_NA_NA_dataset9.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_ModelfullREM_NA_NA_NA_dataset9.log
+    jobid: 575
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-1, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=9
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_fullREM_NA_NA_NA_dataset9.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:37:44 2022]
+Finished job 575.
+5 of 1327 steps (0.38%) done
+
+[Tue Feb  1 18:37:44 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_diagREDM_NA_NA_NA_dataset9.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_ModeldiagREDM_NA_NA_NA_dataset9.log
+    jobid: 2555
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-1, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=9
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_NA_NA_NA_dataset9.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_200_200_80_4_-1_diagREDM_NA_NA_NA_dataset9.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:01 2022]
+Finished job 2555.
+6 of 1327 steps (0.45%) done
+
+[Tue Feb  1 18:38:01 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedCNSGBMPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS
+    jobid: 3011
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=0, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=5
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedCNSGBMPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedCNSGBMPCAWG --d 4 --n 100 --nlambda 200 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Tue Feb  1 18:38:02 2022]
+Finished job 3011.
+7 of 1327 steps (0.53%) done
+
+[Tue Feb  1 18:38:02 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_diagREDMsinglelambda_NA_NA_NA_dataset5.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_ModeldiagREDMsinglelambda_NA_NA_NA_dataset5.log
+    jobid: 1691
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=0, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=5
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_diagREDMsinglelambda_NA_NA_NA_dataset5.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:09 2022]
+Finished job 1691.
+8 of 1327 steps (0.60%) done
+
+[Tue Feb  1 18:38:09 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_fullREDMsinglelambda_NA_NA_NA_dataset5.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_ModelfullREDMsinglelambda_NA_NA_NA_dataset5.log
+    jobid: 1031
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=0, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=5
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_fullREDMsinglelambda_NA_NA_NA_dataset5.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:16 2022]
+Finished job 1031.
+9 of 1327 steps (0.68%) done
+
+[Tue Feb  1 18:38:16 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_fullREM_NA_NA_NA_dataset5.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_ModelfullREM_NA_NA_NA_dataset5.log
+    jobid: 371
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=0, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=5
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_fullREM_NA_NA_NA_dataset5.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:20 2022]
+Finished job 371.
+10 of 1327 steps (0.75%) done
+
+[Tue Feb  1 18:38:20 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_diagREDM_NA_NA_NA_dataset5.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_ModeldiagREDM_NA_NA_NA_dataset5.log
+    jobid: 2351
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=0, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=5
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_NA_NA_NA_dataset5.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_100_200_80_4_0_diagREDM_NA_NA_NA_dataset5.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:27 2022]
+Finished job 2351.
+11 of 1327 steps (0.83%) done
+
+[Tue Feb  1 18:38:27 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedCNSGBMPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS
+    jobid: 2686
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedCNSGBMPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedCNSGBMPCAWG --d 4 --n 50 --nlambda 200 --lambda 80 --beta_gamma_shape -10 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Tue Feb  1 18:38:28 2022]
+Finished job 2686.
+12 of 1327 steps (0.90%) done
+
+[Tue Feb  1 18:38:28 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_diagREDMsinglelambda_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_ModeldiagREDMsinglelambda_NA_NA_NA_dataset0.log
+    jobid: 1366
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_diagREDMsinglelambda_NA_NA_NA_dataset0.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:32 2022]
+Finished job 1366.
+13 of 1327 steps (0.98%) done
+
+[Tue Feb  1 18:38:32 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_ModelfullREDMsinglelambda_NA_NA_NA_dataset0.log
+    jobid: 706
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:36 2022]
+Finished job 706.
+14 of 1327 steps (1%) done
+
+[Tue Feb  1 18:38:36 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_fullREM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_ModelfullREM_NA_NA_NA_dataset0.log
+    jobid: 46
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_fullREM_NA_NA_NA_dataset0.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:39 2022]
+Finished job 46.
+15 of 1327 steps (1%) done
+
+[Tue Feb  1 18:38:39 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_diagREDM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_ModeldiagREDM_NA_NA_NA_dataset0.log
+    jobid: 2026
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_-10_diagREDM_NA_NA_NA_dataset0.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:44 2022]
+Finished job 2026.
+16 of 1327 steps (1%) done
+
+[Tue Feb  1 18:38:44 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedCNSGBMPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_NA_NA_NA_dataset3.RDS
+    jobid: 2849
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=12, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=3
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedCNSGBMPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedCNSGBMPCAWG --d 4 --n 50 --nlambda 200 --lambda 80 --beta_gamma_shape 12 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_NA_NA_NA_dataset3.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Tue Feb  1 18:38:44 2022]
+Finished job 2849.
+17 of 1327 steps (1%) done
+
+[Tue Feb  1 18:38:44 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_NA_NA_NA_dataset3.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_diagREDMsinglelambda_NA_NA_NA_dataset3.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_ModeldiagREDMsinglelambda_NA_NA_NA_dataset3.log
+    jobid: 1529
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=12, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=3
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_NA_NA_NA_dataset3.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_diagREDMsinglelambda_NA_NA_NA_dataset3.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:48 2022]
+Finished job 1529.
+18 of 1327 steps (1%) done
+
+[Tue Feb  1 18:38:48 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_NA_NA_NA_dataset3.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_fullREDMsinglelambda_NA_NA_NA_dataset3.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_ModelfullREDMsinglelambda_NA_NA_NA_dataset3.log
+    jobid: 869
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedCNSGBMPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=12, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=3
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_NA_NA_NA_dataset3.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_fullREDMsinglelambda_NA_NA_NA_dataset3.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 18:38:54 2022]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 869
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_fullREDMsinglelambda_NA_NA_NA_dataset3.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_ModelfullREDMsinglelambda_NA_NA_NA_dataset3.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_NA_NA_NA_dataset3.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedCNSGBMPCAWG_50_200_80_4_12_fullREDMsinglelambda_NA_NA_NA_dataset3.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-02-01T183620.153491.snakemake.log

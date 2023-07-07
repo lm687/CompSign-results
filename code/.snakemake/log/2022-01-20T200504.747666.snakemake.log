@@ -1,0 +1,44 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	annotate_vcf
+	1	unzip
+	3
+
+[Thu Jan 20 20:05:07 2022]
+rule unzip:
+    input: /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf.gz
+    output: /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf
+    jobid: 2
+    wildcards: sample=02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf
+
+gzip -d /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf.gz; 
+[Thu Jan 20 20:05:07 2022]
+Finished job 2.
+1 of 3 steps (33%) done
+
+[Thu Jan 20 20:05:07 2022]
+rule annotate_vcf:
+    input: /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf
+    output: /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf.annovar
+    jobid: 1
+    wildcards: sample=02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf
+
+/Users/morril01/software/annovar/./table_annovar.pl /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf         /Users/morril01/software/annovar/humandb/ -buildver hg19 -out /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf.annovar -remove -protocol refGene,cytoBand,exac03 -operation gx,r,f -nastring . -csvout -polish         -xref /Users/morril01/software/annovar/example/gene_xref.txt; gzip /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf; mv /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf.annovar.hg19_multianno.csv /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf.annovar
+[Thu Jan 20 20:05:21 2022]
+Finished job 1.
+2 of 3 steps (67%) done
+
+[Thu Jan 20 20:05:21 2022]
+localrule all:
+    input: /Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/02917220-6a7a-46a1-8656-907e96bef88e.consensus.20160830.somatic.snv_mnv.vcf.annovar
+    jobid: 0
+
+[Thu Jan 20 20:05:21 2022]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-01-20T200504.747666.snakemake.log

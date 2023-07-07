@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	4	analyse_simulation_TMB_bias
+	3041	inference_simulation_TMB_multiple
+	3046
+
+[Sun Feb 20 22:28:29 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_180_100_5_0_betaintercept1d4_betaslope1d4_covmat1d4_dataset970.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_180_100_5_0_singleREDM_betaintercept1d4_betaslope1d4_covmat1d4_dataset970.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_200_180_100_5_0_ModelsingleREDM_betaintercept1d4_betaslope1d4_covmat1d4_dataset970.log
+    jobid: 3976
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=200, nlambda=180, lmbda=100, d=5, beta_intensity=0, model=singleREDM, fixed_beta_intercept=betaintercept1d4, fixed_beta_slope=betaslope1d4, sdRE_input=covmat1d4, itnum=970
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_180_100_5_0_betaintercept1d4_betaslope1d4_covmat1d4_dataset970.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_180_100_5_0_singleREDM_betaintercept1d4_betaslope1d4_covmat1d4_dataset970.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+Terminating processes on user request, this might take some time.
+[Sun Feb 20 22:28:31 2022]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 3976
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_180_100_5_0_singleREDM_betaintercept1d4_betaslope1d4_covmat1d4_dataset970.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_200_180_100_5_0_ModelsingleREDM_betaintercept1d4_betaslope1d4_covmat1d4_dataset970.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_180_100_5_0_betaintercept1d4_betaslope1d4_covmat1d4_dataset970.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_180_100_5_0_singleREDM_betaintercept1d4_betaslope1d4_covmat1d4_dataset970.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-02-20T222805.047590.snakemake.log

@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	108	inference_TMB
+	109
+
+[Mon Jan 24 22:30:39 2022]
+rule inference_TMB:
+    input: ../data/roo/Liver-HCC_signaturesMSE_ROO.RDS
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Liver-HCC_signaturesMSE.RDS
+    log: logs/inference/TMBinference_Liver-HCC_signaturesMSE_diagREDM.log
+    jobid: 60
+    wildcards: model=diagREDM, cancer_type=Liver-HCC, feature_type=signaturesMSE
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Liver-HCC_signaturesMSE_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Liver-HCC_signaturesMSE.RDS --model diagREDM --feature_type signaturesMSE --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+[Mon Jan 24 22:30:40 2022]
+Error in rule inference_TMB:
+    jobid: 60
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Liver-HCC_signaturesMSE.RDS
+    log: logs/inference/TMBinference_Liver-HCC_signaturesMSE_diagREDM.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Liver-HCC_signaturesMSE_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Liver-HCC_signaturesMSE.RDS --model diagREDM --feature_type signaturesMSE --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-01-24T223037.834496.snakemake.log

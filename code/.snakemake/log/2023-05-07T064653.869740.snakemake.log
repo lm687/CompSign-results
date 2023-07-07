@@ -1,0 +1,57 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	2	analyse_simulation_TMB_bias
+	959	inference_simulation_TMB_multiple
+	479	simulate_for_comparison_multiple
+	1441
+
+[Sun May  7 06:47:02 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_14072_87_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset67.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_14072_87_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset67.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_200_14072_87_6_0_ModelfullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset67.log
+    jobid: 1070
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=200, nlambda=14072, lmbda=87, d=6, beta_intensity=0, model=fullREDM, fixed_beta_intercept=betainterceptPCAWG4, fixed_beta_slope=betaslopePCAWG4, sdRE_input=covmatFULLPCAWG4, itnum=67
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_14072_87_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset67.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_14072_87_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset67.RDS --model fullREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Sun May  7 06:47:29 2023]
+Finished job 1070.
+1 of 1441 steps (0.07%) done
+
+[Sun May  7 06:47:29 2023]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationJnorm
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_14072_87_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.RDS
+    jobid: 2039
+    wildcards: datasetgeneration=GenerationJnorm, n=200, nlambda=14072, lmbda=87, d=6, beta_intensity=0, fixed_beta_intercept=betainterceptPCAWG4, fixed_beta_slope=betaslopePCAWG4, sdRE_input=covmatFULLPCAWG4, itnum=36
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationJnorm.R --input ../data/assessing_models_simulation/GenerationJnorm --d 6 --n 200 --nlambda 14072 --lambda 87 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_14072_87_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.RDS --beta_intercept_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betainterceptPCAWG4.RDS --beta_slope_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betaslopePCAWG4.RDS --sdRE_input ../data/assessing_models_simulation/additional_files/multiple_fixed_covmatFULLPCAWG4.RDS
+[Sun May  7 06:47:31 2023]
+Finished job 2039.
+2 of 1441 steps (0.14%) done
+
+[Sun May  7 06:47:31 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_14072_87_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_14072_87_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_200_14072_87_6_0_ModelfullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.log
+    jobid: 1039
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=200, nlambda=14072, lmbda=87, d=6, beta_intensity=0, model=fullREDM, fixed_beta_intercept=betainterceptPCAWG4, fixed_beta_slope=betaslopePCAWG4, sdRE_input=covmatFULLPCAWG4, itnum=36
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_14072_87_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_14072_87_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.RDS --model fullREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Sun May  7 06:48:25 2023]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 1039
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_14072_87_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_200_14072_87_6_0_ModelfullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_200_14072_87_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_200_14072_87_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_dataset36.RDS --model fullREDM --optimiser nlminb  --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2023-05-07T064653.869740.snakemake.log

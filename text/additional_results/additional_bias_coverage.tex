@@ -1,0 +1,207 @@
+%\documentclass[oupdraft]{bio}
+%\documentclass[oup]{bio}
+\documentclass{article}
+% \usepackage[colorlinks=true, urlcolor=citecolor, linkcolor=citecolor, citecolor=citecolor]{hyperref}
+\usepackage{url}
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+\usetikzlibrary{arrows,automata,decorations.pathreplacing,calc}
+\usepackage{marvosym} %% Lightninig
+\usepackage{dsfont} %% maths symbols
+\usepackage{array} %% tables
+\usepackage{subfig}
+\usepackage{multirow} %% for \rot
+\usepackage{floatrow}
+\usepackage{mathtools} % for cases
+\usepackage[export]{adjustbox} %% valign
+\usepackage{scalerel}
+
+
+\newcommand*\rot{\multicolumn{1}{D{45}{1em}}}% no optional argument here, please!
+
+
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\betab}{\bs\beta}
+\newcommand{\alphab}{\bs\alpha}
+\newcommand{\lambdab}{\bs\lambda}
+
+% Add history information for the article if required
+
+\begin{document}
+
+% Title of paper
+\title{A Dirichlet-Multinomial mixed model for detecting global changes in mutational process activity}
+
+% List of authors, with corresponding author marked by asterisk
+\author{LENA MORRILL GAVARR\'O, DOMINIQUE-LAURENT COUTURIER,\\ FLORIAN MARKOWETZ}
+
+\maketitle
+
+\begin{figure}[ht]%\ContinuedFloat
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Bias, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_0.06_8_0_fullREDM_betainterceptPCAWG1_betaslopePCAWG1_covmatPCAWG1_onlyconverged_bias_betas_v2}.pdf}
+}
+\subfloat[Bias, $\lambda=20$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_20_8_0_fullREDM_betainterceptPCAWG1_betaslopePCAWG1_covmatPCAWG1_onlyconverged_bias_betas_v2}.pdf}
+}
+}{}
+\end{floatrow}
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Coverage, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_0.06_8_0_fullREDM_betainterceptPCAWG1_betaslopePCAWG1_covmatPCAWG1_onlyconverged_coverage_beta_v2}.pdf}
+}
+\subfloat[Coverage, $\lambda=20$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_20_8_0_fullREDM_betainterceptPCAWG1_betaslopePCAWG1_covmatPCAWG1_onlyconverged_coverage_beta_v2}.pdf}
+}
+}{
+}
+\end{floatrow}
+%\caption{Inference using correlated mixed-effects DM (\texttt{fullREDM}). Data simulated using a correlated DM with random intercepts with parameters $n=200$, $\sum_jw_{lj}=180\ \forall\ l$, $d=5$.  Both $\betab_i$ and $\betab_1$ are well recovered, except in the scenario of high overdispersion (first column; $\lambda=2$). The highlighted area is the $0.05-0.95$ quantile of 1000 binomial draws of the same size as the data with $p=0.95$.
+%\label{bias2}}
+\end{figure}
+
+
+
+\begin{figure}[ht]%\ContinuedFloat
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Bias, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_0.06_6_0_fullREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_bias_betas_v2}.pdf}
+}
+\subfloat[Bias, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_0.06_6_0_diagREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_bias_betas_v2}.pdf}
+}
+}{}
+\end{floatrow}
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Coverage, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_0.06_6_0_fullREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_coverage_beta_v2}.pdf}
+}
+\subfloat[Coverage, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_0.06_6_0_diagREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_coverage_beta_v2}.pdf}
+}
+}{
+}
+\end{floatrow}
+\caption{PCAWG2}
+\end{figure}
+
+\begin{figure}[ht]%\ContinuedFloat
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Bias, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_100_6_0_fullREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_bias_betas_v2}.pdf}
+}
+\subfloat[Bias, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_100_6_0_diagREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_bias_betas_v2}.pdf}
+}
+}{}
+\end{floatrow}
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Coverage, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_100_6_0_fullREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_coverage_beta_v2}.pdf}
+}
+\subfloat[Coverage, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_180_100_6_0_diagREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_coverage_beta_v2}.pdf}
+}
+}{
+}
+\end{floatrow}
+\caption{Same as above (PCAWG2), but with very large precision param (100)}
+\end{figure}
+
+\begin{figure}[ht]%\ContinuedFloat
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Bias, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_3401_18_6_0_diagREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_bias_betas_v2}.pdf}
+}
+\subfloat[Bias, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_3401_18_6_0_fullREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_bias_betas_v2}.pdf}
+}}{}
+\end{floatrow}
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Coverage, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_3401_18_6_0_diagREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_coverage_beta_v2}.pdf}
+}
+\subfloat[Coverage, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_3401_18_6_0_fullREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_coverage_beta_v2}.pdf}
+}
+}{
+}
+\end{floatrow}
+\caption{}
+\end{figure}
+
+
+
+\begin{figure}[ht]%\ContinuedFloat
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Bias, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_14072_80_6_0_diagREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatPCAWG4_onlyconverged_bias_betas_v2}.pdf}
+}
+\subfloat[Bias, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_14072_80_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatPCAWG4_onlyconverged_bias_betas_v2}.pdf}
+}}{}
+\end{floatrow}
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[Coverage, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_14072_80_6_0_diagREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatPCAWG4_onlyconverged_coverage_beta_v2}.pdf}
+}
+\subfloat[Coverage, $\lambda=2$]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_14072_80_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatPCAWG4_onlyconverged_coverage_beta_v2}.pdf}
+}
+}{
+}
+\end{floatrow}
+\caption{200 14072 80 6 0 fullREDM betainterceptPCAWG4 betaslopePCAWG4 covmatPCAWG4}
+\end{figure}
+
+
+\begin{figure}[ht]%\ContinuedFloat
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[diag]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_14072_87_6_0_diagREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_onlyconverged_bias_betas_v2}.pdf}
+}
+\subfloat[full]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_14072_87_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_onlyconverged_bias_betas_v2}.pdf}
+}}{}
+\end{floatrow}
+\begin{floatrow}
+\ffigbox[\FBwidth]
+{
+\subfloat[diag]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_14072_87_6_0_diagREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_onlyconverged_coverage_beta_v2}.pdf}
+}
+\subfloat[full]
+{\includegraphics[width=1.8in]{/Users/morril01/Documents/PhD/GlobalDA/results/results_TMB/simulated_datasets/bias_and_coverage/{setsim_multiple_GenerationJnorm_nlminb_200_14072_87_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4_onlyconverged_coverage_beta_v2}.pdf}
+}
+}{
+}
+\end{floatrow}
+\caption{200 14072 80 6 0 fullREDM betainterceptPCAWG4 betaslopePCAWG4 covmatPCAWG4}
+\end{figure}
+
+%setsim_multiple_GenerationJnorm_nlminb_200_180_100_6_0_diagREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_coverage_beta_v2
+
+\end{document}

@@ -1,0 +1,287 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	581	inference_simulation_TMB_multiple
+	145	simulate_for_comparison_multiple
+	727
+
+[Thu Oct 28 14:40:59 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.1_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.1_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.1_ModelfullREDMsinglelambda_NA_NA_NA_dataset0.log
+    jobid: 461
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.1, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.1_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.1_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:06 2021]
+Finished job 461.
+1 of 727 steps (0.14%) done
+
+[Thu Oct 28 14:41:06 2021]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationJnormTwoLambdasOneChangingBeta
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS
+    jobid: 642
+    wildcards: datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationJnormTwoLambdasOneChangingBeta.R --input ../data/assessing_models_simulation/GenerationJnormTwoLambdasOneChangingBeta --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Thu Oct 28 14:41:08 2021]
+Finished job 642.
+2 of 727 steps (0.28%) done
+
+[Thu Oct 28 14:41:08 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_fullREM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_ModelfullREM_NA_NA_NA_dataset1.log
+    jobid: 2
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_fullREM_NA_NA_NA_dataset1.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:10 2021]
+Finished job 2.
+3 of 727 steps (0.41%) done
+
+[Thu Oct 28 14:41:10 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_diagREDMsinglelambda_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_ModeldiagREDMsinglelambda_NA_NA_NA_dataset1.log
+    jobid: 8
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_diagREDMsinglelambda_NA_NA_NA_dataset1.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:13 2021]
+Finished job 8.
+4 of 727 steps (0.55%) done
+
+[Thu Oct 28 14:41:13 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_diagREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_ModeldiagREDM_NA_NA_NA_dataset1.log
+    jobid: 4
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_diagREDM_NA_NA_NA_dataset1.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:15 2021]
+Finished job 4.
+5 of 727 steps (0.69%) done
+
+[Thu Oct 28 14:41:15 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_fullREDMsinglelambda_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_ModelfullREDMsinglelambda_NA_NA_NA_dataset1.log
+    jobid: 6
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_20_100_80_3_0_fullREDMsinglelambda_NA_NA_NA_dataset1.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:17 2021]
+Finished job 6.
+6 of 727 steps (0.83%) done
+
+[Thu Oct 28 14:41:17 2021]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationJnormTwoLambdasOneChangingBeta
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS
+    jobid: 695
+    wildcards: datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=30, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationJnormTwoLambdasOneChangingBeta.R --input ../data/assessing_models_simulation/GenerationJnormTwoLambdasOneChangingBeta --d 4 --n 30 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Thu Oct 28 14:41:19 2021]
+Finished job 695.
+7 of 727 steps (0.96%) done
+
+[Thu Oct 28 14:41:19 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_fullREM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_ModelfullREM_NA_NA_NA_dataset0.log
+    jobid: 217
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=30, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_fullREM_NA_NA_NA_dataset0.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:21 2021]
+Finished job 217.
+8 of 727 steps (1%) done
+
+[Thu Oct 28 14:41:21 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_diagREDMsinglelambda_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_ModeldiagREDMsinglelambda_NA_NA_NA_dataset0.log
+    jobid: 223
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=30, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_diagREDMsinglelambda_NA_NA_NA_dataset0.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:24 2021]
+Finished job 223.
+9 of 727 steps (1%) done
+
+[Thu Oct 28 14:41:24 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_diagREDM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_ModeldiagREDM_NA_NA_NA_dataset0.log
+    jobid: 219
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=30, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_diagREDM_NA_NA_NA_dataset0.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:29 2021]
+Finished job 219.
+10 of 727 steps (1%) done
+
+[Thu Oct 28 14:41:29 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_ModelfullREDMsinglelambda_NA_NA_NA_dataset0.log
+    jobid: 221
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=30, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_30_100_80_4_0.1_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:34 2021]
+Finished job 221.
+11 of 727 steps (2%) done
+
+[Thu Oct 28 14:41:34 2021]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationJnormTwoLambdasOneChangingBeta
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS
+    jobid: 776
+    wildcards: datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationJnormTwoLambdasOneChangingBeta.R --input ../data/assessing_models_simulation/GenerationJnormTwoLambdasOneChangingBeta --d 4 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Thu Oct 28 14:41:36 2021]
+Finished job 776.
+12 of 727 steps (2%) done
+
+[Thu Oct 28 14:41:36 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_fullREM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_ModelfullREM_NA_NA_NA_dataset1.log
+    jobid: 538
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_fullREM_NA_NA_NA_dataset1.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:40 2021]
+Finished job 538.
+13 of 727 steps (2%) done
+
+[Thu Oct 28 14:41:40 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_diagREDMsinglelambda_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_ModeldiagREDMsinglelambda_NA_NA_NA_dataset1.log
+    jobid: 544
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_diagREDMsinglelambda_NA_NA_NA_dataset1.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:41:49 2021]
+Finished job 544.
+14 of 727 steps (2%) done
+
+[Thu Oct 28 14:41:49 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_diagREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_ModeldiagREDM_NA_NA_NA_dataset1.log
+    jobid: 540
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_diagREDM_NA_NA_NA_dataset1.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:42:00 2021]
+Finished job 540.
+15 of 727 steps (2%) done
+
+[Thu Oct 28 14:42:00 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_fullREDMsinglelambda_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_ModelfullREDMsinglelambda_NA_NA_NA_dataset1.log
+    jobid: 542
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_100_100_80_4_0.1_fullREDMsinglelambda_NA_NA_NA_dataset1.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:42:12 2021]
+Finished job 542.
+16 of 727 steps (2%) done
+
+[Thu Oct 28 14:42:12 2021]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationJnormTwoLambdasOneChangingBeta
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS
+    jobid: 757
+    wildcards: datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.6, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationJnormTwoLambdasOneChangingBeta.R --input ../data/assessing_models_simulation/GenerationJnormTwoLambdasOneChangingBeta --d 6 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Thu Oct 28 14:42:17 2021]
+Finished job 757.
+17 of 727 steps (2%) done
+
+[Thu Oct 28 14:42:17 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_fullREM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_ModelfullREM_NA_NA_NA_dataset0.log
+    jobid: 465
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.6, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_fullREM_NA_NA_NA_dataset0.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:42:23 2021]
+Finished job 465.
+18 of 727 steps (2%) done
+
+[Thu Oct 28 14:42:23 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_diagREDMsinglelambda_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_ModeldiagREDMsinglelambda_NA_NA_NA_dataset0.log
+    jobid: 471
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.6, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_diagREDMsinglelambda_NA_NA_NA_dataset0.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:42:34 2021]
+Finished job 471.
+19 of 727 steps (3%) done
+
+[Thu Oct 28 14:42:34 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_diagREDM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_ModeldiagREDM_NA_NA_NA_dataset0.log
+    jobid: 467
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.6, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_diagREDM_NA_NA_NA_dataset0.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:42:43 2021]
+Finished job 467.
+20 of 727 steps (3%) done
+
+[Thu Oct 28 14:42:43 2021]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_ModelfullREDMsinglelambda_NA_NA_NA_dataset0.log
+    jobid: 469
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormTwoLambdasOneChangingBeta, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.6, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Oct 28 14:42:54 2021]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 469
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_ModelfullREDMsinglelambda_NA_NA_NA_dataset0.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormTwoLambdasOneChangingBeta_50_100_80_6_0.6_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2021-10-28T144057.343722.snakemake.log

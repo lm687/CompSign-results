@@ -1,0 +1,1530 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	analyse_simulation_TMB
+	60	inference_simulation_TMB
+	60	simulate_for_comparison
+	122
+
+[Mon Feb 15 23:20:52 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.01_dataset.RDS
+    jobid: 73
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.01_dataset.RDS
+[Mon Feb 15 23:20:55 2021]
+Finished job 73.
+1 of 122 steps (0.82%) done
+
+[Mon Feb 15 23:20:55 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_5_0.01_ModelfullREDM.log
+    jobid: 13
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:21:02 2021]
+Finished job 13.
+2 of 122 steps (2%) done
+
+[Mon Feb 15 23:21:02 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0_dataset.RDS
+    jobid: 102
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0_dataset.RDS
+[Mon Feb 15 23:21:04 2021]
+Finished job 102.
+3 of 122 steps (2%) done
+
+[Mon Feb 15 23:21:04 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_3_0_ModelfullREDM.log
+    jobid: 42
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:21:11 2021]
+Finished job 42.
+4 of 122 steps (3%) done
+
+[Mon Feb 15 23:21:11 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.1_dataset.RDS
+    jobid: 74
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.1_dataset.RDS
+[Mon Feb 15 23:21:13 2021]
+Finished job 74.
+5 of 122 steps (4%) done
+
+[Mon Feb 15 23:21:13 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_5_0.1_ModelfullREDM.log
+    jobid: 14
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:21:20 2021]
+Finished job 14.
+6 of 122 steps (5%) done
+
+[Mon Feb 15 23:21:20 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.6_dataset.RDS
+    jobid: 110
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.6_dataset.RDS
+[Mon Feb 15 23:21:24 2021]
+Finished job 110.
+7 of 122 steps (6%) done
+
+[Mon Feb 15 23:21:24 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_4_0.6_ModelfullREDM.log
+    jobid: 50
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:21:49 2021]
+Finished job 50.
+8 of 122 steps (7%) done
+
+[Mon Feb 15 23:21:49 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_4_dataset.RDS
+    jobid: 111
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_4_dataset.RDS
+[Mon Feb 15 23:21:51 2021]
+Finished job 111.
+9 of 122 steps (7%) done
+
+[Mon Feb 15 23:21:51 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_4_4_ModelfullREDM.log
+    jobid: 51
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:22:17 2021]
+Finished job 51.
+10 of 122 steps (8%) done
+
+[Mon Feb 15 23:22:17 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0_dataset.RDS
+    jobid: 82
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0_dataset.RDS
+[Mon Feb 15 23:22:20 2021]
+Finished job 82.
+11 of 122 steps (9%) done
+
+[Mon Feb 15 23:22:20 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_3_0_ModelfullREDM.log
+    jobid: 22
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:22:24 2021]
+Finished job 22.
+12 of 122 steps (10%) done
+
+[Mon Feb 15 23:22:24 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.6_dataset.RDS
+    jobid: 90
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.6_dataset.RDS
+[Mon Feb 15 23:22:26 2021]
+Finished job 90.
+13 of 122 steps (11%) done
+
+[Mon Feb 15 23:22:26 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_4_0.6_ModelfullREDM.log
+    jobid: 30
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:22:38 2021]
+Finished job 30.
+14 of 122 steps (11%) done
+
+[Mon Feb 15 23:22:38 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_4_dataset.RDS
+    jobid: 91
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_4_dataset.RDS
+[Mon Feb 15 23:22:39 2021]
+Finished job 91.
+15 of 122 steps (12%) done
+
+[Mon Feb 15 23:22:39 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_4_4_ModelfullREDM.log
+    jobid: 31
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:22:48 2021]
+Finished job 31.
+16 of 122 steps (13%) done
+
+[Mon Feb 15 23:22:48 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_4_dataset.RDS
+    jobid: 81
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_4_dataset.RDS
+[Mon Feb 15 23:22:50 2021]
+Finished job 81.
+17 of 122 steps (14%) done
+
+[Mon Feb 15 23:22:50 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_6_4_ModelfullREDM.log
+    jobid: 21
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:22:59 2021]
+Finished job 21.
+18 of 122 steps (15%) done
+
+[Mon Feb 15 23:22:59 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.6_dataset.RDS
+    jobid: 80
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.6_dataset.RDS
+[Mon Feb 15 23:23:01 2021]
+Finished job 80.
+19 of 122 steps (16%) done
+
+[Mon Feb 15 23:23:01 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_6_0.6_ModelfullREDM.log
+    jobid: 20
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:23:11 2021]
+Finished job 20.
+20 of 122 steps (16%) done
+
+[Mon Feb 15 23:23:11 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0_dataset.RDS
+    jobid: 92
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0_dataset.RDS
+[Mon Feb 15 23:23:13 2021]
+Finished job 92.
+21 of 122 steps (17%) done
+
+[Mon Feb 15 23:23:13 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_5_0_ModelfullREDM.log
+    jobid: 32
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:23:28 2021]
+Finished job 32.
+22 of 122 steps (18%) done
+
+[Mon Feb 15 23:23:28 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.01_dataset.RDS
+    jobid: 63
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.01_dataset.RDS
+[Mon Feb 15 23:23:29 2021]
+Finished job 63.
+23 of 122 steps (19%) done
+
+[Mon Feb 15 23:23:29 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_3_0.01_ModelfullREDM.log
+    jobid: 3
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:23:32 2021]
+Finished job 3.
+24 of 122 steps (20%) done
+
+[Mon Feb 15 23:23:32 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0_dataset.RDS
+    jobid: 112
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0_dataset.RDS
+[Mon Feb 15 23:23:34 2021]
+Finished job 112.
+25 of 122 steps (20%) done
+
+[Mon Feb 15 23:23:34 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_5_0_ModelfullREDM.log
+    jobid: 52
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:24:13 2021]
+Finished job 52.
+26 of 122 steps (21%) done
+
+[Mon Feb 15 23:24:13 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.1_dataset.RDS
+    jobid: 64
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.1_dataset.RDS
+[Mon Feb 15 23:24:15 2021]
+Finished job 64.
+27 of 122 steps (22%) done
+
+[Mon Feb 15 23:24:15 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_3_0.1_ModelfullREDM.log
+    jobid: 4
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:24:18 2021]
+Finished job 4.
+28 of 122 steps (23%) done
+
+[Mon Feb 15 23:24:18 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0_dataset.RDS
+    jobid: 117
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0_dataset.RDS
+[Mon Feb 15 23:24:20 2021]
+Finished job 117.
+29 of 122 steps (24%) done
+
+[Mon Feb 15 23:24:20 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_6_0_ModelfullREDM.log
+    jobid: 57
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:24:59 2021]
+Finished job 57.
+30 of 122 steps (25%) done
+
+[Mon Feb 15 23:24:59 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0_dataset.RDS
+    jobid: 97
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0_dataset.RDS
+[Mon Feb 15 23:25:01 2021]
+Finished job 97.
+31 of 122 steps (25%) done
+
+[Mon Feb 15 23:25:01 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_6_0_ModelfullREDM.log
+    jobid: 37
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:25:22 2021]
+Finished job 37.
+32 of 122 steps (26%) done
+
+[Mon Feb 15 23:25:22 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.6_dataset.RDS
+    jobid: 75
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.6_dataset.RDS
+[Mon Feb 15 23:25:24 2021]
+Finished job 75.
+33 of 122 steps (27%) done
+
+[Mon Feb 15 23:25:24 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_5_0.6_ModelfullREDM.log
+    jobid: 15
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:25:32 2021]
+Finished job 15.
+34 of 122 steps (28%) done
+
+[Mon Feb 15 23:25:32 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_4_dataset.RDS
+    jobid: 76
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_4_dataset.RDS
+[Mon Feb 15 23:25:34 2021]
+Finished job 76.
+35 of 122 steps (29%) done
+
+[Mon Feb 15 23:25:34 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_5_4_ModelfullREDM.log
+    jobid: 16
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:25:41 2021]
+Finished job 16.
+36 of 122 steps (30%) done
+
+[Mon Feb 15 23:25:41 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.01_dataset.RDS
+    jobid: 108
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.01_dataset.RDS
+[Mon Feb 15 23:25:43 2021]
+Finished job 108.
+37 of 122 steps (30%) done
+
+[Mon Feb 15 23:25:43 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_4_0.01_ModelfullREDM.log
+    jobid: 48
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:26:07 2021]
+Finished job 48.
+38 of 122 steps (31%) done
+
+[Mon Feb 15 23:26:07 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.1_dataset.RDS
+    jobid: 109
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.1_dataset.RDS
+[Mon Feb 15 23:26:08 2021]
+Finished job 109.
+39 of 122 steps (32%) done
+
+[Mon Feb 15 23:26:08 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_4_0.1_ModelfullREDM.log
+    jobid: 49
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:27:06 2021]
+Finished job 49.
+40 of 122 steps (33%) done
+
+[Mon Feb 15 23:27:06 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.1_dataset.RDS
+    jobid: 89
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.1_dataset.RDS
+[Mon Feb 15 23:27:09 2021]
+Finished job 89.
+41 of 122 steps (34%) done
+
+[Mon Feb 15 23:27:09 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_4_0.1_ModelfullREDM.log
+    jobid: 29
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:27:18 2021]
+Finished job 29.
+42 of 122 steps (34%) done
+
+[Mon Feb 15 23:27:18 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.01_dataset.RDS
+    jobid: 88
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.01_dataset.RDS
+[Mon Feb 15 23:27:21 2021]
+Finished job 88.
+43 of 122 steps (35%) done
+
+[Mon Feb 15 23:27:21 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_4_0.01_ModelfullREDM.log
+    jobid: 28
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:27:29 2021]
+Finished job 28.
+44 of 122 steps (36%) done
+
+[Mon Feb 15 23:27:29 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.1_dataset.RDS
+    jobid: 79
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.1_dataset.RDS
+[Mon Feb 15 23:27:31 2021]
+Finished job 79.
+45 of 122 steps (37%) done
+
+[Mon Feb 15 23:27:31 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_6_0.1_ModelfullREDM.log
+    jobid: 19
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:27:41 2021]
+Finished job 19.
+46 of 122 steps (38%) done
+
+[Mon Feb 15 23:27:41 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.01_dataset.RDS
+    jobid: 78
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.01_dataset.RDS
+[Mon Feb 15 23:27:44 2021]
+Finished job 78.
+47 of 122 steps (39%) done
+
+[Mon Feb 15 23:27:44 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_6_0.01_ModelfullREDM.log
+    jobid: 18
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:27:56 2021]
+Finished job 18.
+48 of 122 steps (39%) done
+
+[Mon Feb 15 23:27:56 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_4_dataset.RDS
+    jobid: 66
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_4_dataset.RDS
+[Mon Feb 15 23:27:58 2021]
+Finished job 66.
+49 of 122 steps (40%) done
+
+[Mon Feb 15 23:27:58 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_3_4_ModelfullREDM.log
+    jobid: 6
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:28:01 2021]
+Finished job 6.
+50 of 122 steps (41%) done
+
+[Mon Feb 15 23:28:01 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.6_dataset.RDS
+    jobid: 65
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.6_dataset.RDS
+[Mon Feb 15 23:28:02 2021]
+Finished job 65.
+51 of 122 steps (42%) done
+
+[Mon Feb 15 23:28:02 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_3_0.6_ModelfullREDM.log
+    jobid: 5
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:28:06 2021]
+Finished job 5.
+52 of 122 steps (43%) done
+
+[Mon Feb 15 23:28:06 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0_dataset.RDS
+    jobid: 67
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0_dataset.RDS
+[Mon Feb 15 23:28:08 2021]
+Finished job 67.
+53 of 122 steps (43%) done
+
+[Mon Feb 15 23:28:08 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_4_0_ModelfullREDM.log
+    jobid: 7
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:28:12 2021]
+Finished job 7.
+54 of 122 steps (44%) done
+
+[Mon Feb 15 23:28:12 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.6_dataset.RDS
+    jobid: 105
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.6_dataset.RDS
+[Mon Feb 15 23:28:14 2021]
+Finished job 105.
+55 of 122 steps (45%) done
+
+[Mon Feb 15 23:28:14 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_3_0.6_ModelfullREDM.log
+    jobid: 45
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:28:21 2021]
+Finished job 45.
+56 of 122 steps (46%) done
+
+[Mon Feb 15 23:28:21 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_4_dataset.RDS
+    jobid: 106
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_4_dataset.RDS
+[Mon Feb 15 23:28:24 2021]
+Finished job 106.
+57 of 122 steps (47%) done
+
+[Mon Feb 15 23:28:24 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_3_4_ModelfullREDM.log
+    jobid: 46
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:28:48 2021]
+Finished job 46.
+58 of 122 steps (48%) done
+
+[Mon Feb 15 23:28:48 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0_dataset.RDS
+    jobid: 107
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0_dataset.RDS
+[Mon Feb 15 23:28:50 2021]
+Finished job 107.
+59 of 122 steps (48%) done
+
+[Mon Feb 15 23:28:50 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_4_0_ModelfullREDM.log
+    jobid: 47
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=4, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_4_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:29:11 2021]
+Finished job 47.
+60 of 122 steps (49%) done
+
+[Mon Feb 15 23:29:11 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0_dataset.RDS
+    jobid: 87
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0_dataset.RDS
+[Mon Feb 15 23:29:14 2021]
+Finished job 87.
+61 of 122 steps (50%) done
+
+[Mon Feb 15 23:29:14 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_4_0_ModelfullREDM.log
+    jobid: 27
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_4_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:29:22 2021]
+Finished job 27.
+62 of 122 steps (51%) done
+
+[Mon Feb 15 23:29:22 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.6_dataset.RDS
+    jobid: 85
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.6_dataset.RDS
+[Mon Feb 15 23:29:24 2021]
+Finished job 85.
+63 of 122 steps (52%) done
+
+[Mon Feb 15 23:29:24 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_3_0.6_ModelfullREDM.log
+    jobid: 25
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:29:33 2021]
+Finished job 25.
+64 of 122 steps (52%) done
+
+[Mon Feb 15 23:29:33 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_4_dataset.RDS
+    jobid: 86
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_4_dataset.RDS
+[Mon Feb 15 23:29:35 2021]
+Finished job 86.
+65 of 122 steps (53%) done
+
+[Mon Feb 15 23:29:35 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_3_4_ModelfullREDM.log
+    jobid: 26
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:29:39 2021]
+Finished job 26.
+66 of 122 steps (54%) done
+
+[Mon Feb 15 23:29:39 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.1_dataset.RDS
+    jobid: 119
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.1_dataset.RDS
+[Mon Feb 15 23:29:41 2021]
+Finished job 119.
+67 of 122 steps (55%) done
+
+[Mon Feb 15 23:29:41 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_6_0.1_ModelfullREDM.log
+    jobid: 59
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:30:25 2021]
+Finished job 59.
+68 of 122 steps (56%) done
+
+[Mon Feb 15 23:30:25 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.01_dataset.RDS
+    jobid: 118
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.01_dataset.RDS
+[Mon Feb 15 23:30:27 2021]
+Finished job 118.
+69 of 122 steps (57%) done
+
+[Mon Feb 15 23:30:27 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_6_0.01_ModelfullREDM.log
+    jobid: 58
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:31:10 2021]
+Finished job 58.
+70 of 122 steps (57%) done
+
+[Mon Feb 15 23:31:10 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.01_dataset.RDS
+    jobid: 98
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.01_dataset.RDS
+[Mon Feb 15 23:31:12 2021]
+Finished job 98.
+71 of 122 steps (58%) done
+
+[Mon Feb 15 23:31:12 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_6_0.01_ModelfullREDM.log
+    jobid: 38
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:31:39 2021]
+Finished job 38.
+72 of 122 steps (59%) done
+
+[Mon Feb 15 23:31:39 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.1_dataset.RDS
+    jobid: 99
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.1_dataset.RDS
+[Mon Feb 15 23:31:41 2021]
+Finished job 99.
+73 of 122 steps (60%) done
+
+[Mon Feb 15 23:31:41 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_6_0.1_ModelfullREDM.log
+    jobid: 39
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:32:08 2021]
+Finished job 39.
+74 of 122 steps (61%) done
+
+[Mon Feb 15 23:32:08 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.6_dataset.RDS
+    jobid: 95
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.6_dataset.RDS
+[Mon Feb 15 23:32:11 2021]
+Finished job 95.
+75 of 122 steps (61%) done
+
+[Mon Feb 15 23:32:11 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_5_0.6_ModelfullREDM.log
+    jobid: 35
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:32:24 2021]
+Finished job 35.
+76 of 122 steps (62%) done
+
+[Mon Feb 15 23:32:24 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.01_dataset.RDS
+    jobid: 68
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.01_dataset.RDS
+[Mon Feb 15 23:32:27 2021]
+Finished job 68.
+77 of 122 steps (63%) done
+
+[Mon Feb 15 23:32:27 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_4_0.01_ModelfullREDM.log
+    jobid: 8
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:32:34 2021]
+Finished job 8.
+78 of 122 steps (64%) done
+
+[Mon Feb 15 23:32:34 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_4_dataset.RDS
+    jobid: 96
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_4_dataset.RDS
+[Mon Feb 15 23:32:37 2021]
+Finished job 96.
+79 of 122 steps (65%) done
+
+[Mon Feb 15 23:32:37 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_5_4_ModelfullREDM.log
+    jobid: 36
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:33:13 2021]
+Finished job 36.
+80 of 122 steps (66%) done
+
+[Mon Feb 15 23:33:13 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.1_dataset.RDS
+    jobid: 69
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.1_dataset.RDS
+[Mon Feb 15 23:33:15 2021]
+Finished job 69.
+81 of 122 steps (66%) done
+
+[Mon Feb 15 23:33:15 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_4_0.1_ModelfullREDM.log
+    jobid: 9
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:33:20 2021]
+Finished job 9.
+82 of 122 steps (67%) done
+
+[Mon Feb 15 23:33:20 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.6_dataset.RDS
+    jobid: 115
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.6_dataset.RDS
+[Mon Feb 15 23:33:22 2021]
+Finished job 115.
+83 of 122 steps (68%) done
+
+[Mon Feb 15 23:33:22 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_5_0.6_ModelfullREDM.log
+    jobid: 55
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:33:52 2021]
+Finished job 55.
+84 of 122 steps (69%) done
+
+[Mon Feb 15 23:33:52 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_4_dataset.RDS
+    jobid: 116
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_4_dataset.RDS
+[Mon Feb 15 23:33:53 2021]
+Finished job 116.
+85 of 122 steps (70%) done
+
+[Mon Feb 15 23:33:53 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_5_4_ModelfullREDM.log
+    jobid: 56
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:34:28 2021]
+Finished job 56.
+86 of 122 steps (70%) done
+
+[Mon Feb 15 23:34:28 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0_dataset.RDS
+    jobid: 77
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0_dataset.RDS
+[Mon Feb 15 23:34:31 2021]
+Finished job 77.
+87 of 122 steps (71%) done
+
+[Mon Feb 15 23:34:31 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_6_0_ModelfullREDM.log
+    jobid: 17
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=6, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_6_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:34:41 2021]
+Finished job 17.
+88 of 122 steps (72%) done
+
+[Mon Feb 15 23:34:41 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.01_dataset.RDS
+    jobid: 103
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.01_dataset.RDS
+[Mon Feb 15 23:34:43 2021]
+Finished job 103.
+89 of 122 steps (73%) done
+
+[Mon Feb 15 23:34:43 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_3_0.01_ModelfullREDM.log
+    jobid: 43
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:34:49 2021]
+Finished job 43.
+90 of 122 steps (74%) done
+
+[Mon Feb 15 23:34:49 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0_dataset.RDS
+    jobid: 72
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0_dataset.RDS
+[Mon Feb 15 23:34:51 2021]
+Finished job 72.
+91 of 122 steps (75%) done
+
+[Mon Feb 15 23:34:51 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_5_0_ModelfullREDM.log
+    jobid: 12
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=5, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_5_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:34:57 2021]
+Finished job 12.
+92 of 122 steps (75%) done
+
+[Mon Feb 15 23:34:57 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.1_dataset.RDS
+    jobid: 104
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.1_dataset.RDS
+[Mon Feb 15 23:34:59 2021]
+Finished job 104.
+93 of 122 steps (76%) done
+
+[Mon Feb 15 23:34:59 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_3_0.1_ModelfullREDM.log
+    jobid: 44
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_3_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:35:04 2021]
+Finished job 44.
+94 of 122 steps (77%) done
+
+[Mon Feb 15 23:35:04 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.1_dataset.RDS
+    jobid: 84
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.1_dataset.RDS
+[Mon Feb 15 23:35:05 2021]
+Finished job 84.
+95 of 122 steps (78%) done
+
+[Mon Feb 15 23:35:05 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_3_0.1_ModelfullREDM.log
+    jobid: 24
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:35:12 2021]
+Finished job 24.
+96 of 122 steps (79%) done
+
+[Mon Feb 15 23:35:12 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.01_dataset.RDS
+    jobid: 83
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.01_dataset.RDS
+[Mon Feb 15 23:35:14 2021]
+Finished job 83.
+97 of 122 steps (80%) done
+
+[Mon Feb 15 23:35:14 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_3_0.01_ModelfullREDM.log
+    jobid: 23
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_3_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:35:18 2021]
+Finished job 23.
+98 of 122 steps (80%) done
+
+[Mon Feb 15 23:35:18 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.6_dataset.RDS
+    jobid: 120
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.6_dataset.RDS
+[Mon Feb 15 23:35:20 2021]
+Finished job 120.
+99 of 122 steps (81%) done
+
+[Mon Feb 15 23:35:20 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_6_0.6_ModelfullREDM.log
+    jobid: 60
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:36:21 2021]
+Finished job 60.
+100 of 122 steps (82%) done
+
+[Mon Feb 15 23:36:21 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.6_dataset.RDS
+    jobid: 100
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.6_dataset.RDS
+[Mon Feb 15 23:36:23 2021]
+Finished job 100.
+101 of 122 steps (83%) done
+
+[Mon Feb 15 23:36:23 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_6_0.6_ModelfullREDM.log
+    jobid: 40
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:36:38 2021]
+Finished job 40.
+102 of 122 steps (84%) done
+
+[Mon Feb 15 23:36:38 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_4_dataset.RDS
+    jobid: 121
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_4_dataset.RDS
+[Mon Feb 15 23:36:40 2021]
+Finished job 121.
+103 of 122 steps (84%) done
+
+[Mon Feb 15 23:36:40 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_6_4_ModelfullREDM.log
+    jobid: 61
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=6, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_6_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:37:38 2021]
+Finished job 61.
+104 of 122 steps (85%) done
+
+[Mon Feb 15 23:37:38 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_4_dataset.RDS
+    jobid: 101
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 6 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_4_dataset.RDS
+[Mon Feb 15 23:37:40 2021]
+Finished job 101.
+105 of 122 steps (86%) done
+
+[Mon Feb 15 23:37:40 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_6_4_ModelfullREDM.log
+    jobid: 41
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=6, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_6_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:38:22 2021]
+Finished job 41.
+106 of 122 steps (87%) done
+
+[Mon Feb 15 23:38:22 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.1_dataset.RDS
+    jobid: 94
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.1_dataset.RDS
+[Mon Feb 15 23:38:24 2021]
+Finished job 94.
+107 of 122 steps (88%) done
+
+[Mon Feb 15 23:38:24 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_5_0.1_ModelfullREDM.log
+    jobid: 34
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:38:39 2021]
+Finished job 34.
+108 of 122 steps (89%) done
+
+[Mon Feb 15 23:38:39 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.01_dataset.RDS
+    jobid: 93
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.01_dataset.RDS
+[Mon Feb 15 23:38:41 2021]
+Finished job 93.
+109 of 122 steps (89%) done
+
+[Mon Feb 15 23:38:41 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_50_100_80_5_0.01_ModelfullREDM.log
+    jobid: 33
+    wildcards: datasetgeneration=generationGnorm, n=50, nlambda=100, lmbda=80, d=5, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_50_100_80_5_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:38:53 2021]
+Finished job 33.
+110 of 122 steps (90%) done
+
+[Mon Feb 15 23:38:53 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.6_dataset.RDS
+    jobid: 70
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=0.6
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0.6 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.6_dataset.RDS
+[Mon Feb 15 23:38:55 2021]
+Finished job 70.
+111 of 122 steps (91%) done
+
+[Mon Feb 15 23:38:55 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.6_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.6_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_4_0.6_ModelfullREDM.log
+    jobid: 10
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=0.6, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_0.6_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.6_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:39:00 2021]
+Finished job 10.
+112 of 122 steps (92%) done
+
+[Mon Feb 15 23:39:00 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0_dataset.RDS
+    jobid: 62
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0_dataset.RDS
+[Mon Feb 15 23:39:02 2021]
+Finished job 62.
+113 of 122 steps (93%) done
+
+[Mon Feb 15 23:39:02 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_3_0_ModelfullREDM.log
+    jobid: 2
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_3_0_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:39:08 2021]
+Finished job 2.
+114 of 122 steps (93%) done
+
+[Mon Feb 15 23:39:08 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_4_dataset.RDS
+    jobid: 71
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 4 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_4_dataset.RDS
+[Mon Feb 15 23:39:10 2021]
+Finished job 71.
+115 of 122 steps (94%) done
+
+[Mon Feb 15 23:39:10 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_4_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_20_100_80_4_4_ModelfullREDM.log
+    jobid: 11
+    wildcards: datasetgeneration=generationGnorm, n=20, nlambda=100, lmbda=80, d=4, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_20_100_80_4_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_4_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:39:14 2021]
+Finished job 11.
+116 of 122 steps (95%) done
+
+[Mon Feb 15 23:39:14 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.01_dataset.RDS
+    jobid: 113
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=0.01
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.01 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.01_dataset.RDS
+[Mon Feb 15 23:39:16 2021]
+Finished job 113.
+117 of 122 steps (96%) done
+
+[Mon Feb 15 23:39:16 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.01_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.01_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_5_0.01_ModelfullREDM.log
+    jobid: 53
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=0.01, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.01_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.01_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:39:35 2021]
+Finished job 53.
+118 of 122 steps (97%) done
+
+[Mon Feb 15 23:39:35 2021]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/generationGnorm
+    output: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.1_dataset.RDS
+    jobid: 114
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=0.1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/generationGnorm.R --input ../data/assessing_models_simulation/generationGnorm --d 5 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.1_dataset.RDS
+[Mon Feb 15 23:39:36 2021]
+Finished job 114.
+119 of 122 steps (98%) done
+
+[Mon Feb 15 23:39:36 2021]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.1_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.1_fullREDM.RDS
+    log: logs/inference/simulation_generationGnorm_100_100_80_5_0.1_ModelfullREDM.log
+    jobid: 54
+    wildcards: datasetgeneration=generationGnorm, n=100, nlambda=100, lmbda=80, d=5, beta_intensity=0.1, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/generationGnorm_100_100_80_5_0.1_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.1_fullREDM.RDS --model fullREDM
+[Mon Feb 15 23:40:26 2021]
+Finished job 54.
+120 of 122 steps (98%) done
+
+[Mon Feb 15 23:40:26 2021]
+rule analyse_simulation_TMB:
+    input: ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.01_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.1_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_4_fullREDM.RDS
+    output: ../results/results_TMB/simulated_datasets/mixed_effects_models/generationGnorm/generationGnorm_fullREDM/generationGnorm_fullREDM_results_info.txt
+    jobid: 1
+    wildcards: datasetgeneration=generationGnorm, model=fullREDM
+
+Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/analyse_inference_simulations.R --input '../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_4_fullREDM.RDS'        --output_folder_name ../results/results_TMB/simulated_datasets/mixed_effects_models/generationGnorm/generationGnorm_fullREDM/         --output_string generationGnorm_fullREDM --model fullREDM --dataset_generation generationGnorm
+[Mon Feb 15 23:40:28 2021]
+Error in rule analyse_simulation_TMB:
+    jobid: 1
+    output: ../results/results_TMB/simulated_datasets/mixed_effects_models/generationGnorm/generationGnorm_fullREDM/generationGnorm_fullREDM_results_info.txt
+    shell:
+        Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/analyse_inference_simulations.R --input '../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_3_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_4_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_5_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_20_100_80_6_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_3_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_4_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_5_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_50_100_80_6_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_3_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_4_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_5_4_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.01_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.1_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_0.6_fullREDM.RDS ../data/assessing_models_simulation/inference_results/TMB/generationGnorm_100_100_80_6_4_fullREDM.RDS'        --output_folder_name ../results/results_TMB/simulated_datasets/mixed_effects_models/generationGnorm/generationGnorm_fullREDM/         --output_string generationGnorm_fullREDM --model fullREDM --dataset_generation generationGnorm
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2021-02-15T232051.337235.snakemake.log

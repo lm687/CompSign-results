@@ -1,0 +1,83 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	4	analyse_simulation_TMB_multiple
+	983	inference_simulation_TMB_multiple
+	245	simulate_for_comparison_multiple
+	1233
+
+[Thu Feb 17 21:32:04 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.1_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.1_diagREDM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationPois_50_100_80_4_0.1_ModeldiagREDM_NA_NA_NA_dataset0.log
+    jobid: 395
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationPois, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.1_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.1_diagREDM_NA_NA_NA_dataset0.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Feb 17 21:32:12 2022]
+Finished job 395.
+1 of 1233 steps (0.08%) done
+
+[Thu Feb 17 21:32:12 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.1_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.1_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationPois_50_100_80_4_0.1_ModelfullREDMsinglelambda_NA_NA_NA_dataset0.log
+    jobid: 731
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationPois, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.1_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.1_fullREDMsinglelambda_NA_NA_NA_dataset0.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Feb 17 21:32:22 2022]
+Finished job 731.
+2 of 1233 steps (0.16%) done
+
+[Thu Feb 17 21:32:22 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.1_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.1_fullREM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationPois_50_100_80_4_0.1_ModelfullREM_NA_NA_NA_dataset0.log
+    jobid: 59
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationPois, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.1, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.1_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.1_fullREM_NA_NA_NA_dataset0.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Feb 17 21:32:27 2022]
+Finished job 59.
+3 of 1233 steps (0.24%) done
+
+[Thu Feb 17 21:32:27 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationPois
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationPois_100_100_80_3_0.2_NA_NA_NA_dataset5.RDS
+    jobid: 1540
+    wildcards: datasetgeneration=GenerationPois, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0.2, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=5
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationPois.R --input ../data/assessing_models_simulation/GenerationPois --d 3 --n 100 --nlambda 100 --lambda 80 --beta_gamma_shape 0.2 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationPois_100_100_80_3_0.2_NA_NA_NA_dataset5.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Thu Feb 17 21:32:28 2022]
+Finished job 1540.
+4 of 1233 steps (0.32%) done
+
+[Thu Feb 17 21:32:28 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationPois_100_100_80_3_0.2_NA_NA_NA_dataset5.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_100_100_80_3_0.2_fullREDMsinglelambda_NA_NA_NA_dataset5.RDS
+    log: logs/inference/nlminb/simulation_GenerationPois_100_100_80_3_0.2_ModelfullREDMsinglelambda_NA_NA_NA_dataset5.log
+    jobid: 868
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationPois, n=100, nlambda=100, lmbda=80, d=3, beta_intensity=0.2, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=5
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationPois_100_100_80_3_0.2_NA_NA_NA_dataset5.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_100_100_80_3_0.2_fullREDMsinglelambda_NA_NA_NA_dataset5.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Feb 17 21:32:41 2022]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 868
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_100_100_80_3_0.2_fullREDMsinglelambda_NA_NA_NA_dataset5.RDS
+    log: logs/inference/nlminb/simulation_GenerationPois_100_100_80_3_0.2_ModelfullREDMsinglelambda_NA_NA_NA_dataset5.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationPois_100_100_80_3_0.2_NA_NA_NA_dataset5.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_100_100_80_3_0.2_fullREDMsinglelambda_NA_NA_NA_dataset5.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-02-17T213200.425835.snakemake.log

@@ -1,0 +1,42 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	4	analyse_simulation_TMB_multiple
+	1035	inference_simulation_TMB_multiple
+	258	simulate_for_comparison_multiple
+	1298
+
+[Thu Feb 17 20:58:23 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.2_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.2_fullREDMsinglelambda_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationPois_50_100_80_4_0.2_ModelfullREDMsinglelambda_NA_NA_NA_dataset2.log
+    jobid: 739
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationPois, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.2, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.2_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.2_fullREDMsinglelambda_NA_NA_NA_dataset2.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Feb 17 20:58:36 2022]
+Finished job 739.
+1 of 1298 steps (0.08%) done
+
+[Thu Feb 17 20:58:36 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.2_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.2_diagREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationPois_50_100_80_4_0.2_ModeldiagREDM_NA_NA_NA_dataset2.log
+    jobid: 403
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationPois, n=50, nlambda=100, lmbda=80, d=4, beta_intensity=0.2, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationPois_50_100_80_4_0.2_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.2_diagREDM_NA_NA_NA_dataset2.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 483 of /Users/morril01/Documents/PhD/GlobalDA/code/Snakefile:
+Missing files after 5 seconds:
+../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationPois_50_100_80_4_0.2_diagREDM_NA_NA_NA_dataset2.RDS
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-02-17T205819.239717.snakemake.log

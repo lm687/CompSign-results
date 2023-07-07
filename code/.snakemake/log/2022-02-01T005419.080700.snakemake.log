@@ -1,0 +1,263 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	4	analyse_simulation_TMB_multiple
+	1	analyse_simulation_TMB_multiple_integrate
+	2562	inference_simulation_TMB_multiple
+	640	simulate_for_comparison_multiple
+	3208
+
+[Tue Feb  1 00:54:27 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_NA_NA_NA_dataset16.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_fullREDMsinglelambda_NA_NA_NA_dataset16.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_ModelfullREDMsinglelambda_NA_NA_NA_dataset16.log
+    jobid: 842
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=4, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=16
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_NA_NA_NA_dataset16.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_fullREDMsinglelambda_NA_NA_NA_dataset16.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:54:34 2022]
+Finished job 842.
+1 of 3208 steps (0.03%) done
+
+[Tue Feb  1 00:54:34 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_NA_NA_NA_dataset16.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_diagREDM_NA_NA_NA_dataset16.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_ModeldiagREDM_NA_NA_NA_dataset16.log
+    jobid: 2162
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=4, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=16
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_NA_NA_NA_dataset16.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_4_diagREDM_NA_NA_NA_dataset16.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:54:40 2022]
+Finished job 2162.
+2 of 3208 steps (0.06%) done
+
+[Tue Feb  1 00:54:40 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS
+    jobid: 3183
+    wildcards: datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-4, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=17
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG --d 4 --n 200 --nlambda 200 --lambda 80 --beta_gamma_shape -4 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Tue Feb  1 00:54:41 2022]
+Finished job 3183.
+3 of 3208 steps (0.09%) done
+
+[Tue Feb  1 00:54:41 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_diagREDMsinglelambda_NA_NA_NA_dataset17.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_ModeldiagREDMsinglelambda_NA_NA_NA_dataset17.log
+    jobid: 1863
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=17
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_diagREDMsinglelambda_NA_NA_NA_dataset17.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:54:56 2022]
+Finished job 1863.
+4 of 3208 steps (0.12%) done
+
+[Tue Feb  1 00:54:56 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_diagREDM_NA_NA_NA_dataset17.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_ModeldiagREDM_NA_NA_NA_dataset17.log
+    jobid: 2523
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=17
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_diagREDM_NA_NA_NA_dataset17.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:55:20 2022]
+Finished job 2523.
+5 of 3208 steps (0.16%) done
+
+[Tue Feb  1 00:55:20 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_fullREDMsinglelambda_NA_NA_NA_dataset17.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_ModelfullREDMsinglelambda_NA_NA_NA_dataset17.log
+    jobid: 1203
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=17
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_fullREDMsinglelambda_NA_NA_NA_dataset17.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:55:41 2022]
+Finished job 1203.
+6 of 3208 steps (0.19%) done
+
+[Tue Feb  1 00:55:41 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_fullREM_NA_NA_NA_dataset17.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_ModelfullREM_NA_NA_NA_dataset17.log
+    jobid: 543
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=17
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_NA_NA_NA_dataset17.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_200_200_80_4_-4_fullREM_NA_NA_NA_dataset17.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:55:47 2022]
+Finished job 543.
+7 of 3208 steps (0.22%) done
+
+[Tue Feb  1 00:55:47 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS
+    jobid: 2742
+    wildcards: datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-4, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=16
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG --d 4 --n 50 --nlambda 200 --lambda 80 --beta_gamma_shape -4 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Tue Feb  1 00:55:48 2022]
+Finished job 2742.
+8 of 3208 steps (0.25%) done
+
+[Tue Feb  1 00:55:48 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_diagREDMsinglelambda_NA_NA_NA_dataset16.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_ModeldiagREDMsinglelambda_NA_NA_NA_dataset16.log
+    jobid: 1422
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=16
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_diagREDMsinglelambda_NA_NA_NA_dataset16.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:55:54 2022]
+Finished job 1422.
+9 of 3208 steps (0.28%) done
+
+[Tue Feb  1 00:55:54 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_diagREDM_NA_NA_NA_dataset16.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_ModeldiagREDM_NA_NA_NA_dataset16.log
+    jobid: 2082
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=16
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_diagREDM_NA_NA_NA_dataset16.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:56:02 2022]
+Finished job 2082.
+10 of 3208 steps (0.31%) done
+
+[Tue Feb  1 00:56:02 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_fullREDMsinglelambda_NA_NA_NA_dataset16.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_ModelfullREDMsinglelambda_NA_NA_NA_dataset16.log
+    jobid: 762
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=16
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_fullREDMsinglelambda_NA_NA_NA_dataset16.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:56:08 2022]
+Finished job 762.
+11 of 3208 steps (0.34%) done
+
+[Tue Feb  1 00:56:08 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_fullREM_NA_NA_NA_dataset16.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_ModelfullREM_NA_NA_NA_dataset16.log
+    jobid: 102
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=16
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_NA_NA_NA_dataset16.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-4_fullREM_NA_NA_NA_dataset16.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:56:12 2022]
+Finished job 102.
+12 of 3208 steps (0.37%) done
+
+[Tue Feb  1 00:56:12 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS
+    jobid: 2704
+    wildcards: datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=18
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG --d 4 --n 50 --nlambda 200 --lambda 80 --beta_gamma_shape -10 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Tue Feb  1 00:56:12 2022]
+Finished job 2704.
+13 of 3208 steps (0.41%) done
+
+[Tue Feb  1 00:56:12 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_diagREDM_NA_NA_NA_dataset18.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_ModeldiagREDM_NA_NA_NA_dataset18.log
+    jobid: 2044
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=18
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_diagREDM_NA_NA_NA_dataset18.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:56:18 2022]
+Finished job 2044.
+14 of 3208 steps (0.44%) done
+
+[Tue Feb  1 00:56:18 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_fullREDMsinglelambda_NA_NA_NA_dataset18.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_ModelfullREDMsinglelambda_NA_NA_NA_dataset18.log
+    jobid: 724
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=18
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_fullREDMsinglelambda_NA_NA_NA_dataset18.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:56:27 2022]
+Finished job 724.
+15 of 3208 steps (0.47%) done
+
+[Tue Feb  1 00:56:27 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_fullREM_NA_NA_NA_dataset18.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_ModelfullREM_NA_NA_NA_dataset18.log
+    jobid: 64
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=18
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_fullREM_NA_NA_NA_dataset18.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:56:31 2022]
+Finished job 64.
+16 of 3208 steps (0.50%) done
+
+[Tue Feb  1 00:56:31 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_diagREDMsinglelambda_NA_NA_NA_dataset18.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_ModeldiagREDMsinglelambda_NA_NA_NA_dataset18.log
+    jobid: 1384
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=diagREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=18
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_NA_NA_NA_dataset18.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_50_200_80_4_-10_diagREDMsinglelambda_NA_NA_NA_dataset18.RDS --model diagREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:56:39 2022]
+Finished job 1384.
+17 of 3208 steps (0.53%) done
+
+[Tue Feb  1 00:56:39 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_NA_NA_NA_dataset16.RDS
+    jobid: 2902
+    wildcards: datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-12, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=16
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG --d 4 --n 100 --nlambda 200 --lambda 80 --beta_gamma_shape -12 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_NA_NA_NA_dataset16.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Tue Feb  1 00:56:40 2022]
+Finished job 2902.
+18 of 3208 steps (0.56%) done
+
+[Tue Feb  1 00:56:40 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_NA_NA_NA_dataset16.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_diagREDM_NA_NA_NA_dataset16.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_ModeldiagREDM_NA_NA_NA_dataset16.log
+    jobid: 2242
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-12, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=16
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_NA_NA_NA_dataset16.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_diagREDM_NA_NA_NA_dataset16.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Tue Feb  1 00:56:55 2022]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 2242
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_diagREDM_NA_NA_NA_dataset16.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_ModeldiagREDM_NA_NA_NA_dataset16.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_NA_NA_NA_dataset16.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG_100_200_80_4_-12_diagREDM_NA_NA_NA_dataset16.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-02-01T005419.080700.snakemake.log

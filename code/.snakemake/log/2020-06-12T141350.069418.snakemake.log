@@ -1,0 +1,28 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	117	inference
+	118
+
+[Fri Jun 12 14:13:53 2020]
+rule inference:
+    input: ../data/roo/Prost-AdenoCA_signatures_ROO.RDS
+    output: ../data/inference/M_6000_Prost-AdenoCA_signatures.Rdata
+    jobid: 31
+    wildcards: model=M, Nits=6000, cancer_type=Prost-AdenoCA, feature_type=signatures
+
+Rscript --vanilla 2_inference/fit_M_PCAWG.R --cancertype Prost-AdenoCA --typedata signatures         --infile ../data/roo/Prost-AdenoCA_signatures_ROO.RDS --output ../data/inference/M_6000_Prost-AdenoCA_signatures.Rdata --niterations 6000
+[Fri Jun 12 14:13:55 2020]
+Error in rule inference:
+    jobid: 31
+    output: ../data/inference/M_6000_Prost-AdenoCA_signatures.Rdata
+    shell:
+        Rscript --vanilla 2_inference/fit_M_PCAWG.R --cancertype Prost-AdenoCA --typedata signatures         --infile ../data/roo/Prost-AdenoCA_signatures_ROO.RDS --output ../data/inference/M_6000_Prost-AdenoCA_signatures.Rdata --niterations 6000
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2020-06-12T141350.069418.snakemake.log

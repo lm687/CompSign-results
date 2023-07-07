@@ -1,0 +1,29 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	analyse_simulation_TMB_multiple
+	1	analyse_simulation_TMB_multiple_integrate
+	6067	inference_simulation_TMB_multiple
+	6070
+
+[Fri Sep  2 17:08:52 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnormChangingNmBTwoLambdasOneChangingBeta_100_40_80_5_0.01_NA_NA_NA_dataset9.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormChangingNmBTwoLambdasOneChangingBeta_100_40_80_5_0.01_fullREDMsinglelambda_NA_NA_NA_dataset9.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnormChangingNmBTwoLambdasOneChangingBeta_100_40_80_5_0.01_ModelfullREDMsinglelambda_NA_NA_NA_dataset9.log
+    jobid: 25365
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnormChangingNmBTwoLambdasOneChangingBeta, n=100, nlambda=40, lmbda=80, d=5, beta_intensity=0.01, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=9
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnormChangingNmBTwoLambdasOneChangingBeta_100_40_80_5_0.01_NA_NA_NA_dataset9.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormChangingNmBTwoLambdasOneChangingBeta_100_40_80_5_0.01_fullREDMsinglelambda_NA_NA_NA_dataset9.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 516 of /Users/morril01/Documents/PhD/GlobalDA/code/Snakefile:
+Missing files after 5 seconds:
+../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnormChangingNmBTwoLambdasOneChangingBeta_100_40_80_5_0.01_fullREDMsinglelambda_NA_NA_NA_dataset9.RDS
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-09-02T170715.004342.snakemake.log

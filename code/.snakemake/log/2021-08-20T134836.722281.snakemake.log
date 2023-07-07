@@ -1,0 +1,43 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	7	inference_TMB
+	8
+
+[Fri Aug 20 13:48:38 2021]
+rule inference_TMB:
+    input: ../data/roo/Cervix-SCC_signaturesPCAWG_ROO.RDS
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDMsinglelambdanonexo_Cervix-SCC_signaturesPCAWG.RDS
+    log: logs/inference/TMBinference_Cervix-SCC_signaturesPCAWG_fullREDMsinglelambdanonexo.log
+    jobid: 50
+    wildcards: model=fullREDMsinglelambdanonexo, cancer_type=Cervix-SCC, feature_type=signaturesPCAWG
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Cervix-SCC_signaturesPCAWG_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDMsinglelambdanonexo_Cervix-SCC_signaturesPCAWG.RDS --model fullREDMsinglelambdanonexo --feature_type signaturesPCAWG --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+[Fri Aug 20 13:48:40 2021]
+Finished job 50.
+1 of 8 steps (12%) done
+
+[Fri Aug 20 13:48:40 2021]
+rule inference_TMB:
+    input: ../data/roo/SoftTissue-Leiomyo_signaturesPCAWG_ROO.RDS
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREMnonexo_SoftTissue-Leiomyo_signaturesPCAWG.RDS
+    log: logs/inference/TMBinference_SoftTissue-Leiomyo_signaturesPCAWG_fullREMnonexo.log
+    jobid: 125
+    wildcards: model=fullREMnonexo, cancer_type=SoftTissue-Leiomyo, feature_type=signaturesPCAWG
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/SoftTissue-Leiomyo_signaturesPCAWG_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREMnonexo_SoftTissue-Leiomyo_signaturesPCAWG.RDS --model fullREMnonexo --feature_type signaturesPCAWG --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+[Fri Aug 20 13:48:42 2021]
+Error in rule inference_TMB:
+    jobid: 125
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREMnonexo_SoftTissue-Leiomyo_signaturesPCAWG.RDS
+    log: logs/inference/TMBinference_SoftTissue-Leiomyo_signaturesPCAWG_fullREMnonexo.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/SoftTissue-Leiomyo_signaturesPCAWG_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREMnonexo_SoftTissue-Leiomyo_signaturesPCAWG.RDS --model fullREMnonexo --feature_type signaturesPCAWG --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2021-08-20T134836.722281.snakemake.log

@@ -1,0 +1,71 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	4	analyse_simulation_TMB_multiple
+	1	analyse_simulation_TMB_multiple_integrate
+	53	inference_simulation_TMB_multiple
+	13	simulate_for_comparison_multiple
+	72
+
+[Thu Jan 13 10:42:37 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-999_NA_NA_NA_dataset8.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-999_fullREDMsinglelambda_NA_NA_NA_dataset8.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-999_ModelfullREDMsinglelambda_NA_NA_NA_dataset8.log
+    jobid: 614
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturesPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-999, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=8
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-999_NA_NA_NA_dataset8.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-999_fullREDMsinglelambda_NA_NA_NA_dataset8.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Jan 13 10:43:01 2022]
+Finished job 614.
+1 of 72 steps (1%) done
+
+[Thu Jan 13 10:43:01 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturesPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_NA_NA_NA_dataset10.RDS
+    jobid: 1756
+    wildcards: datasetgeneration=GenerationMixturefewersignaturesPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-8, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=10
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturesPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturesPCAWG --d 4 --n 200 --nlambda 200 --lambda 80 --beta_gamma_shape -8 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_NA_NA_NA_dataset10.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Thu Jan 13 10:43:02 2022]
+Finished job 1756.
+2 of 72 steps (3%) done
+
+[Thu Jan 13 10:43:02 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_NA_NA_NA_dataset10.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_fullREM_NA_NA_NA_dataset10.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_ModelfullREM_NA_NA_NA_dataset10.log
+    jobid: 316
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturesPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-8, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=10
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_NA_NA_NA_dataset10.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_fullREM_NA_NA_NA_dataset10.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Jan 13 10:43:07 2022]
+Finished job 316.
+3 of 72 steps (4%) done
+
+[Thu Jan 13 10:43:07 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_NA_NA_NA_dataset10.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_fullREDMsinglelambda_NA_NA_NA_dataset10.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_ModelfullREDMsinglelambda_NA_NA_NA_dataset10.log
+    jobid: 676
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturesPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-8, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=10
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_NA_NA_NA_dataset10.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_fullREDMsinglelambda_NA_NA_NA_dataset10.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Thu Jan 13 10:43:22 2022]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 676
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_fullREDMsinglelambda_NA_NA_NA_dataset10.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_ModelfullREDMsinglelambda_NA_NA_NA_dataset10.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_NA_NA_NA_dataset10.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturesPCAWG_200_200_80_4_-8_fullREDMsinglelambda_NA_NA_NA_dataset10.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-01-13T104231.075895.snakemake.log

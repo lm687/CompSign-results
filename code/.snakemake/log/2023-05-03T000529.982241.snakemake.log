@@ -1,0 +1,171 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	2	analyse_simulation_TMB_bias
+	1851	inference_simulation_TMB_multiple
+	925	simulate_for_comparison_multiple
+	2779
+
+[Wed May  3 00:05:36 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset566.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_diagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset566.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_208_1516_32_14_0_ModeldiagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset566.log
+    jobid: 569
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, model=diagREDM, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=566
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset566.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_diagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset566.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Wed May  3 00:09:09 2023]
+Finished job 569.
+1 of 2779 steps (0.04%) done
+
+[Wed May  3 00:09:09 2023]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationJnorm
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS
+    jobid: 2078
+    wildcards: datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=75
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationJnorm.R --input ../data/assessing_models_simulation/GenerationJnorm --d 14 --n 208 --nlambda 1516 --lambda 32 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS --beta_intercept_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betainterceptPCAWG3.RDS --beta_slope_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betaslopePCAWG3.RDS --sdRE_input ../data/assessing_models_simulation/additional_files/multiple_fixed_covmatPCAWG3.RDS
+[Wed May  3 00:09:11 2023]
+Finished job 2078.
+2 of 2779 steps (0.07%) done
+
+[Wed May  3 00:09:11 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_208_1516_32_14_0_ModelfullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.log
+    jobid: 1078
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, model=fullREDM, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=75
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS --model fullREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Wed May  3 00:15:15 2023]
+Finished job 1078.
+3 of 2779 steps (0.11%) done
+
+[Wed May  3 00:15:15 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_diagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_208_1516_32_14_0_ModeldiagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.log
+    jobid: 78
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, model=diagREDM, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=75
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_diagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset75.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Wed May  3 00:19:21 2023]
+Finished job 78.
+4 of 2779 steps (0.14%) done
+
+[Wed May  3 00:19:21 2023]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationJnorm
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS
+    jobid: 2932
+    wildcards: datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=929
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationJnorm.R --input ../data/assessing_models_simulation/GenerationJnorm --d 14 --n 208 --nlambda 1516 --lambda 32 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS --beta_intercept_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betainterceptPCAWG3.RDS --beta_slope_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betaslopePCAWG3.RDS --sdRE_input ../data/assessing_models_simulation/additional_files/multiple_fixed_covmatPCAWG3.RDS
+[Wed May  3 00:19:23 2023]
+Finished job 2932.
+5 of 2779 steps (0.18%) done
+
+[Wed May  3 00:19:23 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_208_1516_32_14_0_ModelfullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.log
+    jobid: 1932
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, model=fullREDM, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=929
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS --model fullREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Wed May  3 00:25:26 2023]
+Finished job 1932.
+6 of 2779 steps (0.22%) done
+
+[Wed May  3 00:25:26 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_diagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_208_1516_32_14_0_ModeldiagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.log
+    jobid: 932
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, model=diagREDM, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=929
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_diagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset929.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Wed May  3 00:28:50 2023]
+Finished job 932.
+7 of 2779 steps (0.25%) done
+
+[Wed May  3 00:28:50 2023]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationJnorm
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS
+    jobid: 2068
+    wildcards: datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=65
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationJnorm.R --input ../data/assessing_models_simulation/GenerationJnorm --d 14 --n 208 --nlambda 1516 --lambda 32 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS --beta_intercept_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betainterceptPCAWG3.RDS --beta_slope_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betaslopePCAWG3.RDS --sdRE_input ../data/assessing_models_simulation/additional_files/multiple_fixed_covmatPCAWG3.RDS
+[Wed May  3 00:28:52 2023]
+Finished job 2068.
+8 of 2779 steps (0.29%) done
+
+[Wed May  3 00:28:52 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_208_1516_32_14_0_ModelfullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.log
+    jobid: 1068
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, model=fullREDM, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=65
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS --model fullREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Wed May  3 00:35:04 2023]
+Finished job 1068.
+9 of 2779 steps (0.32%) done
+
+[Wed May  3 00:35:04 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_diagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_208_1516_32_14_0_ModeldiagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.log
+    jobid: 68
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, model=diagREDM, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=65
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_diagREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset65.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Wed May  3 00:38:46 2023]
+Finished job 68.
+10 of 2779 steps (0.36%) done
+
+[Wed May  3 00:38:46 2023]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationJnorm
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.RDS
+    jobid: 2377
+    wildcards: datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=374
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationJnorm.R --input ../data/assessing_models_simulation/GenerationJnorm --d 14 --n 208 --nlambda 1516 --lambda 32 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.RDS --beta_intercept_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betainterceptPCAWG3.RDS --beta_slope_input ../data/assessing_models_simulation/additional_files/multiple_fixed_betaslopePCAWG3.RDS --sdRE_input ../data/assessing_models_simulation/additional_files/multiple_fixed_covmatPCAWG3.RDS
+[Wed May  3 00:38:48 2023]
+Finished job 2377.
+11 of 2779 steps (0.40%) done
+
+[Wed May  3 00:38:48 2023]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_208_1516_32_14_0_ModelfullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.log
+    jobid: 1377
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationJnorm, n=208, nlambda=1516, lmbda=32, d=14, beta_intensity=0, model=fullREDM, fixed_beta_intercept=betainterceptPCAWG3, fixed_beta_slope=betaslopePCAWG3, sdRE_input=covmatPCAWG3, itnum=374
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.RDS --model fullREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Wed May  3 00:44:51 2023]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 1377
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.RDS
+    log: logs/inference/nlminb/simulation_GenerationJnorm_208_1516_32_14_0_ModelfullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationJnorm_208_1516_32_14_0_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationJnorm_208_1516_32_14_0_fullREDM_betainterceptPCAWG3_betaslopePCAWG3_covmatPCAWG3_dataset374.RDS --model fullREDM --optimiser nlminb  --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2023-05-03T000529.982241.snakemake.log

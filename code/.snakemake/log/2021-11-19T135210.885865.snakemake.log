@@ -1,0 +1,28 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	analyse_simulation_TMB_bias
+	2
+
+[Fri Nov 19 13:52:11 2021]
+rule analyse_simulation_TMB_bias:
+    input: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMGnorm_200_180_100_6_0_fullREDM_betaintercept3_betaslope3_sdRE1_datasetitnum.RDS
+    output: ../results/results_TMB/simulated_datasets/bias_and_coverage/setsim_multiple_GenerationMGnorm_nlminb_200_180_100_6_0_fullREDM_betaintercept3_betaslope3_sdRE1_onlyconverged_coverage_beta.pdf
+    jobid: 1
+    wildcards: datasetgeneration=GenerationMGnorm, n=200, nlambda=180, lmbda=100, d=6, beta_intensity=0, model=fullREDM, fixed_beta_intercept=betaintercept3, fixed_beta_slope=betaslope3, sdRE_input=sdRE1
+
+Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/3_1_analyse_bias_and_coverage.R --input '../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMGnorm_200_180_100_6_0_fullREDM_betaintercept3_betaslope3_sdRE1_datasetitnum.RDS'         --dataset_generation GenerationMGnorm --model fullREDM        --multiple_runs T --run_nonconverged F
+[Fri Nov 19 13:52:12 2021]
+Error in rule analyse_simulation_TMB_bias:
+    jobid: 1
+    output: ../results/results_TMB/simulated_datasets/bias_and_coverage/setsim_multiple_GenerationMGnorm_nlminb_200_180_100_6_0_fullREDM_betaintercept3_betaslope3_sdRE1_onlyconverged_coverage_beta.pdf
+    shell:
+        Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/3_1_analyse_bias_and_coverage.R --input '../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMGnorm_200_180_100_6_0_fullREDM_betaintercept3_betaslope3_sdRE1_datasetitnum.RDS'         --dataset_generation GenerationMGnorm --model fullREDM        --multiple_runs T --run_nonconverged F
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2021-11-19T135210.885865.snakemake.log

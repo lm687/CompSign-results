@@ -1,0 +1,28 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	16	simulate_for_comparison
+	17
+
+[Tue Sep  1 16:39:55 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationC
+    output: ../data/assessing_models_simulation/datasets/GenerationC_20_100_80_3_0_dataset.RDS
+    jobid: 5
+    wildcards: uuid=GenerationC, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=0
+
+Rscript --vanilla 3_analysis/assess_model_create_dataset.R --simulation_generation GenerationC --input ../data/assessing_models_simulation/GenerationC --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/GenerationC_20_100_80_3_0_dataset.RDS
+[Tue Sep  1 16:39:56 2020]
+Error in rule simulate_for_comparison:
+    jobid: 5
+    output: ../data/assessing_models_simulation/datasets/GenerationC_20_100_80_3_0_dataset.RDS
+    shell:
+        Rscript --vanilla 3_analysis/assess_model_create_dataset.R --simulation_generation GenerationC --input ../data/assessing_models_simulation/GenerationC --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/GenerationC_20_100_80_3_0_dataset.RDS
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2020-09-01T163955.225661.snakemake.log

@@ -1,0 +1,39 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cluster nodes: 1
+Job counts:
+	count	jobs
+	1	all
+	12	inference
+	13
+
+[Mon Jun 22 11:38:02 2020]
+rule inference:
+    input: ../data/roo/Prost-AdenoCA_signatures_ROO.RDS
+    output: ../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData
+    log: logs/inference/Prost-AdenoCA_signatures_20000_M.log
+    jobid: 31
+    wildcards: cancer_type=Prost-AdenoCA, feature_type=signatures, nits=20000, model=M
+
+module load miniconda3-4.5.4-gcc-5.4.0-hivczbz
+source activate rstan_env
+~/.conda/envs/rstan_env/bin/Rscript --vanilla 2_inference/fit_PCAWG.R --cancertype Prost-AdenoCA --typedata signatures --infile '../data/roo/Prost-AdenoCA_signatures_ROO.RDS' --output '../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData' --niterations 20000 --model M
+conda deactivate
+Submitted job 31 with external jobid 'Submitted batch job 25125474'.
+[Mon Jun 22 11:38:12 2020]
+Error in rule inference:
+    jobid: 31
+    output: ../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData
+    log: logs/inference/Prost-AdenoCA_signatures_20000_M.log (check log file(s) for error message)
+    shell:
+        module load miniconda3-4.5.4-gcc-5.4.0-hivczbz
+source activate rstan_env
+~/.conda/envs/rstan_env/bin/Rscript --vanilla 2_inference/fit_PCAWG.R --cancertype Prost-AdenoCA --typedata signatures --infile '../data/roo/Prost-AdenoCA_signatures_ROO.RDS' --output '../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData' --niterations 20000 --model M
+conda deactivate
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 25125474
+
+Error executing rule inference on cluster (jobid: 31, external: Submitted batch job 25125474, jobscript: /rds/user/lm687/hpc-work/Global_Differential_Abundance_Pipeline/code/.snakemake/tmp.t82s2cpq/snakejob.inference.31.sh). For error details see the cluster log and the log files of the involved rule(s).
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /rds/user/lm687/hpc-work/Global_Differential_Abundance_Pipeline/code/.snakemake/log/2020-06-22T113801.899122.snakemake.log

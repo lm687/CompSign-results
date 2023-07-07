@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	36	inference_TMB
+	37
+
+[Mon Aug  2 16:46:35 2021]
+rule inference_TMB:
+    input: ../data/roo/Breast-AdenoCA_signaturesPCAWG_ROO.RDS
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Breast-AdenoCA_signaturesPCAWG.RDS
+    log: logs/inference/TMBinference_Breast-AdenoCA_signaturesPCAWG_fullREM.log
+    jobid: 6
+    wildcards: model=fullREM, cancer_type=Breast-AdenoCA, feature_type=signaturesPCAWG
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Breast-AdenoCA_signaturesPCAWG_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Breast-AdenoCA_signaturesPCAWG.RDS --model fullREM --feature_type signaturesPCAWG --optimiser nlminb --simulation_bool F --read_directly T
+[Mon Aug  2 16:46:36 2021]
+Error in rule inference_TMB:
+    jobid: 6
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Breast-AdenoCA_signaturesPCAWG.RDS
+    log: logs/inference/TMBinference_Breast-AdenoCA_signaturesPCAWG_fullREM.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Breast-AdenoCA_signaturesPCAWG_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Breast-AdenoCA_signaturesPCAWG.RDS --model fullREM --feature_type signaturesPCAWG --optimiser nlminb --simulation_bool F --read_directly T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2021-08-02T164633.904629.snakemake.log

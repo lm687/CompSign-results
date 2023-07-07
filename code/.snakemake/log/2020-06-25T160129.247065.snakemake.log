@@ -1,0 +1,32 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	115	inference
+	116
+
+[Thu Jun 25 16:01:36 2020]
+rule inference:
+    input: ../data/roo/Prost-AdenoCA_signatures_ROO.RDS
+    output: ../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData
+    log: logs/inference/Prost-AdenoCA_signatures_20000_M.log
+    jobid: 31
+    wildcards: cancer_type=Prost-AdenoCA, feature_type=signatures, nits=20000, model=M
+
+[Thu Jun 25 16:01:36 2020]
+Error in rule inference:
+    jobid: 31
+    output: ../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData
+    log: logs/inference/Prost-AdenoCA_signatures_20000_M.log (check log file(s) for error message)
+    shell:
+        module load miniconda3-4.5.4-gcc-5.4.0-hivczbz
+#source activate rstan_env
+~/.conda/envs/rstan_env/bin/Rscript --vanilla 2_inference/fit_PCAWG.R --cancertype Prost-AdenoCA --typedata signatures --infile '../data/roo/Prost-AdenoCA_signatures_ROO.RDS' --output '../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData' --niterations 20000 --model M
+#conda deactivate
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2020-06-25T160129.247065.snakemake.log

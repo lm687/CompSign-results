@@ -1,0 +1,33 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	inference_simulation
+	1	simulate_for_comparison
+	2
+
+[Fri Sep  4 10:50:53 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/20200625
+    output: ../data/assessing_models_simulation/datasets/20200625_200_300_10_7_2.5_dataset.RDS
+    jobid: 1
+    wildcards: uuid=20200625, n=200, nlambda=300, lmbda=10, d=7, beta_intensity=2.5
+
+[Fri Sep  4 10:50:53 2020]
+Finished job 1.
+1 of 2 steps (50%) done
+
+[Fri Sep  4 10:50:53 2020]
+rule inference_simulation:
+    input: ../data/assessing_models_simulation/datasets/20200625_200_300_10_7_2.5_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/20200625_n200_nlambda300_lambda10_d7_beta_intensity2.5_Nits2000_ModelLNMROO.RData
+    log: logs/inference/simulation_20200625_200_300_10_7_2.5_Nits2000_ModelLNM.log
+    jobid: 0
+    wildcards: uuid=20200625, n=200, nlambda=300, lmbda=10, d=7, beta_intensity=2.5, nits=2000, model=LNM
+
+[Fri Sep  4 10:50:53 2020]
+Finished job 0.
+2 of 2 steps (100%) done
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2020-09-04T105053.024691.snakemake.log

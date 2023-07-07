@@ -1,0 +1,29 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	150	inference_simulation
+	150	simulate_for_comparison
+	301
+
+[Fri Sep  4 10:31:32 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/20200625
+    output: ../data/assessing_models_simulation/datasets/20200625_50_300_10_3_0.02_dataset.RDS
+    jobid: 232
+    wildcards: uuid=20200625, n=50, nlambda=300, lmbda=10, d=3, beta_intensity=0.02
+
+Rscript --vanilla 3_analysis/assess_model_create_dataset.R --simulation_generation 20200625 --input ../data/assessing_models_simulation/20200625 --d 3 --n 50 --nlambda 300 --lambda 10 --beta_gamma_shape 0.02 --outfile ../data/assessing_models_simulation/datasets/20200625_50_300_10_3_0.02_dataset.RDS
+[Fri Sep  4 10:31:32 2020]
+Error in rule simulate_for_comparison:
+    jobid: 232
+    output: ../data/assessing_models_simulation/datasets/20200625_50_300_10_3_0.02_dataset.RDS
+    shell:
+        Rscript --vanilla 3_analysis/assess_model_create_dataset.R --simulation_generation 20200625 --input ../data/assessing_models_simulation/20200625 --d 3 --n 50 --nlambda 300 --lambda 10 --beta_gamma_shape 0.02 --outfile ../data/assessing_models_simulation/datasets/20200625_50_300_10_3_0.02_dataset.RDS
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2020-09-04T103131.395468.snakemake.log

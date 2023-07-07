@@ -1,0 +1,420 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	16	inference_simulation_TMB
+	16	simulate_for_comparison
+	33
+
+[Mon Nov 30 12:33:32 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_7_4_dataset.RDS
+    jobid: 84
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=80, d=7, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 7 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_7_4_dataset.RDS
+[Mon Nov 30 12:33:34 2020]
+Finished job 84.
+1 of 33 steps (3%) done
+
+[Mon Nov 30 12:33:34 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_7_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_4_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_20_100_80_7_4_ModelfullREDM.log
+    jobid: 28
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=80, d=7, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_7_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_4_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:33:59 2020]
+Finished job 28.
+2 of 33 steps (6%) done
+
+[Mon Nov 30 12:33:59 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_3_2_dataset.RDS
+    jobid: 90
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=10, d=3, beta_intensity=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 3 --n 50 --nlambda 100 --lambda 10 --beta_gamma_shape 2 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_3_2_dataset.RDS
+[Mon Nov 30 12:34:01 2020]
+Finished job 90.
+3 of 33 steps (9%) done
+
+[Mon Nov 30 12:34:01 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_3_2_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_2_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_50_100_10_3_2_ModelfullREDM.log
+    jobid: 34
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=10, d=3, beta_intensity=2, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_3_2_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_2_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:34:08 2020]
+Finished job 34.
+4 of 33 steps (12%) done
+
+[Mon Nov 30 12:34:08 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_3_4_dataset.RDS
+    jobid: 91
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=10, d=3, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 3 --n 50 --nlambda 100 --lambda 10 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_3_4_dataset.RDS
+[Mon Nov 30 12:34:10 2020]
+Finished job 91.
+5 of 33 steps (15%) done
+
+[Mon Nov 30 12:34:10 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_3_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_4_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_50_100_10_3_4_ModelfullREDM.log
+    jobid: 35
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=10, d=3, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_3_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_4_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:34:19 2020]
+Finished job 35.
+6 of 33 steps (18%) done
+
+[Mon Nov 30 12:34:19 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_7_2_dataset.RDS
+    jobid: 111
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=80, d=7, beta_intensity=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 7 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 2 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_7_2_dataset.RDS
+[Mon Nov 30 12:34:22 2020]
+Finished job 111.
+7 of 33 steps (21%) done
+
+[Mon Nov 30 12:34:22 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_7_2_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_2_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_50_100_80_7_2_ModelfullREDM.log
+    jobid: 55
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=80, d=7, beta_intensity=2, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_7_2_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_2_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:35:00 2020]
+Finished job 55.
+8 of 33 steps (24%) done
+
+[Mon Nov 30 12:35:00 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_3_2_dataset.RDS
+    jobid: 104
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 3 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 2 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_3_2_dataset.RDS
+[Mon Nov 30 12:35:02 2020]
+Finished job 104.
+9 of 33 steps (27%) done
+
+[Mon Nov 30 12:35:02 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_3_2_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_2_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_50_100_80_3_2_ModelfullREDM.log
+    jobid: 48
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=2, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_3_2_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_2_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:35:08 2020]
+Finished job 48.
+10 of 33 steps (30%) done
+
+[Mon Nov 30 12:35:08 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_7_2_dataset.RDS
+    jobid: 83
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=80, d=7, beta_intensity=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 7 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 2 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_7_2_dataset.RDS
+[Mon Nov 30 12:35:11 2020]
+Finished job 83.
+11 of 33 steps (33%) done
+
+[Mon Nov 30 12:35:11 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_7_2_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_2_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_20_100_80_7_2_ModelfullREDM.log
+    jobid: 27
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=80, d=7, beta_intensity=2, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_7_2_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_2_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:35:25 2020]
+Finished job 27.
+12 of 33 steps (36%) done
+
+[Mon Nov 30 12:35:25 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_3_4_dataset.RDS
+    jobid: 105
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 3 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_3_4_dataset.RDS
+[Mon Nov 30 12:35:29 2020]
+Finished job 105.
+13 of 33 steps (39%) done
+
+[Mon Nov 30 12:35:29 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_3_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_4_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_50_100_80_3_4_ModelfullREDM.log
+    jobid: 49
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=80, d=3, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_3_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_4_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:35:34 2020]
+Finished job 49.
+14 of 33 steps (42%) done
+
+[Mon Nov 30 12:35:34 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_7_2_dataset.RDS
+    jobid: 97
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=10, d=7, beta_intensity=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 7 --n 50 --nlambda 100 --lambda 10 --beta_gamma_shape 2 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_7_2_dataset.RDS
+[Mon Nov 30 12:35:36 2020]
+Finished job 97.
+15 of 33 steps (45%) done
+
+[Mon Nov 30 12:35:36 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_7_2_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_2_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_50_100_10_7_2_ModelfullREDM.log
+    jobid: 41
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=10, d=7, beta_intensity=2, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_7_2_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_2_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:36:17 2020]
+Finished job 41.
+16 of 33 steps (48%) done
+
+[Mon Nov 30 12:36:17 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_7_4_dataset.RDS
+    jobid: 98
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=10, d=7, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 7 --n 50 --nlambda 100 --lambda 10 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_7_4_dataset.RDS
+[Mon Nov 30 12:36:19 2020]
+Finished job 98.
+17 of 33 steps (52%) done
+
+[Mon Nov 30 12:36:19 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_7_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_4_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_50_100_10_7_4_ModelfullREDM.log
+    jobid: 42
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=10, d=7, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_10_7_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_4_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:37:02 2020]
+Finished job 42.
+18 of 33 steps (55%) done
+
+[Mon Nov 30 12:37:02 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_7_4_dataset.RDS
+    jobid: 112
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=80, d=7, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 7 --n 50 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_7_4_dataset.RDS
+[Mon Nov 30 12:37:04 2020]
+Finished job 112.
+19 of 33 steps (58%) done
+
+[Mon Nov 30 12:37:04 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_7_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_4_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_50_100_80_7_4_ModelfullREDM.log
+    jobid: 56
+    wildcards: datasetgeneration=GenerationCnorm, n=50, nlambda=100, lmbda=80, d=7, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_50_100_80_7_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_4_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:37:48 2020]
+Finished job 56.
+20 of 33 steps (61%) done
+
+[Mon Nov 30 12:37:48 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_3_4_dataset.RDS
+    jobid: 63
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=10, d=3, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 3 --n 20 --nlambda 100 --lambda 10 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_3_4_dataset.RDS
+[Mon Nov 30 12:37:51 2020]
+Finished job 63.
+21 of 33 steps (64%) done
+
+[Mon Nov 30 12:37:51 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_3_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_4_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_20_100_10_3_4_ModelfullREDM.log
+    jobid: 7
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=10, d=3, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_3_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_4_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:37:55 2020]
+Finished job 7.
+22 of 33 steps (67%) done
+
+[Mon Nov 30 12:37:55 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_3_2_dataset.RDS
+    jobid: 62
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=10, d=3, beta_intensity=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 3 --n 20 --nlambda 100 --lambda 10 --beta_gamma_shape 2 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_3_2_dataset.RDS
+[Mon Nov 30 12:37:57 2020]
+Finished job 62.
+23 of 33 steps (70%) done
+
+[Mon Nov 30 12:37:57 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_3_2_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_2_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_20_100_10_3_2_ModelfullREDM.log
+    jobid: 6
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=10, d=3, beta_intensity=2, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_3_2_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_2_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:38:00 2020]
+Finished job 6.
+24 of 33 steps (73%) done
+
+[Mon Nov 30 12:38:00 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_7_4_dataset.RDS
+    jobid: 70
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=10, d=7, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 7 --n 20 --nlambda 100 --lambda 10 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_7_4_dataset.RDS
+[Mon Nov 30 12:38:02 2020]
+Finished job 70.
+25 of 33 steps (76%) done
+
+[Mon Nov 30 12:38:02 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_7_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_4_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_20_100_10_7_4_ModelfullREDM.log
+    jobid: 14
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=10, d=7, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_7_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_4_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:38:15 2020]
+Finished job 14.
+26 of 33 steps (79%) done
+
+[Mon Nov 30 12:38:15 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_3_2_dataset.RDS
+    jobid: 76
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 2 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_3_2_dataset.RDS
+[Mon Nov 30 12:38:17 2020]
+Finished job 76.
+27 of 33 steps (82%) done
+
+[Mon Nov 30 12:38:17 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_3_2_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_2_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_20_100_80_3_2_ModelfullREDM.log
+    jobid: 20
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=2, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_3_2_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_2_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:38:20 2020]
+Finished job 20.
+28 of 33 steps (85%) done
+
+[Mon Nov 30 12:38:20 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_3_4_dataset.RDS
+    jobid: 77
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=4
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 3 --n 20 --nlambda 100 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_3_4_dataset.RDS
+[Mon Nov 30 12:38:22 2020]
+Finished job 77.
+29 of 33 steps (88%) done
+
+[Mon Nov 30 12:38:22 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_3_4_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_4_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_20_100_80_3_4_ModelfullREDM.log
+    jobid: 21
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=80, d=3, beta_intensity=4, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_80_3_4_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_4_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:38:25 2020]
+Finished job 21.
+30 of 33 steps (91%) done
+
+[Mon Nov 30 12:38:25 2020]
+rule simulate_for_comparison:
+    input: ../data/assessing_models_simulation/GenerationCnorm
+    output: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_7_2_dataset.RDS
+    jobid: 69
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=10, d=7, beta_intensity=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationCnorm.R --input ../data/assessing_models_simulation/GenerationCnorm --d 7 --n 20 --nlambda 100 --lambda 10 --beta_gamma_shape 2 --outfile ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_7_2_dataset.RDS
+[Mon Nov 30 12:38:27 2020]
+Finished job 69.
+31 of 33 steps (94%) done
+
+[Mon Nov 30 12:38:27 2020]
+rule inference_simulation_TMB:
+    input: ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_7_2_dataset.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_2_fullREDM.RDS
+    log: logs/inference/simulation_GenerationCnorm_20_100_10_7_2_ModelfullREDM.log
+    jobid: 13
+    wildcards: datasetgeneration=GenerationCnorm, n=20, nlambda=100, lmbda=10, d=7, beta_intensity=2, model=fullREDM
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/GenerationCnorm_20_100_10_7_2_dataset.RDS --output ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_2_fullREDM.RDS --model fullREDM
+[Mon Nov 30 12:38:42 2020]
+Finished job 13.
+32 of 33 steps (97%) done
+
+[Mon Nov 30 12:38:42 2020]
+localrule all:
+    input: ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_0.2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_0.4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_0.8_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_3_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_0.2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_0.4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_0.8_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_10_7_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_0.2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_0.4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_0.8_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_3_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_0.2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_0.4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_0.8_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_20_100_80_7_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_0.2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_0.4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_0.8_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_3_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_0.2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_0.4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_0.8_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_10_7_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_0.2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_0.4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_0.8_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_3_4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_0_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_0.2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_0.4_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_0.6_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_0.8_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_2_fullREDM.RDS, ../data/assessing_models_simulation/inference_results/TMB/GenerationCnorm_50_100_80_7_4_fullREDM.RDS
+    jobid: 0
+
+[Mon Nov 30 12:38:42 2020]
+Finished job 0.
+33 of 33 steps (100%) done
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2020-11-30T123330.876814.snakemake.log

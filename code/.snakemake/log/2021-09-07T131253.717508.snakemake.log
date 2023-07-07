@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	inference_TMB
+	2
+
+[Tue Sep  7 13:12:57 2021]
+rule inference_TMB:
+    input: ../data/roo/Skin-Melanoma.mucosal_signaturesPCAWG_ROO.RDS
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Skin-Melanoma.mucosal_signaturesPCAWG.RDS
+    log: logs/inference/TMBinference_Skin-Melanoma.mucosal_signaturesPCAWG_diagREDM.log
+    jobid: 68
+    wildcards: model=diagREDM, cancer_type=Skin-Melanoma.mucosal, feature_type=signaturesPCAWG
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Skin-Melanoma.mucosal_signaturesPCAWG_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Skin-Melanoma.mucosal_signaturesPCAWG.RDS --model diagREDM --feature_type signaturesPCAWG --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+[Tue Sep  7 13:12:58 2021]
+Error in rule inference_TMB:
+    jobid: 68
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Skin-Melanoma.mucosal_signaturesPCAWG.RDS
+    log: logs/inference/TMBinference_Skin-Melanoma.mucosal_signaturesPCAWG_diagREDM.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Skin-Melanoma.mucosal_signaturesPCAWG_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Skin-Melanoma.mucosal_signaturesPCAWG.RDS --model diagREDM --feature_type signaturesPCAWG --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2021-09-07T131253.717508.snakemake.log

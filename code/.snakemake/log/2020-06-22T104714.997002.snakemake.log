@@ -1,0 +1,21 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cluster nodes: 1
+Job counts:
+	count	jobs
+	1	all
+	12	inference
+	13
+
+[Mon Jun 22 10:47:15 2020]
+rule inference:
+    input: ../data/roo/Prost-AdenoCA_signatures_ROO.RDS
+    output: ../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData
+    jobid: 31
+    wildcards: cancer_type=Prost-AdenoCA, feature_type=signatures, nits=20000, model=M
+
+Rscript --vanilla 2_inference/fit_PCAWG.R --cancertype {cancer_type} --typedata {feature_type} --infile ../data/roo/Prost-AdenoCA_signatures_ROO.RDS --output ../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData --niterations {nits} --model {model}
+Submitted job 31 with external jobid 'Submitted batch job 25115604'.
+Terminating processes on user request, this might take some time.
+Will exit after finishing currently running jobs.
+Complete log: /rds/user/lm687/hpc-work/Global_Differential_Abundance_Pipeline/code/.snakemake/log/2020-06-22T104714.997002.snakemake.log

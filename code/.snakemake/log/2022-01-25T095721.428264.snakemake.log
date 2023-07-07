@@ -1,0 +1,56 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	7	inference_TMB
+	8
+
+[Tue Jan 25 09:57:23 2022]
+rule inference_TMB:
+    input: ../data/roo/Bone-Epith_signaturesMSE_ROO.RDS
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Bone-Epith_signaturesMSE.RDS
+    log: logs/inference/TMBinference_Bone-Epith_signaturesMSE_fullREM.log
+    jobid: 10
+    wildcards: model=fullREM, cancer_type=Bone-Epith, feature_type=signaturesMSE
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Bone-Epith_signaturesMSE_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Bone-Epith_signaturesMSE.RDS --model fullREM --feature_type signaturesMSE --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+[Tue Jan 25 09:57:25 2022]
+Finished job 10.
+1 of 8 steps (12%) done
+
+[Tue Jan 25 09:57:25 2022]
+rule inference_TMB:
+    input: ../data/roo/Bone-Benign_signaturesMSE_ROO.RDS
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Bone-Benign_signaturesMSE.RDS
+    log: logs/inference/TMBinference_Bone-Benign_signaturesMSE_diagREDM.log
+    jobid: 9
+    wildcards: model=diagREDM, cancer_type=Bone-Benign, feature_type=signaturesMSE
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Bone-Benign_signaturesMSE_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Bone-Benign_signaturesMSE.RDS --model diagREDM --feature_type signaturesMSE --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+[Tue Jan 25 09:57:28 2022]
+Finished job 9.
+2 of 8 steps (25%) done
+
+[Tue Jan 25 09:57:28 2022]
+rule inference_TMB:
+    input: ../data/roo/Bone-Benign_signaturesMSE_ROO.RDS
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Bone-Benign_signaturesMSE.RDS
+    log: logs/inference/TMBinference_Bone-Benign_signaturesMSE_fullREM.log
+    jobid: 7
+    wildcards: model=fullREM, cancer_type=Bone-Benign, feature_type=signaturesMSE
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Bone-Benign_signaturesMSE_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Bone-Benign_signaturesMSE.RDS --model fullREM --feature_type signaturesMSE --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+[Tue Jan 25 09:57:31 2022]
+Error in rule inference_TMB:
+    jobid: 7
+    output: ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Bone-Benign_signaturesMSE.RDS
+    log: logs/inference/TMBinference_Bone-Benign_signaturesMSE_fullREM.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/roo/Bone-Benign_signaturesMSE_ROO.RDS --output ../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_Bone-Benign_signaturesMSE.RDS --model fullREM --feature_type signaturesMSE --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-01-25T095721.428264.snakemake.log

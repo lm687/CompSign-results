@@ -1,0 +1,27 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cluster nodes: 34
+Job counts:
+	count	jobs
+	1	all
+	1	inference
+	2
+
+[Wed Sep  2 12:04:34 2020]
+rule inference:
+    input: ../data/roo/Skin-Melanoma.mucosal_nucleotidesubstitution1_ROO.RDS
+    output: ../data/inference/Skin-Melanoma.mucosal_nucleotidesubstitution1_15000_LNMROO.RData
+    log: logs/inference/Skin-Melanoma.mucosal_nucleotidesubstitution1_15000_LNM.log
+    jobid: 34
+    wildcards: cancer_type=Skin-Melanoma.mucosal, feature_type=nucleotidesubstitution1, nits=15000, model=LNM
+
+module load miniconda3-4.5.4-gcc-5.4.0-hivczbz
+#source activate rstan_env
+~/.conda/envs/rstan_env/bin/Rscript --vanilla 2_inference/fit_PCAWG.R --cancertype Skin-Melanoma.mucosal --typedata nucleotidesubstitution1 --infile '../data/roo/Skin-Melanoma.mucosal_nucleotidesubstitution1_ROO.RDS' --output '../data/inference/Skin-Melanoma.mucosal_nucleotidesubstitution1_15000_LNMROO.RData' --niterations 15000 --model LNM
+#conda deactivate
+Error submitting jobscript (exit code 1):
+
+Shutting down, this might take some time.
+Terminating processes on user request, this might take some time.
+Will exit after finishing currently running jobs.
+Cancelling snakemake on user request.

@@ -1,0 +1,581 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	3	analyse_simulation_TMB_multiple
+	1	analyse_simulation_TMB_multiple_integrate
+	88	inference_simulation_TMB_multiple
+	29	simulate_for_comparison_multiple
+	122
+
+[Fri Sep  9 16:57:59 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-999_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-999_diagREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-999_ModeldiagREDM_NA_NA_NA_dataset1.log
+    jobid: 105
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-999, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-999_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-999_diagREDM_NA_NA_NA_dataset1.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:04 2022]
+Finished job 105.
+1 of 122 steps (0.82%) done
+
+[Fri Sep  9 16:58:04 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_NA_NA_NA_dataset2.RDS
+    jobid: 343
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-10, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 100 --nlambda 200 --lambda 80 --beta_gamma_shape -10 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_NA_NA_NA_dataset2.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 16:58:05 2022]
+Finished job 343.
+2 of 122 steps (2%) done
+
+[Fri Sep  9 16:58:05 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_singleREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_ModelsingleREDM_NA_NA_NA_dataset2.log
+    jobid: 244
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_singleREDM_NA_NA_NA_dataset2.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:08 2022]
+Finished job 244.
+3 of 122 steps (2%) done
+
+[Fri Sep  9 16:58:08 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_diagREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_ModeldiagREDM_NA_NA_NA_dataset2.log
+    jobid: 145
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_diagREDM_NA_NA_NA_dataset2.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:18 2022]
+Finished job 145.
+4 of 122 steps (3%) done
+
+[Fri Sep  9 16:58:18 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_fullREM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_ModelfullREM_NA_NA_NA_dataset2.log
+    jobid: 46
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-10_fullREM_NA_NA_NA_dataset2.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:23 2022]
+Finished job 46.
+5 of 122 steps (4%) done
+
+[Fri Sep  9 16:58:23 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset0.RDS
+    jobid: 362
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=8, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 100 --nlambda 200 --lambda 80 --beta_gamma_shape 8 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset0.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 16:58:23 2022]
+Finished job 362.
+6 of 122 steps (5%) done
+
+[Fri Sep  9 16:58:23 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_singleREDM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_ModelsingleREDM_NA_NA_NA_dataset0.log
+    jobid: 263
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=8, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_singleREDM_NA_NA_NA_dataset0.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:28 2022]
+Finished job 263.
+7 of 122 steps (6%) done
+
+[Fri Sep  9 16:58:28 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_diagREDM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_ModeldiagREDM_NA_NA_NA_dataset0.log
+    jobid: 164
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=8, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_diagREDM_NA_NA_NA_dataset0.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:36 2022]
+Finished job 164.
+8 of 122 steps (7%) done
+
+[Fri Sep  9 16:58:36 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_fullREM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_ModelfullREM_NA_NA_NA_dataset0.log
+    jobid: 65
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=8, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_fullREM_NA_NA_NA_dataset0.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:40 2022]
+Finished job 65.
+9 of 122 steps (7%) done
+
+[Fri Sep  9 16:58:40 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset1.RDS
+    jobid: 363
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=8, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 100 --nlambda 200 --lambda 80 --beta_gamma_shape 8 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset1.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 16:58:41 2022]
+Finished job 363.
+10 of 122 steps (8%) done
+
+[Fri Sep  9 16:58:41 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_singleREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_ModelsingleREDM_NA_NA_NA_dataset1.log
+    jobid: 264
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=8, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_singleREDM_NA_NA_NA_dataset1.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:46 2022]
+Finished job 264.
+11 of 122 steps (9%) done
+
+[Fri Sep  9 16:58:46 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_diagREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_ModeldiagREDM_NA_NA_NA_dataset1.log
+    jobid: 165
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=8, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_diagREDM_NA_NA_NA_dataset1.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:54 2022]
+Finished job 165.
+12 of 122 steps (10%) done
+
+[Fri Sep  9 16:58:54 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_fullREM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_ModelfullREM_NA_NA_NA_dataset1.log
+    jobid: 66
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=8, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_8_fullREM_NA_NA_NA_dataset1.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:58:59 2022]
+Finished job 66.
+13 of 122 steps (11%) done
+
+[Fri Sep  9 16:58:59 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_NA_NA_NA_dataset2.RDS
+    jobid: 391
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=0, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 200 --nlambda 200 --lambda 80 --beta_gamma_shape 0 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_NA_NA_NA_dataset2.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 16:58:59 2022]
+Finished job 391.
+14 of 122 steps (11%) done
+
+[Fri Sep  9 16:58:59 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_diagREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_ModeldiagREDM_NA_NA_NA_dataset2.log
+    jobid: 193
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=0, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_diagREDM_NA_NA_NA_dataset2.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:59:13 2022]
+Finished job 193.
+15 of 122 steps (12%) done
+
+[Fri Sep  9 16:59:13 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_singleREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_ModelsingleREDM_NA_NA_NA_dataset2.log
+    jobid: 292
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=0, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_singleREDM_NA_NA_NA_dataset2.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:59:20 2022]
+Finished job 292.
+16 of 122 steps (13%) done
+
+[Fri Sep  9 16:59:20 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_fullREM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_ModelfullREM_NA_NA_NA_dataset2.log
+    jobid: 94
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=0, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_0_fullREM_NA_NA_NA_dataset2.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:59:28 2022]
+Finished job 94.
+17 of 122 steps (14%) done
+
+[Fri Sep  9 16:59:28 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_NA_NA_NA_dataset2.RDS
+    jobid: 394
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=4, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 200 --nlambda 200 --lambda 80 --beta_gamma_shape 4 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_NA_NA_NA_dataset2.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 16:59:29 2022]
+Finished job 394.
+18 of 122 steps (15%) done
+
+[Fri Sep  9 16:59:29 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_diagREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_ModeldiagREDM_NA_NA_NA_dataset2.log
+    jobid: 196
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=4, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_diagREDM_NA_NA_NA_dataset2.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:59:45 2022]
+Finished job 196.
+19 of 122 steps (16%) done
+
+[Fri Sep  9 16:59:45 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_singleREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_ModelsingleREDM_NA_NA_NA_dataset2.log
+    jobid: 295
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=4, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_singleREDM_NA_NA_NA_dataset2.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 16:59:52 2022]
+Finished job 295.
+20 of 122 steps (16%) done
+
+[Fri Sep  9 16:59:52 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_fullREM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_ModelfullREM_NA_NA_NA_dataset2.log
+    jobid: 97
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=4, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_4_fullREM_NA_NA_NA_dataset2.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:00 2022]
+Finished job 97.
+21 of 122 steps (17%) done
+
+[Fri Sep  9 17:00:00 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_NA_NA_NA_dataset2.RDS
+    jobid: 319
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-2, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 50 --nlambda 200 --lambda 80 --beta_gamma_shape -2 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_NA_NA_NA_dataset2.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 17:00:01 2022]
+Finished job 319.
+22 of 122 steps (18%) done
+
+[Fri Sep  9 17:00:01 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_singleREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_ModelsingleREDM_NA_NA_NA_dataset2.log
+    jobid: 220
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-2, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_singleREDM_NA_NA_NA_dataset2.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:04 2022]
+Finished job 220.
+23 of 122 steps (19%) done
+
+[Fri Sep  9 17:00:04 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_diagREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_ModeldiagREDM_NA_NA_NA_dataset2.log
+    jobid: 121
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-2, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_diagREDM_NA_NA_NA_dataset2.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:09 2022]
+Finished job 121.
+24 of 122 steps (20%) done
+
+[Fri Sep  9 17:00:09 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_fullREM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_ModelfullREM_NA_NA_NA_dataset2.log
+    jobid: 22
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-2, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_50_200_80_4_-2_fullREM_NA_NA_NA_dataset2.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:12 2022]
+Finished job 22.
+25 of 122 steps (20%) done
+
+[Fri Sep  9 17:00:12 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_NA_NA_NA_dataset1.RDS
+    jobid: 366
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=12, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 100 --nlambda 200 --lambda 80 --beta_gamma_shape 12 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_NA_NA_NA_dataset1.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 17:00:13 2022]
+Finished job 366.
+26 of 122 steps (21%) done
+
+[Fri Sep  9 17:00:13 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_singleREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_ModelsingleREDM_NA_NA_NA_dataset1.log
+    jobid: 267
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=12, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_singleREDM_NA_NA_NA_dataset1.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:18 2022]
+Finished job 267.
+27 of 122 steps (22%) done
+
+[Fri Sep  9 17:00:18 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_diagREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_ModeldiagREDM_NA_NA_NA_dataset1.log
+    jobid: 168
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=12, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_diagREDM_NA_NA_NA_dataset1.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:27 2022]
+Finished job 168.
+28 of 122 steps (23%) done
+
+[Fri Sep  9 17:00:27 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_fullREM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_ModelfullREM_NA_NA_NA_dataset1.log
+    jobid: 69
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=12, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_12_fullREM_NA_NA_NA_dataset1.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:31 2022]
+Finished job 69.
+29 of 122 steps (24%) done
+
+[Fri Sep  9 17:00:31 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_NA_NA_NA_dataset1.RDS
+    jobid: 348
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-4, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 100 --nlambda 200 --lambda 80 --beta_gamma_shape -4 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_NA_NA_NA_dataset1.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 17:00:32 2022]
+Finished job 348.
+30 of 122 steps (25%) done
+
+[Fri Sep  9 17:00:32 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_diagREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_ModeldiagREDM_NA_NA_NA_dataset1.log
+    jobid: 150
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_diagREDM_NA_NA_NA_dataset1.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:42 2022]
+Finished job 150.
+31 of 122 steps (25%) done
+
+[Fri Sep  9 17:00:42 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_singleREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_ModelsingleREDM_NA_NA_NA_dataset1.log
+    jobid: 249
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_singleREDM_NA_NA_NA_dataset1.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:47 2022]
+Finished job 249.
+32 of 122 steps (26%) done
+
+[Fri Sep  9 17:00:47 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_fullREM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_ModelfullREM_NA_NA_NA_dataset1.log
+    jobid: 51
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-4, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-4_fullREM_NA_NA_NA_dataset1.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:00:51 2022]
+Finished job 51.
+33 of 122 steps (27%) done
+
+[Fri Sep  9 17:00:51 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_NA_NA_NA_dataset2.RDS
+    jobid: 355
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-1, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 100 --nlambda 200 --lambda 80 --beta_gamma_shape -1 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_NA_NA_NA_dataset2.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 17:00:52 2022]
+Finished job 355.
+34 of 122 steps (28%) done
+
+[Fri Sep  9 17:00:52 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_diagREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_ModeldiagREDM_NA_NA_NA_dataset2.log
+    jobid: 157
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-1, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_diagREDM_NA_NA_NA_dataset2.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:01:01 2022]
+Finished job 157.
+35 of 122 steps (29%) done
+
+[Fri Sep  9 17:01:01 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_singleREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_ModelsingleREDM_NA_NA_NA_dataset2.log
+    jobid: 256
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-1, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_singleREDM_NA_NA_NA_dataset2.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:01:05 2022]
+Finished job 256.
+36 of 122 steps (30%) done
+
+[Fri Sep  9 17:01:05 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_fullREM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_ModelfullREM_NA_NA_NA_dataset2.log
+    jobid: 58
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=100, nlambda=200, lmbda=80, d=4, beta_intensity=-1, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_100_200_80_4_-1_fullREM_NA_NA_NA_dataset2.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:01:11 2022]
+Finished job 58.
+37 of 122 steps (30%) done
+
+[Fri Sep  9 17:01:11 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_NA_NA_NA_dataset1.RDS
+    jobid: 372
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-12, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 200 --nlambda 200 --lambda 80 --beta_gamma_shape -12 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_NA_NA_NA_dataset1.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 17:01:11 2022]
+Finished job 372.
+38 of 122 steps (31%) done
+
+[Fri Sep  9 17:01:11 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_diagREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_ModeldiagREDM_NA_NA_NA_dataset1.log
+    jobid: 174
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-12, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_diagREDM_NA_NA_NA_dataset1.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:01:31 2022]
+Finished job 174.
+39 of 122 steps (32%) done
+
+[Fri Sep  9 17:01:31 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_singleREDM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_ModelsingleREDM_NA_NA_NA_dataset1.log
+    jobid: 273
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-12, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_singleREDM_NA_NA_NA_dataset1.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:01:38 2022]
+Finished job 273.
+40 of 122 steps (33%) done
+
+[Fri Sep  9 17:01:38 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_NA_NA_NA_dataset1.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_fullREM_NA_NA_NA_dataset1.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_ModelfullREM_NA_NA_NA_dataset1.log
+    jobid: 75
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-12, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=1
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_NA_NA_NA_dataset1.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-12_fullREM_NA_NA_NA_dataset1.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:01:46 2022]
+Finished job 75.
+41 of 122 steps (34%) done
+
+[Fri Sep  9 17:01:46 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_NA_NA_NA_dataset0.RDS
+    jobid: 368
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-999, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG --d 4 --n 200 --nlambda 200 --lambda 80 --beta_gamma_shape -999 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_NA_NA_NA_dataset0.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Sep  9 17:01:47 2022]
+Finished job 368.
+42 of 122 steps (34%) done
+
+[Fri Sep  9 17:01:47 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_singleREDM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_ModelsingleREDM_NA_NA_NA_dataset0.log
+    jobid: 269
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-999, model=singleREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_singleREDM_NA_NA_NA_dataset0.RDS --model singleREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:01:55 2022]
+Finished job 269.
+43 of 122 steps (35%) done
+
+[Fri Sep  9 17:01:55 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_NA_NA_NA_dataset0.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_diagREDM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_ModeldiagREDM_NA_NA_NA_dataset0.log
+    jobid: 170
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-999, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_diagREDM_NA_NA_NA_dataset0.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Sep  9 17:02:17 2022]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 170
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_diagREDM_NA_NA_NA_dataset0.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_ModeldiagREDM_NA_NA_NA_dataset0.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_NA_NA_NA_dataset0.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG_200_200_80_4_-999_diagREDM_NA_NA_NA_dataset0.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-09-09T165757.181745.snakemake.log

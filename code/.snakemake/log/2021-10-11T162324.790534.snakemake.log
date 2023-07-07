@@ -1,0 +1,31 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	4	analyse_simulation_TMB_multiple
+	1	analyse_simulation_TMB_multiple_integrate
+	216	inference_simulation_TMB_multiple
+	54	simulate_for_comparison_multiple
+	276
+
+[Mon Oct 11 16:23:28 2021]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixture1
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixture1_100_100_0_3_0.1_NA_NA_NA_dataset0.RDS
+    jobid: 260
+    wildcards: datasetgeneration=GenerationMixture1, n=100, nlambda=100, lmbda=0, d=3, beta_intensity=0.1, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=0
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixture1.R --input ../data/assessing_models_simulation/GenerationMixture1 --d 3 --n 100 --nlambda 100 --lambda 0 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixture1_100_100_0_3_0.1_NA_NA_NA_dataset0.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Mon Oct 11 16:23:32 2021]
+Error in rule simulate_for_comparison_multiple:
+    jobid: 260
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixture1_100_100_0_3_0.1_NA_NA_NA_dataset0.RDS
+    shell:
+        Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixture1.R --input ../data/assessing_models_simulation/GenerationMixture1 --d 3 --n 100 --nlambda 100 --lambda 0 --beta_gamma_shape 0.1 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixture1_100_100_0_3_0.1_NA_NA_NA_dataset0.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2021-10-11T162324.790534.snakemake.log

@@ -1,0 +1,25 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cluster nodes: 1
+Job counts:
+	count	jobs
+	1	all
+	12	inference
+	13
+
+[Mon Jun 22 12:14:22 2020]
+rule inference:
+    input: ../data/roo/Prost-AdenoCA_signatures_ROO.RDS
+    output: ../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData
+    log: logs/inference/Prost-AdenoCA_signatures_20000_M.log
+    jobid: 31
+    wildcards: cancer_type=Prost-AdenoCA, feature_type=signatures, nits=20000, model=M
+
+module load miniconda3-4.5.4-gcc-5.4.0-hivczbz
+#source activate rstan_env
+~/.conda/envs/rstan_env/bin/Rscript --vanilla 2_inference/fit_PCAWG.R --cancertype Prost-AdenoCA --typedata signatures --infile '../data/roo/Prost-AdenoCA_signatures_ROO.RDS' --output '../data/inference/Prost-AdenoCA_signatures_20000_MROO.RData' --niterations 20000 --model M
+#conda deactivate
+Submitted job 31 with external jobid 'Submitted batch job 25129983'.
+Terminating processes on user request, this might take some time.
+Will exit after finishing currently running jobs.
+Cancelling snakemake on user request.

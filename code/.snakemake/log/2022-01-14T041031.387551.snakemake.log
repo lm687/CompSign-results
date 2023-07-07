@@ -1,0 +1,97 @@
+Building DAG of jobs...
+Using shell: /usr/local/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	4	analyse_simulation_TMB_multiple
+	1	analyse_simulation_TMB_multiple_integrate
+	854	inference_simulation_TMB_multiple
+	213	simulate_for_comparison_multiple
+	1073
+
+[Fri Jan 14 04:10:46 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_fullREM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_ModelfullREM_NA_NA_NA_dataset2.log
+    jobid: 2693
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedstomachPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_fullREM_NA_NA_NA_dataset2.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Jan 14 04:10:49 2022]
+Finished job 2693.
+1 of 1073 steps (0.09%) done
+
+[Fri Jan 14 04:10:49 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_NA_NA_NA_dataset2.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_diagREDM_NA_NA_NA_dataset2.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_ModeldiagREDM_NA_NA_NA_dataset2.log
+    jobid: 4673
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedstomachPCAWG, n=50, nlambda=200, lmbda=80, d=4, beta_intensity=-10, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=2
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_NA_NA_NA_dataset2.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_50_200_80_4_-10_diagREDM_NA_NA_NA_dataset2.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Jan 14 04:10:55 2022]
+Finished job 4673.
+2 of 1073 steps (0.19%) done
+
+[Fri Jan 14 04:10:55 2022]
+rule simulate_for_comparison_multiple:
+    input: ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedstomachPCAWG
+    output: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_NA_NA_NA_dataset13.RDS
+    jobid: 6404
+    wildcards: datasetgeneration=GenerationMixturefewersignaturespairedstomachPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-999, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=13
+
+Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/GenerationMixturefewersignaturespairedstomachPCAWG.R --input ../data/assessing_models_simulation/GenerationMixturefewersignaturespairedstomachPCAWG --d 4 --n 200 --nlambda 200 --lambda 80 --beta_gamma_shape -999 --outfile ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_NA_NA_NA_dataset13.RDS --beta_intercept_input NA --beta_slope_input NA --sdRE_input NA
+[Fri Jan 14 04:10:55 2022]
+Finished job 6404.
+3 of 1073 steps (0.28%) done
+
+[Fri Jan 14 04:10:55 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_NA_NA_NA_dataset13.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_fullREDMsinglelambda_NA_NA_NA_dataset13.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_ModelfullREDMsinglelambda_NA_NA_NA_dataset13.log
+    jobid: 3764
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedstomachPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-999, model=fullREDMsinglelambda, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=13
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_NA_NA_NA_dataset13.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_fullREDMsinglelambda_NA_NA_NA_dataset13.RDS --model fullREDMsinglelambda --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Jan 14 04:11:11 2022]
+Finished job 3764.
+4 of 1073 steps (0.37%) done
+
+[Fri Jan 14 04:11:11 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_NA_NA_NA_dataset13.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_fullREM_NA_NA_NA_dataset13.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_ModelfullREM_NA_NA_NA_dataset13.log
+    jobid: 3104
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedstomachPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-999, model=fullREM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=13
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_NA_NA_NA_dataset13.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_fullREM_NA_NA_NA_dataset13.RDS --model fullREM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Jan 14 04:11:17 2022]
+Finished job 3104.
+5 of 1073 steps (0.47%) done
+
+[Fri Jan 14 04:11:17 2022]
+rule inference_simulation_TMB_multiple:
+    input: ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_NA_NA_NA_dataset13.RDS
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_diagREDM_NA_NA_NA_dataset13.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_ModeldiagREDM_NA_NA_NA_dataset13.log
+    jobid: 5084
+    wildcards: optimiser=nlminb, datasetgeneration=GenerationMixturefewersignaturespairedstomachPCAWG, n=200, nlambda=200, lmbda=80, d=4, beta_intensity=-999, model=diagREDM, fixed_beta_intercept=NA, fixed_beta_slope=NA, sdRE_input=NA, itnum=13
+
+Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_NA_NA_NA_dataset13.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_diagREDM_NA_NA_NA_dataset13.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+[Fri Jan 14 04:11:37 2022]
+Error in rule inference_simulation_TMB_multiple:
+    jobid: 5084
+    output: ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_diagREDM_NA_NA_NA_dataset13.RDS
+    log: logs/inference/nlminb/simulation_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_ModeldiagREDM_NA_NA_NA_dataset13.log (check log file(s) for error message)
+    shell:
+        Rscript 2_inference_TMB/run_TMB.R --input ../data/assessing_models_simulation/datasets/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_NA_NA_NA_dataset13.RDS --output ../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturefewersignaturespairedstomachPCAWG_200_200_80_4_-999_diagREDM_NA_NA_NA_dataset13.RDS --model diagREDM --optimiser nlminb  --use_previous_run_startingvals T
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/morril01/Documents/PhD/GlobalDA/code/.snakemake/log/2022-01-14T041031.387551.snakemake.log
