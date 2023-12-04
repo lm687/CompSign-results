@@ -1,5 +1,5 @@
 ## Ignored folders
-The data folder `data/` is restricted and therefore not available
+Some elements inside the data folder `data/` is restricted and therefore not available
 
 ## Environment
 To set up the environment, run
