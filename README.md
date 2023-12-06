@@ -5,8 +5,7 @@ Some elements inside the data folder `data/` is restricted and therefore not ava
 To set up the environment, run
 ```
 module load miniconda3-4.5.4-gcc-5.4.0-hivczbz
-conda create -n snakemake-globalDA -c conda-forge bioconda::snakemake bioconda::snakemake-minimal -c bioconda
-
+conda env create -f environment.yaml
 ```
 to enter the environment, type
 
