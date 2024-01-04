@@ -7,8 +7,8 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 ##-----------------------------------------------------------------------------------------------------##
 source("../2_inference_TMB/helper_TMB.R")
-source("../../../CDA_in_Cancer/code/functions/meretricious/pretty_plots/prettySignatures.R")
-source("../3_analysis/recovery_COSMIC_signatures/recover_COSMIC_signatures.R")
+# source("../../../CDA_in_Cancer/code/functions/meretricious/pretty_plots/prettySignatures.R")
+# source("../3_analysis/recovery_COSMIC_signatures/recover_COSMIC_signatures.R")
 
 library(TMB)
 library(ggrepel)
@@ -18,6 +18,7 @@ library(dplyr)
 library(jcolors)
 library(viridis)
 library(mutSigExtractor)
+library(reshape2)
 
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -64,6 +65,7 @@ read_info <- function(ct){
              fullREDMonefixedlambdanonexo_SPSaA = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDMonefixedlambdanonexo_", ct, "_signaturesPCAWGSaA.RDS"))),
              fullREM_MSE = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREM_", ct, "_signaturesMSE.RDS"))),
              fullREDM_MSE = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDM_", ct, "_signaturesMSE.RDS"))),
+             fullREDM_SP = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDM_", ct, "_signaturesPCAWG.RDS"))),
              fullREDM_nucleotide1 = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDM_", ct, "_nucleotidesubstitution1.RDS"))),
              diagREDM_MSE = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDM_", ct, "_signaturesMSE.RDS"))),
              dataset_all_sigs = load_PCAWG(ct = ct, typedata = "signaturesPCAWG", path_to_data = "../../data/", load_all_sigs = T, override_warning_X_Z = T),
@@ -3114,3 +3116,39 @@ CIs <- outer(1:ncol(YAPSA_res), 1:nrow(YAPSA_res), function(idx_sample, idx_sig)
            in_sig_df=sigs_cosmic0,  in_sigLevel = 0.05, in_delta = 0.4)
 })
 YAPSA_res$`f221c897-6ad0-0df9-e040-11ac0c4813ef`
+
+##-----------------------------------------------------------------------------------------------------##
+
+additional_results <- list()
+read_info_list <- lapply(enough_samples, read_info); names(read_info_list) <- enough_samples
+sapply(sapply(read_info_list, function(i) i$fullREDM_SP), typeof)
+## Bone-Osteosarc, 'Breast-AdenoCA', 'CNS-Medullo', 'CNS-PiloAstro', 'ColoRect-AdenoCA', 'Head-SCC',
+## 'Kidney-ChRCC', 'Kidney-RCC.clearcell', 'Kidney-RCC.papillary', 'Lymph-BNHL', 'Lymph-CLL',
+## 'Ovary-AdenoCA', 'Panc-AdenoCA', 'Panc-Endocrine', 'Skin-Melanoma.cutaneous'
+i = 'Stomach-AdenoCA'
+additional_results[[i]] <- wrapper_run_TMB(object = read_info_list[[i]]$dataset_active_sigs,
+                                                    model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
+additional_results[[i]]
+fileout <- paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDM_", i, '_signaturesPCAWG.RDS')
+stopifnot(!file.exists(fileout))
+saveRDS(object = additional_results[[i]], file = fileout)
+readRDS(file = fileout)
+
+##-----------------------------------------------------------------------------------------------------##
+
+theme_set(theme_bw())
+ggplot(cbind.data.frame(full=plot_betas(read_info_list$`Bone-Osteosarc`$fullREDM_SP, return_df = T),
+                 diag=plot_betas(read_info_list$`Bone-Osteosarc`$diagRE_DMDL_SP, return_df = T)),
+       aes(x=full.Estimate, y=diag.Estimate))+
+  geom_point()+geom_abline()
+
+
+xxxx <- (lapply(read_info_list, function(i) cbind.data.frame(full=plot_betas(i$fullREDM_SP, return_df = T),
+                 diag=plot_betas(i$diagRE_DMDL_SP, return_df = T))))
+sapply(xxxx, ncol)
+xxxx <- xxxx[sapply(xxxx, ncol) == 8] ## where we have both fullREDM_SP and diagRE_DMDL_SP
+head(xxxx[[1]])
+xxxx_melt <- melt(xxxx, id.vars=colnames(xxxx[[1]]))
+ggplot(xxxx_melt,
+       aes(x=full.Estimate, y=diag.Estimate))+
+  geom_point()+geom_abline()+facet_wrap(.~L1)
