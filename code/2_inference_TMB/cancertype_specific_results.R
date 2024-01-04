@@ -22,7 +22,7 @@ library(mutSigExtractor)
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
-enough_samples = read.table("../../data/restricted/pcawg/CT_sufficient_samples.txt", comment.char='#')[,1]
+enough_samples = read.table("../../data/pcawg/CT_sufficient_samples.txt", comment.char='#')[,1]
 enough_samples
 nonexogenous = read.table("../../data/cosmic/exogenous_signatures_SBS.txt", sep = "\t",
                           comment.char = "#", fill = F)
@@ -50,22 +50,22 @@ pcawg_meta2 <- read.table("../../data/restricted/pcawg/pcawg.wg11.final_sample_l
 
 ##-----------------------------------------------------------------------------------------------------##
 read_info <- function(ct){
-  .x <- list(fullRE_M_SP = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_", ct, "_signaturesPCAWG.RDS"))),
-             fullRE_DMSL_SP = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDMsinglelambda_", ct, "_signaturesPCAWG.RDS"))),
-             fullRE_M_nonexo_SP = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREMnonexo_", ct, "_signaturesPCAWG.RDS"))),
-             fullRE_DMSL_nonexo_SP = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDMsinglelambdanonexo_", ct, "_signaturesPCAWG.RDS"))),
-             diagRE_DMDL_SP = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_", ct, "_signaturesPCAWG.RDS"))),
-             diagRE_DMDL_nonexo_SP =  try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDMnonexo_", ct, "_signaturesPCAWG.RDS"))),
-             diagRE_DMDL_wSBS1SBS5nonexo_SP = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDMwSBS1SBS5nonexo_", ct, "_signaturesPCAWG.RDS"))),
-             fullREDMnoscaling_SP_nonexo =  try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDMnoscalingnonexo_", ct, "_signaturesPCAWG.RDS"))),
-             fullREDMnoscaling_SP_nonexo_subsets_and_amalgamations <- try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDMnoscalingnonexosubset_", ct, "_signaturesPCAWG.RDS"))),
-             fullREDMonefixedlambdanonexo_SP = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDMonefixedlambdanonexo_", ct, "_signaturesPCAWG.RDS"))),
-             fullREDMonefixedlambda2nonexo_SP = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDMonefixedlambda2nonexo_", ct, "_signaturesPCAWG.RDS"))),
-             fullREDMonefixedlambdanonexo_SPSaA = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDMonefixedlambdanonexo_", ct, "_signaturesPCAWGSaA.RDS"))),
-             fullREM_MSE = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREM_", ct, "_signaturesMSE.RDS"))),
-             fullREDM_MSE = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDM_", ct, "_signaturesMSE.RDS"))),
-             fullREDM_nucleotide1 = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/fullREDM_", ct, "_nucleotidesubstitution1.RDS"))),
-             diagREDM_MSE = try(readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_", ct, "_signaturesMSE.RDS"))),
+  .x <- list(fullRE_M_SP = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREM_", ct, "_signaturesPCAWG.RDS"))),
+             fullRE_DMSL_SP = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDMsinglelambda_", ct, "_signaturesPCAWG.RDS"))),
+             fullRE_M_nonexo_SP = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREMnonexo_", ct, "_signaturesPCAWG.RDS"))),
+             fullRE_DMSL_nonexo_SP = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDMsinglelambdanonexo_", ct, "_signaturesPCAWG.RDS"))),
+             diagRE_DMDL_SP = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDM_", ct, "_signaturesPCAWG.RDS"))),
+             diagRE_DMDL_nonexo_SP =  try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDMnonexo_", ct, "_signaturesPCAWG.RDS"))),
+             diagRE_DMDL_wSBS1SBS5nonexo_SP = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDMwSBS1SBS5nonexo_", ct, "_signaturesPCAWG.RDS"))),
+             fullREDMnoscaling_SP_nonexo =  try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDMnoscalingnonexo_", ct, "_signaturesPCAWG.RDS"))),
+             fullREDMnoscaling_SP_nonexo_subsets_and_amalgamations <- try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDMnoscalingnonexosubset_", ct, "_signaturesPCAWG.RDS"))),
+             fullREDMonefixedlambdanonexo_SP = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDMonefixedlambdanonexo_", ct, "_signaturesPCAWG.RDS"))),
+             fullREDMonefixedlambda2nonexo_SP = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDMonefixedlambda2nonexo_", ct, "_signaturesPCAWG.RDS"))),
+             fullREDMonefixedlambdanonexo_SPSaA = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDMonefixedlambdanonexo_", ct, "_signaturesPCAWGSaA.RDS"))),
+             fullREM_MSE = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREM_", ct, "_signaturesMSE.RDS"))),
+             fullREDM_MSE = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDM_", ct, "_signaturesMSE.RDS"))),
+             fullREDM_nucleotide1 = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDM_", ct, "_nucleotidesubstitution1.RDS"))),
+             diagREDM_MSE = try(readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDM_", ct, "_signaturesMSE.RDS"))),
              dataset_all_sigs = load_PCAWG(ct = ct, typedata = "signaturesPCAWG", path_to_data = "../../data/", load_all_sigs = T, override_warning_X_Z = T),
              dataset_active_sigs = load_PCAWG(ct = ct, typedata = "signaturesPCAWG", path_to_data = "../../data/", override_warning_X_Z = T),
              dataset_nucleotidesubstitution1 = load_PCAWG(ct = ct, typedata = "nucleotidesubstitution1", path_to_data = "../../data/", override_warning_X_Z = T),
@@ -473,9 +473,9 @@ read_info_list[[ct]]$diagREDM_MSE
 
 # fullDM_MSE[[ct]] <- wrapper_run_TMB(object = mutsigexposures[[ct]],
 #                                         model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
-# saveRDS(object = fullDM_MSE[[ct]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_MSE', '.RDS'))
+# saveRDS(object = fullDM_MSE[[ct]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_MSE', '.RDS'))
 # 
-# saveRDS(object = fullDM_MSE[[ct]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_MSEnonexo', '.RDS'))
+# saveRDS(object = fullDM_MSE[[ct]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_MSEnonexo', '.RDS'))
 # 
 # .a <- give_barplot_from_obj(mutsigexposures[[ct]], legend_on = T, legend_bottom = T, plot=F, arg_title='')
 # 
@@ -604,10 +604,10 @@ fullRE_DMDL_features[[ct]] =  wrapper_run_TMB(object = read_info_list[[ct]]$data
 
 fullRE_DMDL_nonhypermutated =  wrapper_run_TMB(object =give_subset_samples_TMBobj( read_info_list[[ct]]$dataset_active_sigs, samples_to_remove = hypermut),
                                         model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(object = fullRE_DMDL_nonhypermutated, file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
-fullRE_DMDL_nonhypermutated <- readRDS( file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
+saveRDS(object = fullRE_DMDL_nonhypermutated, file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
+fullRE_DMDL_nonhypermutated <- readRDS( file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
 
-saveRDS(object = give_subset_samples_TMBobj( read_info_list[[ct]]$dataset_active_sigs, samples_to_remove = hypermut), file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'ROO_nonhypermutated', '.RDS'))
+saveRDS(object = give_subset_samples_TMBobj( read_info_list[[ct]]$dataset_active_sigs, samples_to_remove = hypermut), file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'ROO_nonhypermutated', '.RDS'))
 
 reorder_cols_first_to_last_TMBobj <- function(TMB_obj){
   .x <- colnames(TMB_obj$Y)
@@ -719,25 +719,25 @@ ggsave(paste0("../../results/results_TMB/pcawg/reports_per_cancer_type/", ct, '_
 
 diagDM_newsigs[[paste0(ct, '_2')]] <- wrapper_run_TMB(object = new_sigs[[paste0(ct, '_2')]],
                                                       model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(diagDM_newsigs[[paste0(ct, '_2')]],  file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs2', '.RDS'))
+saveRDS(diagDM_newsigs[[paste0(ct, '_2')]],  file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs2', '.RDS'))
 diagDM_newsigs[[paste0(ct, '_2MSE')]] <- wrapper_run_TMB(object = new_sigs[[paste0(ct, '_2MSE')]],
                                                       model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
 
 diagDM_newsigs[[paste0(ct, '_3')]] <- wrapper_run_TMB(object = new_sigs[[paste0(ct, '_3')]],
                                                       model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(diagDM_newsigs[[paste0(ct, '_3')]],  file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs3', '.RDS'))
+saveRDS(diagDM_newsigs[[paste0(ct, '_3')]],  file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs3', '.RDS'))
 
 diagDM_newsigs[[paste0(ct, '_4')]] <- wrapper_run_TMB(object = new_sigs[[paste0(ct, '_4')]],
                                                       model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(diagDM_newsigs[[paste0(ct, '_4')]],  file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs4', '.RDS'))
+saveRDS(diagDM_newsigs[[paste0(ct, '_4')]],  file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs4', '.RDS'))
 
 diagDM_newsigs[[paste0(ct, '_10')]] <- wrapper_run_TMB(object = new_sigs[[paste0(ct, '_10')]],
                                                       model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(diagDM_newsigs[[paste0(ct, '_10')]],  file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs4', '.RDS'))
+saveRDS(diagDM_newsigs[[paste0(ct, '_10')]],  file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs4', '.RDS'))
 
 diagDM_newsigs[[paste0(ct, '_11')]] <- wrapper_run_TMB(object = new_sigs[[paste0(ct, '_11')]],
                                                        model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(diagDM_newsigs[[paste0(ct, '_11')]],  file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs4', '.RDS'))
+saveRDS(diagDM_newsigs[[paste0(ct, '_11')]],  file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_reextractionsubsetsigs4', '.RDS'))
 
 
 pdf(paste0("../../results/results_TMB/pcawg/reports_per_cancer_type/", ct, "_report4sigreextract.pdf"),
@@ -783,8 +783,8 @@ fullRE_DMDL_nonhypermutated =  wrapper_run_TMB(object =give_subset_samples_TMBob
                                                model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
 diagRE_DMDL_nonhypermutated =  wrapper_run_TMB(object =give_subset_samples_TMBobj( read_info_list[[ct]]$dataset_active_sigs, samples_to_remove = hypermut),
                                                model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(object = fullRE_DMDL_nonhypermutated, file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
-saveRDS(object = diagRE_DMDL_nonhypermutated, file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_nonhypermutated', '.RDS'))
+saveRDS(object = fullRE_DMDL_nonhypermutated, file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
+saveRDS(object = diagRE_DMDL_nonhypermutated, file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_nonhypermutated', '.RDS'))
 
 plot_betas(diagRE_DMDL_nonhypermutated, read_info_list[[ct]]$logR_notsorted_SP)
 
@@ -1091,7 +1091,7 @@ colSums(amalgamated_extra[[ct]]$Y)
 fullRE_DMDL_extra[[ct]] <- wrapper_run_TMB(object = amalgamated_extra[[ct]],
                                            model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
 fullRE_DMDL_extra[[ct]]
-saveRDS(object = fullRE_DMDL_extra[[ct]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_subset', '.RDS'))
+saveRDS(object = fullRE_DMDL_extra[[ct]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_subset', '.RDS'))
 wald_TMB_wrapper(fullRE_DMDL_extra[[ct]])
 
 pdf(paste0("../../results/results_TMB/pcawg/reports_per_cancer_type/", ct, "_report2.pdf"), onefile=FALSE, height = 12)
@@ -1126,7 +1126,7 @@ dataset_subset <- give_subset_sigs_TMBobj( read_info_list[[ct]]$dataset_active_s
 diagRE_DMDL_subset =  wrapper_run_TMB(object = dataset_subset,
                                                model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
 diagRE_DMDL_subset
-saveRDS(object = diagRE_DMDL_subset, file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_subset', '.RDS'))
+saveRDS(object = diagRE_DMDL_subset, file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_subset', '.RDS'))
 
 ## there are many active signatures
 load_PCAWG(ct = ct, typedata = "signaturesPCAWG", path_to_data = "../../data/")
@@ -1202,7 +1202,7 @@ compare_signaturefit_to_data(new_sigs[[paste0(ct, '_5')]], read_info_list[[ct]]$
 
 fullDM_newsigs[[paste0(ct, '_5')]] <- wrapper_run_TMB(object = new_sigs[[paste0(ct, '_5')]],
                                                       model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(object = fullDM_newsigs[[paste0(ct, '_5')]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_subset5', '.RDS'))
+saveRDS(object = fullDM_newsigs[[paste0(ct, '_5')]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_subset5', '.RDS'))
 
 diagDM_newsigs[[paste0(ct, '_5')]] <- wrapper_run_TMB(object = new_sigs[[paste0(ct, '_5')]],
                                                       model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
@@ -1481,9 +1481,9 @@ plot_betas(diagDM_newsigs[[paste0(ct, '_7')]], names_cats =  vector_cats_to_logR
 plot_betas(fullDM_newsigs[[paste0(ct, '_7')]], names_cats =  vector_cats_to_logR(colnames(new_sigs[[paste0(ct, '_7')]]$Y)), sort_by_slope = T)
 
 saveRDS(fullDM_newsigs[[paste0(ct, '_5')]],
-        file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_subset5', '.RDS'))
+        file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_subset5', '.RDS'))
 saveRDS(diagDM_newsigs[[paste0(ct, '_5')]],
-        file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_subset5', '.RDS'))
+        file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_subset5', '.RDS'))
 
 
 # pdf(paste0("../../results/results_TMB/pcawg/reports_per_cancer_type/", ct, "_betas_subset.pdf"), onefile=FALSE, height = 3, width = 5)
@@ -1742,15 +1742,15 @@ fullRE_DMDL_extra[[ct]] <- wrapper_run_TMB(object = amalgamated_extra[[ct]],
                                            model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
 
 fullRE_DMDL_extra[[ct]]
-saveRDS(object = fullRE_DMDL_extra[[ct]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
-# fullRE_DMDL_extra[[ct]] = readRDS(paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
+saveRDS(object = fullRE_DMDL_extra[[ct]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
+# fullRE_DMDL_extra[[ct]] = readRDS(paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
 
 amalgamated_extra[[paste0(ct, '_2')]] <- (give_amalgamated_exposures_TMBobj(give_subset_samples_TMBobj( read_info_list[[ct]]$dataset_active_sigs, samples_to_remove = hypermut),
                                                               list_groupings = c(list(c('SBS3', 'SBS5')),
                                                                                  as.list(colnames(read_info_list[[ct]]$dataset_active_sigs$Y)[!(colnames(read_info_list[[ct]]$dataset_active_sigs$Y) %in% c('SBS3', 'SBS5'))]))))
 diagRE_DMDL_extra[[ct]] <- wrapper_run_TMB(object = amalgamated_extra[[paste0(ct, '_2')]],
                                            model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(object = diagRE_DMDL_extra[[ct]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_nonhypermutated', '.RDS'))
+saveRDS(object = diagRE_DMDL_extra[[ct]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_nonhypermutated', '.RDS'))
 
 amalgamated_extra[[paste0(ct, '_3')]] <- (give_amalgamated_exposures_TMBobj(give_subset_samples_TMBobj( read_info_list[[ct]]$dataset_active_sigs, samples_to_remove = hypermut),
                                                                             list_groupings = c(list(c('SBS3', 'SBS5'),
@@ -1758,7 +1758,7 @@ amalgamated_extra[[paste0(ct, '_3')]] <- (give_amalgamated_exposures_TMBobj(give
                                                                                                as.list(colnames(read_info_list[[ct]]$dataset_active_sigs$Y)[!(colnames(read_info_list[[ct]]$dataset_active_sigs$Y) %in% c('SBS3', 'SBS5', 'SBS8', 'SBS13'))]))))
 diagRE_DMDL_extra[[paste0(ct, '_3')]] <- wrapper_run_TMB(object = amalgamated_extra[[paste0(ct, '_3')]],
                                            model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(object = diagRE_DMDL_extra[[paste0(ct, '_3')]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, '_3diagRE_DMDL_nonhypermutated', '.RDS'))
+saveRDS(object = diagRE_DMDL_extra[[paste0(ct, '_3')]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, '_3diagRE_DMDL_nonhypermutated', '.RDS'))
 
 
 pdf(paste0("../../results/results_TMB/pcawg/reports_per_cancer_type/", ct, "_report2.pdf"), onefile=FALSE, height = 12)
@@ -1898,7 +1898,7 @@ amalgamated_extra[[ct]] <- (give_amalgamated_exposures_TMBobj(give_subset_sample
                                                                                  as.list(colnames(read_info_list[[ct]]$dataset_active_sigs$Y)[!(colnames(read_info_list[[ct]]$dataset_active_sigs$Y) %in% c('SBS40', 'SBS33', 'SBS37'))]))))
 fullRE_DMDL_extra[[ct]] <- wrapper_run_TMB(object = amalgamated_extra[[ct]],
                                            model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(object = fullRE_DMDL_extra[[ct]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
+saveRDS(object = fullRE_DMDL_extra[[ct]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
 
 
 pdf(paste0("../../results/results_TMB/pcawg/reports_per_cancer_type/", ct, "_report2.pdf"), onefile=FALSE, height = 12)
@@ -1958,7 +1958,7 @@ amalgamated_extra[[paste0(ct)]] <- (give_amalgamated_exposures_TMBobj(read_info_
                                           as.list(colnames(read_info_list[[ct]]$dataset_active_sigs$Y)[!(colnames(read_info_list[[ct]]$dataset_active_sigs$Y) %in% c('SBS20', 'SBS43', 'SBS44', 'SBS26', 'SBS28', 'SBS5', 'SBS9'))]))))
 diagRE_DMDL_extra[[ct]] <- wrapper_run_TMB(object = amalgamated_extra[[paste0(ct)]],
                                            model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
-saveRDS(object = diagRE_DMDL_extra[[paste0(ct)]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, '_diagRE_DMDL_amalgamation', '.RDS'))
+saveRDS(object = diagRE_DMDL_extra[[paste0(ct)]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, '_diagRE_DMDL_amalgamation', '.RDS'))
 
 
 pdf(paste0("../../results/results_TMB/pcawg/reports_per_cancer_type/", ct, "_report2.pdf"), onefile=FALSE, height = 12)
@@ -2001,7 +2001,7 @@ amalgamated_extra[[ct]] <- give_amalgamated_exposures_TMBobj(give_subset_samples
 fullRE_DMDL_extra[[ct]] <- wrapper_run_TMB(object = amalgamated_extra[[ct]],
                                            model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
 fullRE_DMDL_extra[[ct]]
-saveRDS(object = fullRE_DMDL_extra[[ct]], file = paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
+saveRDS(object = fullRE_DMDL_extra[[ct]], file = paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_nonhypermutated', '.RDS'))
 
 
 
@@ -2126,7 +2126,7 @@ python_like_select(list.files("../../results/results_TMB/pcawg/reports_per_cance
 ## Analysing the number of mutations in each group 
 #'  there is an increase in variance from clonal to subclonal in the majority of cancer types.
 #'  Can it be because there are fewer mutations in clonal than in subclonal, for most cancer types?
-#'  Answer: no. whether the overdispersion is hihger in the first or second group does not depend on
+#'  Answer: no. whether the overdispersion is higher in the first or second group does not depend on
 #'  whether there are more mutations in one group or the other, since there are three ct (of the 23) 
 #'  with more mutations in the second group than in the first: CNS-GBM, CNS-PiloAstro, ColoRect-AdenoCA,
 #'   and of those only piloastro has a higher dispersion in the first group.
@@ -2148,10 +2148,10 @@ ggplot(num_muts_groups, aes(x=L1, y=value, group=group, col=group))+geom_bar(sta
 # KRCC_DMDL <- wrapper_run_TMB(object = read_info_list$`Kidney-RCC.papillary`$dataset_active_sigs,
 #                      model = "diagRE_DM", use_nlminb=T, smart_init_vals=F, return_opt=T)
 # KRCC_DMDLworked <- KRCC_DMDL
-# system("mv ../../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Kidney-RCC.papillary_signaturesPCAWG.RDS ../../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Kidney-RCC.papillary_signaturesPCAWG_prev.RDS")
-# saveRDS(KRCC_DMDL$return_report, paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_", 
+# system("mv ../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDM_Kidney-RCC.papillary_signaturesPCAWG.RDS ../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDM_Kidney-RCC.papillary_signaturesPCAWG_prev.RDS")
+# saveRDS(KRCC_DMDL$return_report, paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDM_", 
 #                           "Kidney-RCC.papillary", "_signaturesPCAWG.RDS"))
-# saveRDS(KRCC_DMDL$return_report, paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_", 
+# saveRDS(KRCC_DMDL$return_report, paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDM_", 
 #                                         "Kidney-RCC.papillary", "_signaturesPCAWG_whole_nlminb.RDS"))
 
 diagRE_DMDL <- lapply(read_info_list, function(i) i$diagRE_DMDL_SP)
@@ -2192,10 +2192,10 @@ list_files_pcawg_subclonal <- list.files("../../data/restricted/pcawg/consensus_
 list_files_pcawg_subclonal <- list_files_pcawg_subclonal[grep('cluster_assignments', list_files_pcawg_subclonal)]
 
 num_clusters <- sapply(list_files_pcawg_subclonal, function(i) python_like_select(colnames(read.table(i, head=T)), 'cluster'))
-saveRDS(num_clusters, "../../data/pcawg_robjects_cache/num_clusters_samples.RDS")
+saveRDS(num_clusters, "../../results/results_TMB/pcawg_robjects/num_clusters_samples.RDS")
 
 clusters_probs <- sapply(list_files_pcawg_subclonal, function(i) python_like_select_colnames(read.table(i, head=T), 'cluster'))
-saveRDS(clusters_probs, "../../data/pcawg_robjects_cache/clusters_probs_samples.RDS")
+saveRDS(clusters_probs, "../../results/results_TMB/pcawg_robjects/clusters_probs_samples.RDS")
 
 num_clusters_df <- data.frame(num_clusters=sapply(num_clusters, length),
                               sample=gsub("_cluster_assignments.txt.gz", "", basename(names(num_clusters))))
@@ -2606,16 +2606,16 @@ for(ct in enough_samples){
   fullDM_tracksig[[ct]] <- wrapper_run_TMB(object = tracksig_exposures[[ct]],
                                           model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
   saveRDS(fullDM_tracksig[[ct]],
-          paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_tracksig', '.RDS'))
+          paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'fullRE_DMDL_tracksig', '.RDS'))
 
   diagDM_tracksig[[ct]] <- wrapper_run_TMB(object = tracksig_exposures[[ct]],
                                            model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
   saveRDS(diagDM_tracksig[[ct]],
-          paste0("../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_tracksig', '.RDS'))
+          paste0("../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/", ct, 'diagRE_DMDL_tracksig', '.RDS'))
 
 }
 
-ff <- list.files('../../data/pcawg_robjects_cache/tmb_results/nlminb/particular_runs/')
+ff <- list.files('../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/particular_runs/')
 ff <- ff[grepl('tracksig', ff)]
 ff
 
@@ -2773,7 +2773,7 @@ ggplot(increases_matrix_melt,
   labs(x='',y='', size='Number of samples in common', col='Fraction of higher coefficients')
 ggsave("/Users/morril01/Documents/PhD/GlobalDA/code/2_inference_TMB/summary_TMB_PCAWG_SP_files/figure-latex/comparison_order_coefficients_heatmap.pdf",
        height = 8, width = 7)
-saveRDS(increases_matrix_melt, "../../data/pcawg_robjects_cache/increases_matrix_melt.RDS")
+saveRDS(increases_matrix_melt, "../../results/results_TMB/pcawg_robjects/increases_matrix_melt.RDS")
 
 cowplot::plot_grid(cowplot::plot_grid(plot.new(), ggplot(increases_matrix_melt,
                           aes(x=Var1, y=Var2, col=value,size=size))+geom_point()+theme_bw()+ # shape=(value>0.5), 
@@ -3032,7 +3032,7 @@ ggplot(cors_softmax_meltv2_all_sigs, aes(x=factor(num_common_sigs.Var1, levels =
   theme(axis.text.x=element_text(angle = 45, hjust = 1, vjust=1))+
   labs(x='',y='', size='Number of signatures in common', col='Pearson correlation')
 ggsave("../../code/2_inference_TMB/summary_TMB_PCAWG_SP_files/figure-latex/comparison_order_coefficients_heatmap_all_sigs.pdf", height=5.5, width = 5.2)
-saveRDS(cors_softmax_meltv2_all_sigs, "../../data/pcawg_robjects_cache/cors_softmax_meltv2_all_sigs.RDS")
+saveRDS(cors_softmax_meltv2_all_sigs, "../../results/results_TMB/pcawg_robjects/cors_softmax_meltv2_all_sigs.RDS")
 
 tikzDevice::tikz("../../code/2_inference_TMB/summary_TMB_PCAWG_SP_files/figure-latex/comparison_order_coefficients_heatmap_all_sigs.tex", height=6.5, width = 6)
 ggplot(cors_softmax_meltv2_all_sigs, aes(x=factor(num_common_sigs.Var1, levels = all_diagREDMDL_betas_softmax_allsigs_v2_cors_hclust$labels[all_diagREDMDL_betas_softmax_allsigs_v2_cors_hclust$order]),

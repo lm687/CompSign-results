@@ -153,196 +153,7 @@ rule all:
       # expand("../data/roo/{cancer_type}_{feature_type}_ROO.RDS", feature_type="signaturesmutSigExtractor", cancer_type=cancer_types),
       # expand("../data/roo/{cancer_type}_{feature_type}_ROO.RDS", feature_type="signaturesPCAWG", cancer_type=cancer_types)
       # expand("../data/roo/{cancer_type}_signaturesMSE_ROO2.RDS", cancer_type=[x for x in cancer_types if not any(y in x for y in ['Myeloid-AML','Breast-DCIS', 'Melanoma.mucosal'])]) ## mutsigextractor on pcawg signatures
-      # [Inference] Running stan code on PCAWG
-      # expand("../data/inference/{cancer_type}_{feature_type}_{nits}_{model}ROO.RData", feature_type=config["feature_types"], cancer_type=cancer_types, nits=num_iterations, model=models)
-      ## [Inference] Running TMB on PCAWG
-      # expand("../data/pcawg_robjects_cache/tmb_results/nlminb/{model}_{cancer_type}_{feature_type}.RDS", feature_type="signaturesPCAWG",
-      #   cancer_type=[x for x in cancer_types if not any(y in x for y in ['Myeloid-AML','Breast-DCIS', 'Melanoma.mucosal'])],\
-      # model=['fullREM', 'fullREDM', 'diagREDM', 'fullREDMsinglelambda'])
-      ## signaturesMSE: PCAWG signatures from mutsigextractor
-      # expand("../data/pcawg_robjects_cache/tmb_results/nlminb/{model}_{cancer_type}_{feature_type}.RDS", feature_type="signaturesMSE",
-      # cancer_type=[x for x in cancer_types if not any(y in x for y in ['Myeloid-AML','Breast-DCIS', 'Melanoma.mucosal'])],\
-      # model=['fullREM', 'fullREDM', 'diagREDM'])
-      # expand("../data/pcawg_robjects_cache/tmb_results/nlminb/{model}nonexo_{cancer_type}_{feature_type}.RDS",\
-      # feature_type="signaturesPCAWG", cancer_type=[x for x in cancer_types if not any(y in x for y in ['Myeloid-AML','Breast-DCIS', 'Melanoma.mucosal'])],\
-      # model=['fullREM', 'fullREDMsinglelambda', 'diagREDMsinglelambda', 'diagREDM', 'fullREDMnoscaling', 'fullREDMonefixedlambda', 'fullREDMonefixedlambda2'])
-      # expand("../data/pcawg_robjects_cache/tmb_results/nlminb/{model}nonexo_{cancer_type}_{feature_type}.RDS", feature_type="signaturesPCAWGSaA",\
-      #  cancer_type=[x.split('_')[0] for x in listdir('/Users/morril01/Documents/PhD/GlobalDA/data/roo/') if "signaturesPCAWGSaA" in x],\
-      #  model=['fullREDMonefixedlambda'])
-      # [expand("../data/pcawg_robjects_cache/tmb_results/nlminb/{model}nonexo_{cancer_type}_{feature_type}.RDS", feature_type="signaturesmutSigExtractor",\
-      # cancer_type=[x.split('_')[0] for x in listdir('/Users/morril01/Documents/PhD/GlobalDA/data/roo/') if "signaturesmutSigExtractor" in x],\
-      # model=['fullREM', 'fullREDM', 'diagREDM']),
-      # expand("../data/pcawg_robjects_cache/tmb_results/nlminb/{model}_{cancer_type}_{feature_type}.RDS",\
-      # feature_type="nucleotidesubstitution1", cancer_type=[x for x in cancer_types if not any(y in x for y in ['Myeloid-AML','Breast-DCIS', 'Melanoma.mucosal'])],\
-      # model=['fullREDM'])
-      # expand("../data/pcawg_robjects_cache/tmb_results/nlminb/{model}wSBS1SBS5nonexo_{cancer_type}_{feature_type}.RDS", feature_type="signaturesPCAWG",
-      #   cancer_type=[x for x in cancer_types if not any(y in x for y in ['Myeloid-AML','Breast-DCIS', 'Melanoma.mucosal'])],\
-      # model=['diagREDM'])
-      ## [Benchmarking] Creating synthetic datasets
-      # expand("../data/assessing_models_simulation/datasets/{datasetgeneration}_{n}_{nlambda}_{d}_{beta_intensity}_dataset.RDS", datasetgeneration="20200625",  n=config["simulation_n"], nlambda=config["simulation_nlambda"], d=config["simulation_d"], beta_intensity = config["beta_gamma_shape"])
-      ## [Benchmarking] Performing inference on the simulated datasets
-      # expand("../data/assessing_models_simulation/inference_results/{datasetgeneration}_n{n}_nlambda{nlambda}_lambda{lmbda}_d{d}_beta_intensity{beta_intensity}_Nits{nits}_Model{model}ROO.RData", datasetgeneration="20200625",  n=config["simulation_n"], nlambda=config["simulation_nlambda"], lmbda=10, d=config["simulation_d"], beta_intensity = config["beta_gamma_shape"], nits=num_iterations, model=models)
-      ## [Benchmarking] Creating synthetic datasets (Generation C and later)
-      # expand("../data/assessing_models_simulation/datasets/{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_dataset.RDS",
-      #  datasetgeneration="GenerationC",  n=config["simulation_n_generationC"], nlambda=config["simulation_nlambda_generationC"],
-      #  lmbda=config["simulation_lambda_generationC"], d=config["simulation_d_generationC"],\
-      #  beta_intensity = config["beta_gamma_shape_generationC"])
-      # expand("../data/assessing_models_simulation/datasets/{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_dataset.RDS",
-      # datasetgeneration="GenerationCnorm",  n=config["simulation_n_generationC"], nlambda=config["simulation_nlambda_generationC"],
-      # lmbda=config["simulation_lambda_generationC"], d=config["simulation_d_generationC"],\
-      # beta_intensity = config["beta_gamma_shape_generationC"])
-      # expand("../data/assessing_models_simulation/datasets/{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_dataset.RDS",
-      #  datasetgeneration="GenerationD",  n=config["simulation_n_generationD"], nlambda=config["simulation_nlambda_generationD"],
-      #  lmbda=config["simulation_lambda_generationD"], d=config["simulation_d_generationD"],\
-      #  beta_intensity = config["beta_gamma_shape_generationD"])
-      # expand("../data/assessing_models_simulation/datasets/{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_dataset.RDS",
-      # datasetgeneration="GenerationE",  n=config["simulation_n_generationE"], nlambda=config["simulation_nlambda_generationE"],
-      # lmbda=config["simulation_lambda_generationE"], d=config["simulation_d_generationE"],\
-      # beta_intensity = config["beta_gamma_shape_generationE"])
-      ## [Benchmarking] Performing inference on the simulated datasets (Generation C onwards)
-      # expand("../data/assessing_models_simulation/inference_results/{datasetgeneration}_n{n}_nlambda{nlambda}_lambda{lmbda}_d{d}_beta_intensity{beta_intensity}_Nits{nits}_Model{model}ROO.RData",\
-      #  datasetgeneration="GenerationE",  n=config["simulation_n_generationE"], nlambda=config["simulation_nlambda_generationE"],
-      #  lmbda=config["simulation_lambda_generationE"], d=config["simulation_d_generationE"],\
-      #  beta_intensity = config["beta_gamma_shape_generationE"], nits=num_iterations, model=models)
-      # expand("../data/assessing_models_simulation/inference_results/TMB/nlminb/{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}.RDS",\
-      #  datasetgeneration="GenerationCnorm",  n=config["simulation_n_generationC"], nlambda=config["simulation_nlambda_generationC"],
-      #  lmbda=config["simulation_lambda_generationC"], d=config["simulation_d_generationC"],\
-      # beta_intensity = config["beta_gamma_shape_generationC"], nits=num_iterations, model=['diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationCnorm', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationInoRE', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      ## now use the multiple function instead, so we can have multiple runs from the same set of parameteres
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationCnorm', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      #   datasetgeneration=['GenerationJnorm', 'GenerationJnorm2', 'GenerationJnorm3'], model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationInoRE', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #  datasetgeneration='GenerationInoREscaledbeta', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='generationFnorm', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      #expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #  datasetgeneration='GenerationCnorm', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationHnorm', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationCnorm', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationInoRE', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      ## now use the multiple function instead, so we can have multiple runs from the same set of parameteres
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration=['GenerationJnorm', 'GenerationJnorm2', 'GenerationJnorm3'], model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationInoRE', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #  datasetgeneration='GenerationInoREscaledbeta', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='generationFnorm', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      #expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #  datasetgeneration='GenerationCnorm', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationHnorm', model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='GenerationCnorm', model='fullREM')
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      # datasetgeneration='GenerationCnormsimpler', model='fullREM')
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      # datasetgeneration='GenerationCnormsimpler', model='fullREDM')
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      #   datasetgeneration='generationMGnorm', model='fullREM')
-      # expand("../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_dataset{itnum}.RDS",
-      #   datasetgeneration="GenerationCnorm",  n=80, nlambda=180,
-      #   lmbda=9, d=6,\
-      #   beta_intensity = 0, itnum=range(100),
-      #   fixed_beta_intercept="betaintercept1",
-      #   fixed_beta_slope="betaslope1")
-      # expand("../data/assessing_models_simulation/inference_results/TMB/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_it{itnum}.RDS",\
-      #  datasetgeneration="GenerationCnorm",  n=80, nlambda=180,\
-      #  lmbda=9, d=6,\
-      #  beta_intensity = 0, model="diagREM", itnum=range(100),
-      #  fixed_beta_intercept="betaintercept2",
-      # fixed_beta_slope="betaslope2")
-      # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_it{itnum}.RDS",\
-      #  datasetgeneration="GenerationDMFE1",  n=80, nlambda=180,\
-      #  d=6, lmbda=100,\
-      #  beta_intensity = 0, model="FEDMsinglelambda", itnum=range(100),\
-      #  fixed_beta_intercept="betaintercept1", sdRE_input=1,\
-      # fixed_beta_slope="betaslope1", optimiser='nlminb')
-      #expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",\
-      #datasetgeneration="GenerationMGnorm",  n=80, nlambda=180,\
-      #d=6, lmbda=100,\
-      #beta_intensity = 0, model=["fullREDMonefixedlambda", "fullREDMonefixedlambda3", "diagREDM"], itnum=range(100),\
-      #beta_intensity = 0, model=["diagREDM"], itnum=range(1000),\
-      #fixed_beta_intercept="betaintercept3",\
-      #sdRE_input='sdRE1',\
-      #fixed_beta_slope="betaslope3", optimiser='nlminb')
-      #expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",\
-      #datasetgeneration="GenerationMGnorm",  n=200, nlambda=180,\
-      #d=6, lmbda=100,\
-      #beta_intensity = 0, model=["diagREDM"], itnum=range(1000),\
-      ##beta_intensity = 0, model=["fullREDM", "diagREDM"], itnum=range(1000),\
-      #fixed_beta_intercept="betaintercept3",\
-      #sdRE_input='sdRE1',\
-      #fixed_beta_slope="betaslope3", optimiser='nlminb')
-      #  expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",\
-      # datasetgeneration="GenerationJnorm",  n=200, nlambda=180,\
-      # d=5, lmbda=100,\
-      # beta_intensity = 0, model=["diagREDM"], itnum=range(1000),\
-      # fixed_beta_intercept="betaintercept1d4",\
-      # sdRE_input='cov1d4',\
-      # fixed_beta_slope="betaslope1d4", optimiser='nlminb')
-      # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_it{itnum}.RDS",\
-      # 	datasetgeneration="GenerationHnorm",  n=80, nlambda=180,\
-      # 	lmbda=5, d=5,\
-      # 	beta_intensity = 0, model="fullREDMsinglelambda", itnum=range(100),\
-      # 	fixed_beta_intercept="betaintercept1d4", sdRE_input="covmat1d4",\
-      # 	fixed_beta_slope="betaslope1d4", optimiser='nlminb')
-       # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",\
-      # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",\
-      #   datasetgeneration="GenerationMixture1",  n=config["simulation_n_generationMixture1"], nlambda=config["simulation_nlambda_generationMixture1"],\
-      #   lmbda=0, d=config["simulation_d_generationMixture1"],\
-      #   beta_intensity = config["beta_gamma_shape_generationMixture1"], model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'],\
-      #   itnum=range(numreplicates['GenerationMixture1']),\
-      #   fixed_beta_intercept="NA", sdRE_input="NA",\
-      #   fixed_beta_slope="NA", optimiser='nlminb')
-      #  expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",\
-      #  datasetgeneration="GenerationJnormTwoLambdasOneChangingBeta",\
-      ##  n=config["simulation_n_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      #  nlambda=config["simulation_nlambda_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      #  lmbda=config["simulation_lambda_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      ##  d=config["simulation_d_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      #  beta_intensity = config["beta_gamma_shape_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      #  model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'],\
-      #  itnum=range(numreplicates['GenerationJnormTwoLambdasOneChangingBeta']),\
-      #  fixed_beta_intercept="NA", sdRE_input="NA",\
-      #  fixed_beta_slope="NA", optimiser='nlminb')
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      # datasetgeneration=['GenerationJnormTwoLambdasOneChangingBeta', 'GenerationJnormBTwoLambdasOneChangingBeta'],\
-      # model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      #-------
-      ## simulation with poisson
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      # datasetgeneration=['GenerationPois'],\
-      # model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=[ 'GenerationPois'])
-      #-------
-      # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",\
-      # datasetgeneration="GenerationJnormTwoLambdasOneChangingBeta",\
-      # n=config["simulation_n_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      # nlambda=config["simulation_nlambda_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      # lmbda=config["simulation_lambda_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      # d=config["simulation_d_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      # beta_intensity = config["beta_gamma_shape_"+datasetgeneration2_dict['GenerationJnormTwoLambdasOneChangingBeta']],\
-      # model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'],\
-      # itnum=range(numreplicates['GenerationJnormTwoLambdasOneChangingBeta']),\
-      # fixed_beta_intercept="NA", sdRE_input="NA",\
-      # fixed_beta_slope="NA", optimiser='nlminb')
-      # expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-      # datasetgeneration=['GenerationJnormTwoLambdasOneChangingBeta', 'GenerationJnormBTwoLambdasOneChangingBeta'],\
-      #  model=['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda'])
+      # --------------------------------------------------------------------------------------------------------- #
       #expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
       # datasetgeneration=[ 'GenerationJnorm'])
       # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
@@ -444,91 +255,70 @@ rule all:
       # fixed_beta_slope = 'betaslopePCAWG4',\
       # sdRE_input = 'covmatFULLPCAWG4',\
       # n = 200, nlambda = 14072, lmbda = [87], d = 6, beta_intensity=0) ## as above but with fullRE cov mat and lambda
-      expand("../results/results_TMB/simulated_datasets/bias_and_coverage/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
+      # --------------------------------------------------------------------------------------------------------- #
+      ## Biological-driven simulation #4, with a variable lambda
+      # expand("../results/results_TMB/simulated_datasets/bias_and_coverage/multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
+      # datasetgeneration='GenerationJnorm', \
+      # model=['diagREDM', 'fullREDM'],\
+      # fixed_beta_intercept = 'betainterceptPCAWG6',\
+      # fixed_beta_slope = 'betaslopePCAWG6',\
+      # sdRE_input = 'covmatFULLPCAWG6',\
+      # n = 'nPCAWG6', nlambda = 'nlambdaPCAWG6',\
+      # lmbda = ['lowlambdaPCAWG6', 'lambdaPCAWG6', 'highlambdaPCAWG6'],\
+      # d = 'dPCAWG6', beta_intensity=0)
+      ## SingleREDM
+      # expand("../results/results_TMB/simulated_datasets/bias_and_coverage/multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
+      # datasetgeneration='GenerationJnorm', model=['singleREDM'],\
+      # fixed_beta_intercept = 'betainterceptPCAWG6',\
+      # fixed_beta_slope = 'betaslopePCAWG6',\
+      # sdRE_input = 'covmatFULLPCAWG6',\
+      # n = 'nPCAWG6', nlambda = 'nlambdaPCAWG6',\
+      # lmbda = ['lambdaPCAWG6'],\
+      # d = 'dPCAWG6', beta_intensity=0)
+      # --------------------------------------------------------------------------------------------------------- #
+      ## Biological-driven simulation #4, with a lower number of mutations   
+      expand("../results/results_TMB/simulated_datasets/bias_and_coverage/multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
       datasetgeneration='GenerationJnorm', model=['diagREDM', 'fullREDM'],\
-      fixed_beta_intercept = 'CHANGETHISTOSOMETHINGWHICHHASDA',\
-      fixed_beta_slope = 'CHANGETHISTOSOMETHINGWHICHHASDA',\
-      sdRE_input = 'CHANGETHISTOSOMETHINGWHICHHASDA',\
-      n = CHANGE THIS, nlambda = CHANGE THIS, lmbda = [CHANGE THIS], d = CHANGE THIS, beta_intensity=0) ## as above but with fullRE cov mat and lambda
-      # expand("../results/results_TMB/simulated_datasets/bias_and_coverage/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
-      # datasetgeneration='GenerationJnorm', model=['fullREDM', 'diagREDM'],\
-      # fixed_beta_intercept = 'betainterceptPCAWG1',\
-      # fixed_beta_slope = 'betaslopePCAWG1',\
-      # sdRE_input = 'covmatPCAWG1',\
-      # n = 200, nlambda = 180, lmbda = [20], d = 8, beta_intensity=0) ## changing lambda
-      ## Mixing data from two cancer types
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=[ 'GenerationMixturePCAWG'])
-      ## Mixing data from two cancer types (same as above), but with a subset of signatures so that d=4
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=[ 'GenerationMixturefewersignaturesPCAWG'])
-      ## Mixing data from two cancer types (same as above), but with a subset of signatures so that d=4, and with paired data
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=['GenerationMixturePCAWG', 'GenerationMixturefewersignaturesPCAWG', \
-      # 'GenerationMixturefewersignaturespairedPCAWG', \
-      # 'GenerationMixturefewersignaturespairedstomachPCAWG',\
-      # 'GenerationMixturefewersignaturespairedKidneyRCCPCAWG',\
-      # ])
-      ## run all PCAWG simulations of mixtures
-      #expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      #datasetgeneration=['GenerationMixturefewersignaturespaired'+x for x in [ # 'BoneOsteosarcPCAWG', 'BreastAdenoCAPCAWG',\
-      # 'CNSGBMPCAWG', 'CNSMedulloPCAWG', 'CNSPiloAstroPCAWG',\
-      # 'ColoRectAdenoCAPCAWG', 'EsoAdenoCAPCAWG', 'HeadSCCPCAWG', 'KidneyChRCCPCAWG', 'KidneyRCCpapillaryPCAWG',\
-      # 'LungSCCPCAWG', 'LymphBNHLPCAWG', 'LymphCLLPCAWG', 'OvaryAdenoCAPCAWG', 'PancAdenoCAPCAWG', 'PancEndocrinePCAWG',\
-      #'ProstAdenoCAPCAWG', #'SkinMelanomacutaneousPCAWG', 'ThyAdenoCAPCAWG', 'UterusAdenoCAPCAWG' ## all ct in this line have been started in HPC
-      #]])
-      #expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      #datasetgeneration=[ 'GenerationK'])
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=['GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG'])
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=['GenerationMixturefewersignaturespaired'+x for x in ['CNSGBMPCAWG']])
-      # datasetgeneration=['GenerationMixturefewersignaturespaired'+x for x in ['ProstAdenoCAPCAWG']])
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=[ 'GenerationK'])
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\ ### hpc
-      # datasetgeneration=['GenerationMixturefewersignaturespairedObsNm'+x for x in ['BoneOsteosarcPCAWG',  'LymphCLLPCAWG', 'OvaryAdenoCAPCAWG', 'PancAdenoCAPCAWG']])
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=['GenerationMixturefewersignaturespairedObsNm'+x for x in ['PancEndocrinePCAWG']])
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=['GenerationMixturefewersignaturespairedObsNm'+x for x in ['UterusAdenoCAPCAWG']])            
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration=['GenerationMixtureallsignaturespairedObsNm'+x for x in ['CNSGBMPCAWG']])       
-     # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-     #  datasetgeneration=['GenerationMixturefewersignaturespairedObsNmObsDM'+x for x in ['CNSGBMPCAWG'
-     #  'ColoRectAdenoCAPCAWG', 'EsoAdenoCAPCAWG', 'HeadSCCPCAWG', 'KidneyChRCCPCAWG', 'KidneyRCCpapillaryPCAWG',\
-     #  'LungSCCPCAWG', 'LymphBNHLPCAWG', 'LymphCLLPCAWG', 'OvaryAdenoCAPCAWG', 'PancAdenoCAPCAWG', 'PancEndocrinePCAWG']])
-     # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-     #  datasetgeneration=[ y+x for x in [#'CNSGBMPCAWG'
-     #  # 'ColoRectAdenoCAPCAWG'
-     #  # , 
-     #  'EsoAdenoCAPCAWG', 'HeadSCCPCAWG', 'KidneyChRCCPCAWG', 'LungSCCPCAWG'
-      # ]\
-       # for y in [
-       # 'GenerationMixturefewersignaturespairedObsNmInvPCAWG',
-       # 'GenerationMixturefewersignaturespairedObsNmPoissonSigPCAWG'
-      # 'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWG'
-      # ]])]
-      # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      # datasetgeneration='GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGProstAdenoCAPCAWG')
-     # expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-     #  datasetgeneration=[ 'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGProstAdenoCAPCAWG'])
-      # expand("../data/assessing_models_simulation/inference_results/TMB_LRT/nlminb/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",\
-      # datasetgeneration="GenerationMixturefewersignaturespairedKidneyRCCPCAWG",\
-      # n=config["simulation_n_GenerationMixturefewersignaturespairedstomachPCAWG"], nlambda=config["simulation_nlambda_GenerationMixturefewersignaturespairedstomachPCAWG"],
-      # lmbda=config["simulation_lambda_GenerationMixturefewersignaturespairedstomachPCAWG"], d=config["simulation_d_GenerationMixturefewersignaturespairedstomachPCAWG"],\
-      # beta_intensity = config["beta_gamma_shape_GenerationMixturefewersignaturespairedstomachPCAWG"], nits=num_iterations,
-      # model=['diagREDM', 'diagREDMreducedmodel', 'diagREDMsinglelambda'], fixed_beta_intercept='NA', fixed_beta_slope='NA', sdRE_input='NA',\
-      # itnum=range(numreplicates['GenerationMixturefewersignaturespairedstomachPCAWG']))
-      #expand("../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS",\
-      #datasetgeneration=['GenerationMixturefewersignaturespairedTMBcor'+x for x in ['BoneOsteosarcPCAWG']]) ### TO RUN!!! 20220909
-
+      fixed_beta_intercept = 'betainterceptPCAWG6',\
+      fixed_beta_slope = 'betaslopePCAWG6',\
+      sdRE_input = 'covmatFULLPCAWG6',\
+      n = 'nPCAWG6', \
+      nlambda = ['lownlambdaPCAWG6', 'low2nlambdaPCAWG6', 'low3nlambdaPCAWG6'],\
+      lmbda = ['lambdaPCAWG6'],\
+      d = 'dPCAWG6', beta_intensity=0)
+      # --------------------------------------------------------------------------------------------------------- #
+      ## Baseline simulation
+      ## Biological-driven simulation equivalent to #2
+      ## (setsim_multiple_GenerationJnorm_nlminb_200_14072_80_6_0_fullREDM_betainterceptPCAWG4_betaslopePCAWG4_covmatPCAWG4_onlyconverged_coverage_beta_v3)
+      ## but inverting the columns to show that the choice of baseline does not matter
+      # expand("../results/results_TMB/simulated_datasets/bias_and_coverage/multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
+      # datasetgeneration='GenerationJnormInv', model=['diagREDM'],\
+      # fixed_beta_intercept = 'betainterceptPCAWG4',\
+      # fixed_beta_slope = 'betaslopePCAWG4',\
+      # sdRE_input = 'covmatPCAWG4',\
+      # n = 200, nlambda = 14072, lmbda = 80, d = 6, beta_intensity=0)
+      ## ... or using as baseline the column with the highest abundance
+      # expand("../results/results_TMB/simulated_datasets/bias_and_coverage/multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
+      # datasetgeneration='GenerationJnormMax', model=['diagREDM'],\
+      # fixed_beta_intercept = 'betainterceptPCAWG4',\
+      # fixed_beta_slope = 'betaslopePCAWG4',\
+      # sdRE_input = 'covmatPCAWG4',\
+      # n = 200, nlambda = 14072, lmbda = 80, d = 6, beta_intensity=0)
+      # expand("../results/results_TMB/simulated_datasets/bias_and_coverage/multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
+      # datasetgeneration=[ 'GenerationJnormMax', 'GenerationJnorm'],
+      # model=['diagREDM'],\
+      # fixed_beta_intercept = 'betainterceptPCAWG4',\
+      # fixed_beta_slope = ['betaslopezerosPCAWG4', 'betaslopeonechangingPCAWG4'],\
+      # sdRE_input = 'covmatPCAWG4',\
+      # n = 200, nlambda = 14072, lmbda = 80, d = 6, beta_intensity=0)
+      # --------------------------------------------------------------------------------------------------------- #
 
 # expand(['/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/'+x.strip('.gz')+'.annovar' for x in listdir('/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/') if re.search('.gz$', x)])
 
 
-numreplicates_for_bias = 1000
+numreplicates_for_bias = 1000 ## for bias analysis
+# numreplicates_for_bias = 200 ## for baseline comparisons
+
 
 rule index_vcf:
     input:
@@ -569,7 +359,7 @@ rule inference_TMB:
     log:
         "logs/inference/TMBinference_{cancer_type}_{feature_type}_{model}.log"
     output:
-        "../data/pcawg_robjects_cache/tmb_results/nlminb/{model}_{cancer_type}_{feature_type}.RDS"
+        "../results/results_TMB/pcawg_robjects/tmb_results/nlminb/{model}_{cancer_type}_{feature_type}.RDS"
     shell:
         "Rscript 2_inference_TMB/run_TMB.R --input {input} --output {output} --model {params.model} --feature_type {params.feature_type} --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T"
 
@@ -588,27 +378,26 @@ rule simulate_for_comparison_multiple:
         fixed_beta_slope="{fixed_beta_slope}",
         sdRE_input="{sdRE_input}",
     output:
-       "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+       "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
     shell:
-       "Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/{params.datasetgeneration}.R --input {input} --d {params.d} --n {params.n} --nlambda {params.nlambda} --lambda {params.lmbda} --beta_gamma_shape {params.beta_intensity} --outfile {output} --beta_intercept_input ../data/assessing_models_simulation/additional_files/multiple_fixed_{params.fixed_beta_intercept}.RDS --beta_slope_input ../data/assessing_models_simulation/additional_files/multiple_fixed_{params.fixed_beta_slope}.RDS --sdRE_input ../data/assessing_models_simulation/additional_files/multiple_fixed_{params.sdRE_input}.RDS"
-       # "Rscript --vanilla 3_analysis/simulation_model_assessment/generate_datasets_simulations/{params.datasetgeneration}.R --input {input} --d {params.d} --n {params.n} --nlambda {params.nlambda} --lambda {params.lmbda} --beta_gamma_shape {params.beta_intensity} --outfile {output} --beta_intercept_input {params.fixed_beta_intercept} --beta_slope_input {params.fixed_beta_slope} --sdRE_input {params.sdRE_input}" ## commented out 20230307 in running bias plots
+       "Rscript --vanilla 3_analysis/2_simulation_model_assessment/1_generate_datasets_simulations/{params.datasetgeneration}.R --input {input} --d {params.d} --n {params.n} --nlambda {params.nlambda} --lambda {params.lmbda} --beta_gamma_shape {params.beta_intensity} --outfile {output} --beta_intercept_input ../data/assessing_models_simulation/additional_files/multiple_fixed_{params.fixed_beta_intercept}.RDS --beta_slope_input ../data/assessing_models_simulation/additional_files/multiple_fixed_{params.fixed_beta_slope}.RDS --sdRE_input ../data/assessing_models_simulation/additional_files/multiple_fixed_{params.sdRE_input}.RDS"
 
 rule inference_simulation_TMB_multiple:
     input:
-        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
     log:
         "logs/inference/{optimiser}/simulation_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_Model{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.log"
     params:
        model="{model}",
        optimiser="{optimiser}"
     output:
-       "../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+       "../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
     shell:
        "Rscript 2_inference_TMB/run_TMB.R --input {input} --output {output} --model {params.model} --optimiser {params.optimiser}  --use_previous_run_startingvals T"
 
 rule inference_simulation_TMB_multiple_LRT:
     input:
-        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
     log:
         "logs/inference/{optimiser}/simulation_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_Model{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.log"
     params:
@@ -620,66 +409,9 @@ rule inference_simulation_TMB_multiple_LRT:
        "Rscript 2_inference_TMB/run_TMB.R --return_opt_bool T --input {input} --output {output} --model {params.model} --optimiser {params.optimiser}  --use_previous_run_startingvals T"
 
 
-
-## Equivalent of analyse_simulation_TMB, Whenever using inference_simulation_TMB_multiple
-rule analyse_simulation_TMB_multiple:
-    input:
-      lambda wildcards: expand("../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
-        n = config["simulation_n_"+datasetgeneration2_dict[wildcards.datasetgeneration]],
-        nlambda = config["simulation_nlambda_"+datasetgeneration2_dict[wildcards.datasetgeneration]],
-        lmbda = config["simulation_lambda_"+datasetgeneration2_dict[wildcards.datasetgeneration]],
-        d = config["simulation_d_"+datasetgeneration2_dict[wildcards.datasetgeneration]],
-        beta_intensity = config["beta_gamma_shape_"+datasetgeneration2_dict[wildcards.datasetgeneration]],
-        datasetgeneration=wildcards.datasetgeneration,
-        fixed_beta_intercept = 'NA',#wildcards.fixed_beta_intercept,  this should be changed depending on whether we are using fixed betas or not
-        fixed_beta_slope = 'NA', #wildcards.fixed_beta_slope, this should be changed depending on whether we are using fixed betas or not
-        sdRE_input = 'NA', #wildcards.sdRE_input, this should be changed depending on whether we are using fixed sds or not
-        model = "{model}",
-        itnum= range(numreplicates[wildcards.datasetgeneration]))
-    output:
-        "../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt"
-    run:
-        if len(input) < 10e3:
-            print('More than 10e3 inputs')
-            print(len(input))
-            # sys.exit("Error message")
-            filename_long_input = "tmp_input_snake"+str(uuid.uuid4())
-            f = open(filename_long_input, "w")
-            for i_input in input:
-                  f.write(i_input+'\n')
-            f.close()
-            os.system("cat '{input}' > {filename_long_input}")
-            shell("Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/analyse_inference_simulations.R --input_list {filename_long_input} \
-            --output_folder_name ../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{wildcards.datasetgeneration}/{wildcards.datasetgeneration}_{wildcards.model}/ \
-            --output_string {wildcards.datasetgeneration}_{wildcards.model} --model {wildcards.model} --dataset_generation {wildcards.datasetgeneration} --multiple_runs T \
-            --read_input_from_file T; rm {filename_long_input}")
-            ## NOTE: this has never been used and doesn't work. check the snakemake file in Validation_CNsig_models
-            # shell("Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/analyse_inference_simulations.R --input_list '{input}'\
-            # --output_folder_name ../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{wildcards.datasetgeneration}/{wildcards.datasetgeneration}_{wildcards.model}/ \
-            # --output_string {wildcards.datasetgeneration}_{wildcards.model} --model {wildcards.model} --dataset_generation {wildcards.datasetgeneration} --multiple_runs T")
-        else:
-            shell("cat '{input}' > tmp_input_snake; Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/analyse_inference_simulations.R --input_list tmp_input_snake \
-            --output_folder_name ../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{wildcards.datasetgeneration}/{wildcards.datasetgeneration}_{wildcards.model}/ \
-            --output_string {wildcards.datasetgeneration}_{wildcards.model} --model {wildcards.model} --dataset_generation {wildcards.datasetgeneration} --multiple_runs T \
-            --read_input_from_file T")
-
-rule analyse_simulation_TMB_multiple_integrate:
-    input:
-      lambda wildcards: expand("../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_{model}/{datasetgeneration}_{model}_results_info.txt",\
-       model=list_models, datasetgeneration=wildcards.datasetgeneration)
-    "../results/results_TMB/simulated_datasets/mixed_effects_models_multiple/{datasetgeneration}/{datasetgeneration}_fullREM/{datasetgeneration}_fullREM_results_info.txt"
-    output:
-        "../data/assessing_models_simulation/summaries_synthetic_DA/{datasetgeneration}.RDS"
-    run:
-      if len(input) < 10e3:
-            shell("Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/analyse_inference_simulations_integrate.R --input '{input}' --generation {wildcards.datasetgeneration}")
-      else:
-            filename_long_input = "tmp_input_snake"+str(uuid.uuid4())
-            shell("echo 'Long input list: saving input list to file'; cat '{input}' > {filename_long_input}; Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/analyse_inference_simulations_integrate.R --input '{filename_long_input}' --generation {wildcards.datasetgeneration}")
-
 rule analyse_simulation_TMB_bias:
     input:
-      lambda wildcards: expand("../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      lambda wildcards: expand("../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
         n = wildcards.n,
         nlambda = wildcards.nlambda,
         lmbda = wildcards.lmbda,
@@ -692,9 +424,9 @@ rule analyse_simulation_TMB_bias:
         model = "{model}",
         itnum= range(numreplicates_for_bias))
     output:
-        "../results/results_TMB/simulated_datasets/bias_and_coverage/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf"
+        "../results/results_TMB/simulated_datasets/bias_and_coverage/multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf"
     shell:
-        "Rscript 3_analysis/simulation_model_assessment/analyse_inference_simulations/3_1_analyse_bias_and_coverage.R --input_list '{input}' \
+        "Rscript 3_analysis/2_simulation_model_assessment/2_analyse_inference_simulations/analyse_bias_and_coverage.R --input_list '{input}' \
         --dataset_generation {wildcards.datasetgeneration} --model {wildcards.model}\
         --multiple_runs T --run_nonconverged F --beta_intercept_input {wildcards.fixed_beta_intercept} \
         --beta_slope_input {wildcards.fixed_beta_slope} --sdRE_input {wildcards.sdRE_input}  --d {wildcards.d} --n {wildcards.n} --nlambda {wildcards.nlambda} --lambda {wildcards.lmbda} --beta_gamma_shape {wildcards.beta_intensity} "
@@ -714,10 +446,6 @@ rule annotate_vcf:
     output:
         "/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/{sample}.annovar"
     params:
-    # shell:
-    #     "/Users/morril01/software/annovar/./table_annovar.pl {input} \
-    #     /Users/morril01/software/annovar/humandb/ -buildver hg19 -out {output} -remove -protocol refGene,cytoBand,exac03 -operation gx,r,f -nastring . -csvout -polish \
-    #     -xref /Users/morril01/software/annovar/example/gene_xref.txt; gzip {input}; mv {output}.hg19_multianno.csv {output}"
     shell:
         "/Users/morril01/software/annovar/./table_annovar.pl {input} \
         /Users/morril01/software/annovar/humandb/ -buildver hg19 -out {output} -remove -protocol icgc28 -operation f -nastring . -csvout -polish \

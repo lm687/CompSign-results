@@ -6,7 +6,7 @@ library(TMB)
 library(optparse)
 
 source("1_create_ROO/roo_functions.R")
-source("2_inference/helper/helper_DA_stan.R") ## for normalise_rw
+# source("2_inference/helper/helper_DA_stan.R") ## for normalise_rw
 source("2_inference_TMB/mm_multinomial/helper_functions.R")
 source("2_inference_TMB/helper_TMB.R")
 
@@ -14,7 +14,7 @@ debug <- F
 if(debug){
   opt <- list()
   opt$input = '../data/roo/Liver-HCC_signaturesMSE_ROO.RDS'
-  opt$output = '../data/pcawg_robjects_cache/tmb_results/nlminb/diagREDM_Liver-HCC_signaturesMSE.RDS'
+  opt$output = '../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDM_Liver-HCC_signaturesMSE.RDS'
   opt$model = 'diagREDM' 
   opt$feature_type = 'signaturesMSE' 
   opt$optimiser = 'nlminb' 

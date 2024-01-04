@@ -14,8 +14,8 @@ source("helper_TMB.R")
 # set.seed(1234)
 re_run_inference = FALSE ## use cache or not
 give_summary_runs = FALSE ## whether to run the section to see what has converged, what hasn't, etc.
-folder_robjs = "../../data/pcawg_robjects_cache/tmb_results/"
-folder_robjs_nlminb = "../../data/pcawg_robjects_cache/tmb_results/nlminb/"
+folder_robjs = "../../results/results_TMB/pcawg_robjects/tmb_results/"
+folder_robjs_nlminb = "../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/"
 #-------------------------------------------------------------------------------------------------#
 
 #-------------------------------------------------------------------------------------------------#
@@ -73,85 +73,85 @@ if(re_run_inference){
   enough_samples = readLines("~/Desktop/CT_sufficient_samples.txt")
 
   mclapply(sample(which(is.na(match(rownames(samples_files2),
-                                    gsub(".RDS", "", gsub("M_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+                                    gsub(".RDS", "", gsub("M_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
    function(idx){
      i = samples_files2[idx,]
      x = withTimeout(wrapper_run_TMB(i[1,1], i[1,2], model = "M"),
                      timeout = 300, onTimeout = "warning")
-     saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "M_", rownames(i), ".RDS"))
+     saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "M_", rownames(i), ".RDS"))
   })
   
 
   mclapply(sample(which(is.na(match(as.vector(sapply(enough_samples, function(i) c(paste0(i, '_signatures'), paste0(i, "_nucleotidesubstitution1")))),
-                                    gsub(".RDS", "", gsub("fullRE_DMSL_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+                                    gsub(".RDS", "", gsub("fullRE_DMSL_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
            function(idx){
              i = samples_files2[idx,]
              x = withTimeout(wrapper_run_TMB(load_PCAWG(ct = i[1,1], typedata = i[1,2]), sort_columns = T, smart_init_vals = T,
                                              model = "fullREDMsinglelambda"),
                              timeout = 300, onTimeout = "warning")
-             saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "fullRE_DMSL_", rownames(i), ".RDS"))
+             saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "fullRE_DMSL_", rownames(i), ".RDS"))
            })
   
   mclapply(sample(which(is.na(match(as.vector(sapply(enough_samples, function(i) c(paste0(i, '_signatures')))),
-                                    gsub(".RDS", "", gsub("fullRE_DMSL2_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+                                    gsub(".RDS", "", gsub("fullRE_DMSL2_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
            function(idx){
              i = samples_files2[idx,]
              x = withTimeout(wrapper_run_TMB(sort_columns_TMB(load_PCAWG(ct = i[1,1], typedata = i[1,2])), smart_init_vals = T,
                                              model = "fullREDMsinglelambda2"),
                              timeout = 300, onTimeout = "warning")
-             saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "fullRE_DMSL2_", rownames(i), ".RDS"))
+             saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "fullRE_DMSL2_", rownames(i), ".RDS"))
            })
   
   mclapply(sample(which(is.na(match(as.vector(sapply(enough_samples, function(i) c(paste0(i, '_signatures'), paste0(i, "_nucleotidesubstitution1")))),
-                                    gsub(".RDS", "", gsub("diagRE_DMSL_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+                                    gsub(".RDS", "", gsub("diagRE_DMSL_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
            function(idx){
              i = samples_files2[idx,]
              x = wrapper_run_TMB(load_PCAWG(ct = i[1,1], typedata = i[1,2]), sort_columns = T, smart_init_vals = T,
                                              model = "diagREDMsinglelambda")
-             saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "diagRE_DMSL_", rownames(i), ".RDS"))
+             saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "diagRE_DMSL_", rownames(i), ".RDS"))
            })
   
   # mclapply(sample(which(is.na(match(rownames(samples_files2),
-  #                                   gsub(".RDS", "", gsub("DM_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+  #                                   gsub(".RDS", "", gsub("DM_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
   #          function(idx){
   #            i = samples_files2[idx,]
   #            x = withTimeout(wrapper_run_TMB(i[1,1], i[1,2], model = "DM"),
   #                            timeout = 300, onTimeout = "warning")
-  #            saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "DM_", rownames(i), ".RDS"))
+  #            saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "DM_", rownames(i), ".RDS"))
   #          })
   
   
   # mclapply(sample(which(is.na(match(rownames(samples_files2),
-  #                                   gsub(".RDS", "", gsub("LNM_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+  #                                   gsub(".RDS", "", gsub("LNM_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
   #          function(idx){
   #            # mclapply(1:nrow(samples_files), function(idx){
   #            i = samples_files2[idx,]
   #            x = withTimeout(wrapper_run_TMB(i[1,1], i[1,2], model = "LNM"),
   #                            timeout = 300, onTimeout = "warning")
-  #            saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "LNM_", rownames(i), ".RDS"))
+  #            saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "LNM_", rownames(i), ".RDS"))
   #          })
 
   mclapply(sample(which(is.na(match(rownames(samples_files2),
-                                    gsub(".RDS", "", gsub("fullRE_M_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+                                    gsub(".RDS", "", gsub("fullRE_M_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
            function(idx){
              i = samples_files2[idx,]
              x = withTimeout(wrapper_run_TMB(i[1,1], i[1,2], model = "fullRE_M"),
                              timeout = 300, onTimeout = "warning")
-             saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "fullRE_M_", rownames(i), ".RDS"))
+             saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "fullRE_M_", rownames(i), ".RDS"))
            })
   
   mclapply(sample(which(is.na(match(rownames(samples_files2),
-                                     gsub(".RDS", "", gsub("fullRE_DM_altpar_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+                                     gsub(".RDS", "", gsub("fullRE_DM_altpar_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
             function(idx){
               i = samples_files2[idx,]
               x = withTimeout(wrapper_run_TMB(i[1,1], i[1,2], model = "fullRE_DM_altpar"),
                               timeout = 300, onTimeout = "warning")
-              saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "fullRE_DM_altpar_", rownames(i), ".RDS"))
+              saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "fullRE_DM_altpar_", rownames(i), ".RDS"))
             })
 
   ## diagonal M
   mclapply(sample(which(is.na(match(rownames(samples_files2),
-                                    gsub(".RDS", "", gsub("diagRE_M_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/optim/"))))))),
+                                    gsub(".RDS", "", gsub("diagRE_M_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/optim/"))))))),
            function(idx){
              outcome_inference="Not good"
              counter_tries = 0
@@ -162,12 +162,12 @@ if(re_run_inference){
                outcome_inference = give_summary_per_sample(x)
                counter_tries = counter_tries + 1
              }
-             saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/optim/", "diagRE_M_", rownames(i), ".RDS"))
+             saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/optim/", "diagRE_M_", rownames(i), ".RDS"))
   })
   
   ## diagonal DM
   mclapply(sample(which(is.na(match(rownames(samples_files2),
-                                    gsub(".RDS", "", gsub("diagRE_DM_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+                                    gsub(".RDS", "", gsub("diagRE_DM_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
            function(idx){
              outcome_inference="Not good"
              counter_tries = 0
@@ -178,28 +178,28 @@ if(re_run_inference){
                outcome_inference = give_summary_per_sample(x)
                counter_tries = counter_tries + 1
              }
-             saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "diagRE_DM_", rownames(i), ".RDS"))
+             saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "diagRE_DM_", rownames(i), ".RDS"))
            })
   
   
   ## Categorical: not over-dispersed
   # mclapply(sample(which(is.na(match(rownames(samples_files2),
-  #                                   gsub(".RDS", "", gsub("fullRE_Mcat_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+  #                                   gsub(".RDS", "", gsub("fullRE_Mcat_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
   #          function(idx){
   #            i = samples_files2[idx,]
   #            x = withTimeout(wrapper_run_TMB(i[1,1], i[1,2], model = "fullRE_Mcat"),
   #                            timeout = 300, onTimeout = "warning")
-  #            saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "fullRE_Mcat_", rownames(i), ".RDS"))
+  #            saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "fullRE_Mcat_", rownames(i), ".RDS"))
   #          })
   # 
   # ## Categorical: over-dispersed
   # mclapply(sample(which(is.na(match(rownames(samples_files2),
-  #                                   gsub(".RDS", "", gsub("fullRE_DMcat_", "", list.files("../../data/pcawg_robjects_cache/tmb_results/"))))))),
+  #                                   gsub(".RDS", "", gsub("fullRE_DMcat_", "", list.files("../../results/results_TMB/pcawg_robjects/tmb_results/"))))))),
   #          function(idx){
   #            i = samples_files2[idx,]
   #            x = withTimeout(wrapper_run_TMB(i[1,1], i[1,2], model = "fullRE_DMcat"),
   #                            timeout = 300, onTimeout = "warning")
-  #            saveRDS(object = x, file=paste0("../../data/pcawg_robjects_cache/tmb_results/", "fullRE_DMcat_", rownames(i), ".RDS"))
+  #            saveRDS(object = x, file=paste0("../../results/results_TMB/pcawg_robjects/tmb_results/", "fullRE_DMcat_", rownames(i), ".RDS"))
   #          })
   
 }
@@ -424,8 +424,8 @@ if(give_summary_runs){
 
 #------------------------------------------------------------------------------------------------------------------------#
 
-betasM = load_posteriors("../../data/pcawg_robjects_cache/betas91ecb3fe-4ff0-4e91-b6f0-a2eaf027f91e_M_signatures.Rdata")
-betasDM = load_posteriors("../../data/pcawg_robjects_cache/betas316eb9a5-31f9-4d4b-be88-1b0e5c184286_DM_signatures.Rdata")
+betasM = load_posteriors("../../results/results_TMB/pcawg_robjects/betas91ecb3fe-4ff0-4e91-b6f0-a2eaf027f91e_M_signatures.Rdata")
+betasDM = load_posteriors("../../results/results_TMB/pcawg_robjects/betas316eb9a5-31f9-4d4b-be88-1b0e5c184286_DM_signatures.Rdata")
 
 # some example
 betasDM$posteriors_betas$`Biliary-AdenoCA_signatures_20000_DMROO`
