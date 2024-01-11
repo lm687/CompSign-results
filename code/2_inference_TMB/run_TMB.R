@@ -4,11 +4,12 @@ rm(list = ls())
 
 library(TMB)
 library(optparse)
+library(CompSign)
 
-source("1_create_ROO/roo_functions.R")
+# source("1_create_ROO/roo_functions.R")
 # source("2_inference/helper/helper_DA_stan.R") ## for normalise_rw
-source("2_inference_TMB/mm_multinomial/helper_functions.R")
-source("2_inference_TMB/helper_TMB.R")
+# source("2_inference_TMB/mm_multinomial/helper_functions.R")
+# source("2_inference_TMB/helper_TMB.R")
 
 debug <- F
 if(debug){
@@ -71,62 +72,62 @@ if(opt$nonexo_bool | grepl('nonexo', opt$output)){
 cat('Model:', opt$model, '\n')
 
 if(opt$model == "fullREM"){
-  TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_multinomial.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_multinomial"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_multinomial.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_multinomial"))
   mod_model_name = "fullRE_M"
 }else if(opt$model == "diagREM"){
-  TMB::compile("2_inference_TMB/mm_multinomial/diagRE_ME_multinomial.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagRE_ME_multinomial"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/diagRE_ME_multinomial.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagRE_ME_multinomial"))
   mod_model_name = "diagRE_M"
 }else if(opt$model == "fullREDM"){
-  TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial"))
   mod_model_name = "fullRE_DM"
 }else if(opt$model == "diagREDM"){
-  TMB::compile("2_inference_TMB/mm_multinomial/diagRE_ME_dirichletmultinomial.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagRE_ME_dirichletmultinomial"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/diagRE_ME_dirichletmultinomial.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagRE_ME_dirichletmultinomial"))
   mod_model_name = "diagRE_DM"
 }else if(opt$model =="fullREDMsinglelambda"){
-  TMB::compile("2_inference_TMB/mm_multinomial/fullRE_dirichletmultinomial_single_lambda.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_dirichletmultinomial_single_lambda"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/fullRE_dirichletmultinomial_single_lambda.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_dirichletmultinomial_single_lambda"))
   mod_model_name = "fullREDMsinglelambda"
   # use_nlminb=T
 }else if(opt$model =="diagREDMsinglelambda"){
-  TMB::compile("2_inference_TMB/mm_multinomial/diagRE_dirichletmultinomial_single_lambda.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagRE_dirichletmultinomial_single_lambda"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/diagRE_dirichletmultinomial_single_lambda.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagRE_dirichletmultinomial_single_lambda"))
   mod_model_name = "diagREDMsinglelambda"
   # use_nlminb=T
 }else if(opt$model =="FEDMsinglelambda"){
-  TMB::compile("2_inference_TMB/mm_multinomial/FE_dirichletmultinomial_single_lambda.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/FE_dirichletmultinomial_single_lambda"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/FE_dirichletmultinomial_single_lambda.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/FE_dirichletmultinomial_single_lambda"))
   mod_model_name = "FEDMsinglelambda"
 }else if(opt$model =="fullREDMnoscaling"){
-  TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomialnoscaling.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomialnoscaling"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomialnoscaling.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomialnoscaling"))
   mod_model_name = "fullREDMnoscaling"
 }else if(opt$model =="fullREDMonefixedlambda"){
-  TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda"))
   mod_model_name = "fullRE_DMonefixedlambda"
 }else if(opt$model =="fullREDMonefixedlambda2"){
-  TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda2.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda2"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda2.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda2"))
   mod_model_name = "fullRE_DMonefixedlambda2"
 }else if(opt$model =="fullREDMonefixedlambda3"){
-  TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda3.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda3"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda3.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/fullRE_ME_dirichletmultinomial_onefixedlambda3"))
   mod_model_name = "fullRE_DMonefixedlambda3"
 }else if(opt$model == "singleREDM"){
-  TMB::compile("2_inference_TMB/mm_multinomial/singleRE_dirichlet_multinomial.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/singleRE_dirichlet_multinomial"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/singleRE_dirichlet_multinomial.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/singleRE_dirichlet_multinomial"))
   mod_model_name = "singleRE_DM"
 }else if(opt$model == "diagREDMreducedmodel"){
-  TMB::compile("2_inference_TMB/mm_multinomial/diagRE_ME_dirichletmultinomial.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagRE_ME_dirichletmultinomial"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/diagRE_ME_dirichletmultinomial.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagRE_ME_dirichletmultinomial"))
   mod_model_name = "diagRE_DMreducedmodel"
 }else if(opt$model == "diagREcorDM"){
-  TMB::compile("2_inference_TMB/mm_multinomial/diagREcor_ME_dirichletmultinomial.cpp",  "-std=gnu++17")
-  dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagREcor_ME_dirichletmultinomial"))
+  # TMB::compile("2_inference_TMB/mm_multinomial/diagREcor_ME_dirichletmultinomial.cpp",  "-std=gnu++17")
+  # dyn.load(dynlib("2_inference_TMB/mm_multinomial/diagREcor_ME_dirichletmultinomial"))
   mod_model_name = "diagREcor_DM"
 }else{
   stop('Specifiy a valid <model>')
@@ -284,13 +285,17 @@ if(opt$use_previous_run_startingvals){
         stop('Custom initial values for FEDMsinglelambda: Not implemented')
     }else{
     }
-    
+    time1=Sys.time() 
     results_inference = try(wrapper_run_TMB(object = dataset, model = mod_model_name, use_nlminb=use_nlminb,
                                             initial_params = list_initial_params, return_opt=opt$return_opt_bool))
+    time2=Sys.time() 
   }else{
     ## if there is no previous file, run without specified starting values
+    time1=Sys.time() 
     results_inference = try(wrapper_run_TMB(object = dataset, model = mod_model_name, use_nlminb=use_nlminb,
                                             return_opt=opt$return_opt_bool))
+    time2=Sys.time() 
+    
   }
   
   if( typeof(results_inference) == "character"){
@@ -339,9 +344,13 @@ if(opt$use_previous_run_startingvals){
 }else{
   # dataset = sort_columns_TMB(dataset)
   # results_inference = try(wrapper_run_TMB(opt$input, model = mod_model_name, typedata = "simulation", simulation = TRUE))
+  
+  time1=Sys.time() 
   results_inference = try(wrapper_run_TMB(object = dataset, model = mod_model_name, use_nlminb=use_nlminb))
+  time2=Sys.time() 
   
   saveRDS(object = results_inference, file = opt$output)
 }
 
 
+saveRDS(object = time2-time1, file = gsub(".RDS", ".time", opt$output))

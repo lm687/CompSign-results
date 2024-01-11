@@ -8,8 +8,8 @@ setwd("../../2_inference_TMB/")
 
 ##-----------------------------------------------------------------------------------------------------##
 source("../2_inference_TMB/helper_TMB.R")
-source("../../../CDA_in_Cancer/code/functions/meretricious/pretty_plots/prettySignatures.R")
-source("../3_analysis/recovery_COSMIC_signatures/recover_COSMIC_signatures.R")
+# source("../../../CDA_in_Cancer/code/functions/meretricious/pretty_plots/prettySignatures.R")
+# source("../3_analysis/recovery_COSMIC_signatures/recover_COSMIC_signatures.R")
 
 library(TMB)
 library(ggrepel)
@@ -23,7 +23,7 @@ library(mutSigExtractor)
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
-enough_samples = read.table("../../data/restricted/pcawg/CT_sufficient_samples.txt", comment.char='#')[,1]
+enough_samples = read.table("../../data/pcawg/CT_sufficient_samples.txt", comment.char='#')[,1]
 enough_samples
 
 nucleotide_colours_logR <- c('C$>$A/T$>$G'= '#3cb371', 'C$>$G/T$>$G'= '#90ee90', 'C$>$T/T$>$G'= '#66cdaa',
@@ -32,6 +32,20 @@ nucleotide_colours <- c('C>A' = '#3cb371', 'C>G'= '#90ee90', 'C>T'= '#66cdaa',
                         'T>A'= '#cd5c5c', 'T>C'= '#f4a460', 'T>G'='red')
 nucleotide_colours_dollar <- c('C$>$A' = '#3cb371', 'C$>$G'= '#90ee90', 'C$>$T'= '#66cdaa',
                                'T$>$A'= '#cd5c5c', 'T$>$C'= '#f4a460', 'T$>$G'='red')
+
+nucleotide_colours_logR <- c('C$>$A/T$>$G'= '#a53606', 'C$>$G/T$>$G'= '#b32db5', 'C$>$T/T$>$G'= '#881a58',
+                             'T$>$A/T$>$G'= '#0e288e', 'T$>$C/T$>$G'= '#164c64')
+nucleotide_colours <- c('C>A' = '#a53606', 'C>G'= '#b32db5', 'C>T'= '#881a58',
+                        'T>A'= '#0e288e', 'T>C'= '#164c64', 'T>G'='red')
+nucleotide_colours_dollar <- c('C$>$A' = '#a53606', 'C$>$G'= '#b32db5', 'C$>$T'= '#881a58',
+                               'T$>$A'= '#0e288e', 'T$>$C'= '#164c64', 'T$>$G'='red')
+
+nucleotide_colours_logR <- c('C$>$A/T$>$G'= '#377eb8', 'C$>$G/T$>$G'= '#ff7f00', 'C$>$T/T$>$G'= '#984ea3',
+                             'T$>$A/T$>$G'= '#f781bf', 'T$>$C/T$>$G'= '#a65628')
+nucleotide_colours <- c('C>A' = '#377eb8', 'C>G'= '#ff7f00', 'C>T'= '#984ea3',
+                        'T>A'= '#f781bf', 'T>C'= '#a65628', 'T>G'='red')
+nucleotide_colours_dollar <- c('C$>$A' = '#377eb8', 'C$>$G'= '#ff7f00', 'C$>$T'= '#984ea3',
+                               'T$>$A'= '#f781bf', 'T$>$C'= '#a65628', 'T$>$G'='red')
 
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -97,13 +111,18 @@ colnames(betas_nucleotides_slopes) <- names(nucleotide1)
 rownames(betas_nucleotides_slopes) <- names_trinucleotide
 rownames(betas_nucleotides_slopes) <- gsub(">", "$>$", rownames(betas_nucleotides_slopes))
 
-tikzDevice::tikz("../../results/results_TMB/pcawg/reports_per_cancer_type/cors_trinucleotide3sorted_v3.tex", height = 4, width = 5)
+# tikzDevice::tikz("../../results/results_TMB/pcawg/reports_per_cancer_type/cors_trinucleotide3sorted_v3.tex", height = 4, width = 5)
+tikzDevice::tikz("../../results/results_TMB/pcawg/reports_per_cancer_type/cors_trinucleotide3sorted_v3.tex", height = 4, width = 5.5)
 ggplot(melt(as(betas_nucleotides_slopes, 'matrix')),
        aes(x=factor(Var2,levels=names(sort(colMeans(betas_nucleotides_slopes)))),
-           col=Var1, y=value))+geom_point()+
+           col=Var1, shape=Var1, y=value))+geom_point()+
   geom_hline(yintercept = 0, lty='dashed')+theme_bw()+geom_line(aes(group=Var1))+
   theme_bw()+theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))+
-  theme(axis.title.x = element_blank(), legend.position = "bottom", legend.title = element_blank())+
+  theme(axis.title.x = element_blank(),
+        legend.position = "bottom",
+        # legend.position = c(.5,-.5),
+        # plot.margin = unit(c(0,0,4,0), 'lines'),
+        legend.title = element_blank())+
   # labs(y=("$\\widehat{\\betab}_1$"))+
   labs(y=("$\\hat{\\beta}_1$"))+
   guides(col=guide_legend(nrow=1,byrow=TRUE))+

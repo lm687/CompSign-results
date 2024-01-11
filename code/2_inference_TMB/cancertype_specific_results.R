@@ -3124,8 +3124,9 @@ read_info_list <- lapply(enough_samples, read_info); names(read_info_list) <- en
 sapply(sapply(read_info_list, function(i) i$fullREDM_SP), typeof)
 ## Bone-Osteosarc, 'Breast-AdenoCA', 'CNS-Medullo', 'CNS-PiloAstro', 'ColoRect-AdenoCA', 'Head-SCC',
 ## 'Kidney-ChRCC', 'Kidney-RCC.clearcell', 'Kidney-RCC.papillary', 'Lymph-BNHL', 'Lymph-CLL',
-## 'Ovary-AdenoCA', 'Panc-AdenoCA', 'Panc-Endocrine', 'Skin-Melanoma.cutaneous'
-i = 'Stomach-AdenoCA'
+## 'Ovary-AdenoCA', 'Panc-AdenoCA', 'Panc-Endocrine', 'Skin-Melanoma.cutaneous', 'Stomach-AdenoCA',
+##  'Thy-AdenoCA'
+i = 'Uterus-AdenoCA'
 additional_results[[i]] <- wrapper_run_TMB(object = read_info_list[[i]]$dataset_active_sigs,
                                                     model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
 additional_results[[i]]
@@ -3145,10 +3146,11 @@ ggplot(cbind.data.frame(full=plot_betas(read_info_list$`Bone-Osteosarc`$fullREDM
 
 xxxx <- (lapply(read_info_list, function(i) cbind.data.frame(full=plot_betas(i$fullREDM_SP, return_df = T),
                  diag=plot_betas(i$diagRE_DMDL_SP, return_df = T))))
+converged <- lapply(read_info_list, function(i) wald_TMB_wrapper(i$fullREDM_SP))
 sapply(xxxx, ncol)
 xxxx <- xxxx[sapply(xxxx, ncol) == 8] ## where we have both fullREDM_SP and diagRE_DMDL_SP
-head(xxxx[[1]])
 xxxx_melt <- melt(xxxx, id.vars=colnames(xxxx[[1]]))
+xxxx_melt$converged <- !sapply(converged, is.na)[match(xxxx_melt$L1, names(converged))]
 ggplot(xxxx_melt,
-       aes(x=full.Estimate, y=diag.Estimate))+
+       aes(x=full.Estimate, y=diag.Estimate, col=converged))+
   geom_point()+geom_abline()+facet_wrap(.~L1)

@@ -19,7 +19,7 @@ library(reshape2)
 library(dplyr)
 library(gridExtra)
 library(ggdendro)
-# library(viridis)
+library(xlsx)
 # library(viridis)
 theme_set(theme_bw())
 ##-----------------------------------------------------------------------------------------------------##
@@ -94,7 +94,7 @@ all_diagREDMDL_betas_df = all_diagREDMDL_betas_df %>%
 
 ##-----------------------------------------------------------------------------------------------------##
 # library(scico)
-# palette_name <- 'lisbon'
+palette_name <- 'lisbon'
 
 ggplot(all_diagREDMDL_betas_df, aes(y=L1, x=sig, col=value))+
   geom_tile(aes(fill=value_minSBS1))+
@@ -191,7 +191,7 @@ a <- cbind.data.frame(num_sigs=sapply(all_diagREDMDL, function(j) try(length(pyt
                       num_samples=sapply(all_diagREDMDL, function(j) try(length(j$par.random)/(length(python_like_select_name(j$par.fixed, 'beta'))/2))),
                       num_sigs_full=sapply(all_fullREDMDL, function(j) try(length(python_like_select_name(j$par.fixed, 'beta'))/2)),
                       pval_full=sapply(all_fullREDMDL, wald_TMB_wrapper))
-View(a)
+# View(a)
 
 matrix(all_fullREDMDL_betas[[1]]$diag.cov.random, ncol=length(python_like_select_name(all_fullREDMDL_betas[[1]]$par.fixed, 'beta'))/2)
 
@@ -201,8 +201,19 @@ sapply(read_info_all, function(i) nrow(i$dataset_active_sigs$Y)/2)
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
-ggplot(melt(lapply(read_info_all, function(i) lapply(split_matrix_in_half(i$dataset_active_sigs$Y), rowSums))) %>%
-         mutate(Group=ifelse(L2 == 1, 'Clonal', 'Subclonal')),
+df_num_mutations_ct_group <- melt(lapply(read_info_all, function(i) lapply(split_matrix_in_half(i$dataset_active_sigs$Y), rowSums))) %>%
+  mutate(Group=ifelse(L2 == 1, 'Clonal', 'Subclonal'))
+table(df_num_mutations_ct_group$L2, df_num_mutations_ct_group$Group) ## should be diagonal
+
+df_num_mutations_ct_group_table <- df_num_mutations_ct_group[,-2] %>% group_by(L1, Group) %>%
+                                           summarise(min=min(value), max=max(value),
+                                                     mean=mean(value), median=median(value))
+head(df_num_mutations_ct_group_table)
+colnames(df_num_mutations_ct_group_table) <- c('Cancer type', 'Group', 'Min',  'Max',  'Mean', "Median")
+writexl::write_xlsx(df_num_mutations_ct_group_table, "../../../results/supplementary_data/number_of_mutations_per_ct_group.xlsx")
+print(xtable::xtable(df_num_mutations_ct_group_table), include.rownames=FALSE)
+
+ggplot(df_num_mutations_ct_group,
        aes(x=value, col=Group))+geom_density()+
   facet_wrap(.~L1, scales = "free", ncol=4)+
   scale_x_log10()+
@@ -210,6 +221,8 @@ ggplot(melt(lapply(read_info_all, function(i) lapply(split_matrix_in_half(i$data
   geom_vline(xintercept = 180, lty='dashed')+labs(x='Number of mutations', y='Density')+
   theme(legend.position = 'bottom')
 ggsave("../../../results/results_TMB/pcawg/nlambda_in_samples_density.png", 
+       height = 7, width = 8)
+ggsave("../../../results/results_TMB/pcawg/nlambda_in_samples_density.pdf", 
        height = 7, width = 8)
 
 ##-----------------------------------------------------------------------------------------------------##
@@ -288,7 +301,12 @@ cowplot::plot_grid(cowplot::plot_grid(plot.new(), ggplot(increases_matrix_melt,
                                       rel_heights = c(0.03, 0.9)),
                    plot_grid(plot.new(),ggdendro::ggdendrogram(pheatmap_increases_matrix$tree_row, rotate=T), plot.new(),
                              rel_heights = c(0.005, 0.9, 0.1), ncol=1), rel_widths = c(3,1))
-# ggsave("../../../results/results_TMB/pcawg/betas_comparison_order_coefficients_heatmap_with_tree_bottomlegend.pdf", 
+ggsave("../../../results/results_TMB/pcawg/betas_comparison_order_coefficients_heatmap_with_tree_bottomlegend.pdf",
+       height = 8, width = 12)
 ggsave("../../../results/results_TMB/pcawg/betas_comparison_order_coefficients_heatmap_with_tree_bottomlegend.png", 
        height = 8, width = 12)
+
+num_ct_with_comparison <- dcast(increases_matrix_melt[,c(1:2, 4)], Var1~Var2)
+num_ct_with_comparison[is.na(num_ct_with_comparison)] <- 0
+writexl::write_xlsx(num_ct_with_comparison, "../../../results/supplementary_data/number_of_cancer_types_signature_combination.xlsx")
 ##-----------------------------------------------------------------------------------------------------##

@@ -2691,3 +2691,109 @@ adjust_all <- function(i, new_version=F, method='BH'){
   }
 }
 
+matrix_mutations_to_HilDA <- function(m){
+  if(nrow(m) != 96){
+    stop('Rows must be trinucleotide categories (n=96)\n')
+  }
+  
+  if(!any(rownames(m) == 'C>A_TCC')){
+    stop('Rownames must be in the following format: C>A_TCC')
+  }
+  
+  require(BSgenome.Hsapiens.UCSC.hg19)
+  
+  positions <- sample(1:length(BSgenome.Hsapiens.UCSC.hg19$chr1),  sum(m))
+  
+  ## for each sample, create this dataframe
+  positions <- split(positions, rep(1:ncol(m), colSums(m)))
+  
+  
+  mutationPosition_in <- lapply(1:ncol(m), function(sam){
+    nummuts <- sum(m[,sam])
+    data.frame(  chr= rep('chr1', sum(m[,sam])),
+                 pos = positions[[sam]],
+                 ref =  rep(substr(rownames(m), 1, 1), m[,sam] ),
+                 alt = rep(substr(rownames(m), 3, 3), m[,sam]),
+                 strand = rep(NA, nummuts),
+                 context = rep(substr(rownames(m), 5, 8), m[,sam]),
+                 sampleID = rep(sam, nummuts),
+                 mutID = paste0(sam, '-', nummuts))
+  })
+  mutationPosition_in <- do.call('rbind.data.frame', mutationPosition_in)
+  possibleFeatures_in <- c(6L, 4L, 4L)
+  featureVectorList_in <- t(expand.grid(lapply(possibleFeatures_in, function(i) 1:i)))
+  feature_idx_per_mut <- apply(mutationPosition_in[,c('context', 'ref', 'alt')], 1,
+                               function(i){
+                                 c(as.numeric(factor(paste0(i[2], '>', i[3]), levels=six_substitutions_levels)),
+                                   as.numeric(factor(substr(i[1], 1, 1), levels = nucleotides_levels)),
+                                   as.numeric(factor(substr(i[1], 3, 3), levels = nucleotides_levels))
+                                 )
+                               })
+  feature_idx_per_mut_paste <- apply(feature_idx_per_mut, 2, paste0, collapse='-')
+  featureVectorList_in_paste <- apply(featureVectorList_in, 2, paste0, collapse='-')
+  feature_idx_per_mut_paste_match <- match(feature_idx_per_mut_paste, featureVectorList_in_paste, featureVectorList_in_paste)
+  
+  stopifnot(length(feature_idx_per_mut_paste_match) == nrow(mutationPosition_in))
+  
+  ## remove feature combinations which have zero occurrences
+  which_features_empty <- which( !((1:ncol(featureVectorList_in)) %in% feature_idx_per_mut_paste_match))
+  if(length(which_features_empty) == 0){
+    ## no features are empty
+    ## feature combination as index
+    feature_idx_per_mut_factor <- as.numeric(factor(feature_idx_per_mut_paste,
+                                                    levels=featureVectorList_in_paste))
+  }else{
+    ## some features are empty
+    featureVectorList_in <- featureVectorList_in[,-which_features_empty]
+    ## feature combination as index
+    feature_idx_per_mut_factor <- as.numeric(factor(feature_idx_per_mut_paste,
+                                                    levels=featureVectorList_in_paste[-which_features_empty]))
+  }
+  stopifnot(length(feature_idx_per_mut_factor) == length(feature_idx_per_mut_paste))
+  stopifnot(!any(is.na(feature_idx_per_mut_factor)))
+  
+  if(any(is.na(feature_idx_per_mut_paste_match))){
+    stop('any(is.na(feature_idx_per_mut_paste_match))')
+  }
+  
+  combination_per_sample <- table((feature_idx_per_mut_factor), mutationPosition_in$sampleID)
+  
+  countDats_in <- rbind(feature_idx_per_mut_factor, ## feature combinations
+                        mutationPosition_in$sampleID)
+  ## collapse and add as the third column the number of occurrences of the same sample + feature combination
+  countDats_in_2 <- table(countDats_in[1,], countDats_in[2,])
+  countDats_in_2 <- rbind(rep(1:nrow(countDats_in_2), ncol(countDats_in_2)),
+                          rep(1:ncol(countDats_in_2), nrow(countDats_in_2)),
+                          as.vector(countDats_in_2))
+  apply(countDats_in_2, 1, unique)
+  
+  ## remove columns where there are no combinations of sample+feature
+  countDats_in_2 <- countDats_in_2[,countDats_in_2[3,] > 0]
+  
+  # countDats_in_2[,countDats_in_2[3,] == 0]
+  
+  stopifnot(sum(countDats_in_2[3,]) == sum(m))
+  stopifnot(sum((countDats_in_2[3,]) == 0) == 0)
+  
+  # res <- new("pmsignature_object",
+  res <- new("MutationFeatureData",
+             mutationPosition=mutationPosition_in,
+             featureVectorList = featureVectorList_in,
+             sampleList = paste0('SimSample', 1:ncol(m)),
+             countData = countDats_in_2,
+             type = "independent",
+             flankingBasesNum = 3L,
+             transcriptionDirection = FALSE, 
+             possibleFeatures = as.integer(possibleFeatures_in))
+  if(!(apply(res@countData, 1, max)[1] == ncol(res@featureVectorList))){ ## number of feature combinations
+    stop()
+  }|
+    if(!(apply(res@countData, 1, max)[2] == length(res@sampleList))){ ## sample
+      stop()
+    }
+  if(!(sum(res@countData[3,]) == nrow(res@mutationPosition))){ ## mutation count in each feature category
+    stop()
+  }
+  ## return pmsignature object
+  return(res)
+}

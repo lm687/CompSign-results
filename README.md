@@ -4,12 +4,7 @@ Some elements inside the data folder `data/` is restricted and therefore not ava
 ## Environment
 To set up the environment, run
 ```
-<<<<<<< HEAD
 conda env create -f environment.yaml
-=======
-conda create -n snakemake-globalDA -c conda-forge bioconda::snakemake bioconda::snakemake-minimal -c bioconda
-
->>>>>>> 19d21773fba512148be862d2faeafef5c38a5ba5
 ```
 to enter the environment, type
 

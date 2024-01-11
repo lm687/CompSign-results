@@ -242,6 +242,8 @@ saveRDS(nlambdas5, paste0(flder_save,"multiple_fixed_nlambdaPCAWG6.RDS"))
 saveRDS(lapply(lapply(nlambdas5, '/', 2), round), paste0(flder_save,"multiple_fixed_lownlambdaPCAWG6.RDS"))
 saveRDS(lapply(lapply(nlambdas5, '/', 10), round), paste0(flder_save,"multiple_fixed_low2nlambdaPCAWG6.RDS"))
 saveRDS(lapply(lapply(nlambdas5, '/', 100), round), paste0(flder_save,"multiple_fixed_low3nlambdaPCAWG6.RDS"))
+saveRDS(lapply(lapply(nlambdas5, '/', 500), round), paste0(flder_save,"multiple_fixed_low4nlambdaPCAWG6.RDS"))
+saveRDS(lapply(lapply(nlambdas5, '/', 200), round), paste0(flder_save,"multiple_fixed_low5nlambdaPCAWG6.RDS"))
 ## ----------------------------------------------------------------------------------------- ##
 
 ## ----------------------------------------------------------------------------------------- ##

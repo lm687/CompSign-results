@@ -277,15 +277,16 @@ rule all:
       # d = 'dPCAWG6', beta_intensity=0)
       # --------------------------------------------------------------------------------------------------------- #
       ## Biological-driven simulation #4, with a lower number of mutations   
-      expand("../results/results_TMB/simulated_datasets/bias_and_coverage/multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
-      datasetgeneration='GenerationJnorm', model=['diagREDM', 'fullREDM'],\
-      fixed_beta_intercept = 'betainterceptPCAWG6',\
-      fixed_beta_slope = 'betaslopePCAWG6',\
-      sdRE_input = 'covmatFULLPCAWG6',\
-      n = 'nPCAWG6', \
-      nlambda = ['lownlambdaPCAWG6', 'low2nlambdaPCAWG6', 'low3nlambdaPCAWG6'],\
-      lmbda = ['lambdaPCAWG6'],\
-      d = 'dPCAWG6', beta_intensity=0)
+      # expand("../results/results_TMB/simulated_datasets/bias_and_coverage/multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/setsim_multiple_{datasetgeneration}_nlminb_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_onlyconverged_coverage_beta.pdf",\
+      # datasetgeneration='GenerationJnorm', model=['diagREDM', 'fullREDM'],\
+      # fixed_beta_intercept = 'betainterceptPCAWG6',\
+      # fixed_beta_slope = 'betaslopePCAWG6',\
+      # sdRE_input = 'covmatFULLPCAWG6',\
+      # n = 'nPCAWG6', \
+      # nlambda = 'low5nlambdaPCAWG6',\
+      # #['lownlambdaPCAWG6', 'low2nlambdaPCAWG6', 'low3nlambdaPCAWG6',],\
+      # lmbda = ['lambdaPCAWG6'],\
+      # d = 'dPCAWG6', beta_intensity=0)
       # --------------------------------------------------------------------------------------------------------- #
       ## Baseline simulation
       ## Biological-driven simulation equivalent to #2
@@ -312,7 +313,24 @@ rule all:
       # sdRE_input = 'covmatPCAWG4',\
       # n = 200, nlambda = 14072, lmbda = 80, d = 6, beta_intensity=0)
       # --------------------------------------------------------------------------------------------------------- #
-
+      ## Simulation for HilDA, TCSM, CompSign
+      ## Simulating data using mixtures. Now, here, the beta represents the ALR of the mixture proporions
+      ## CompSign results:
+      # [expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration='GenerationMixtureSimulation',\
+      # model=['diagREDM'], optimiser = 'nlminb', \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1],\
+      #  itnum=range(10)),
+      ## HilDA results:
+      ## as it is slow, start with a subset of parameters
+      [expand("../data/assessing_models_simulation/inference_results/HiLDA/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      datasetgeneration='GenerationMixtureSimulation',\
+      model=['HiLDA'], fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      sdRE_input = 'NA', n = '150', nlambda = '200', lmbda = ['NA'],\
+      d = 'NA', beta_intensity=[-8, -3, 0], itnum=range(10))
+      ]
 # expand(['/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/'+x.strip('.gz')+'.annovar' for x in listdir('/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/') if re.search('.gz$', x)])
 
 
@@ -450,3 +468,17 @@ rule annotate_vcf:
         "/Users/morril01/software/annovar/./table_annovar.pl {input} \
         /Users/morril01/software/annovar/humandb/ -buildver hg19 -out {output} -remove -protocol icgc28 -operation f -nastring . -csvout -polish \
         -xref /Users/morril01/software/annovar/example/gene_xref.txt; gzip {input}; mv {output}.hg19_multianno.csv {output}"
+
+
+rule inference_simulation_HiLDA_multiple:
+    input:
+        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    log:
+        "logs/inference/HiLDA/simulation_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_Model{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.log"
+    params:
+       model="{model}",
+    output:
+       "../data/assessing_models_simulation/inference_results/HiLDA/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    shell:
+       "Rscript 3_analysis/2_simulation_model_assessment/3_Comparison_other_models/run_alternative_models.R --input {input} --output {output} --model {params.model}"
+

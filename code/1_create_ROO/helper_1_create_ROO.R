@@ -6,7 +6,7 @@
 ##' [172] createROO_ROOSigs
 
 
-QPsig<-function(tumour.ref = NA,samplerow,signatures.ref){
+QPsig<-function(tumour.ref = NA,signatures.ref){
   ## modified from Lynch, 2016
   # we normalize the observations so that they sum to 1
   W <- table(factor(tumour.ref, levels = rownames(signatures.ref)))
