@@ -4,6 +4,7 @@ Some elements inside the data folder `data/` is restricted and therefore not ava
 ## Environment
 To set up the environment, run
 ```
+cd code/
 conda env create -f environment.yaml
 ```
 to enter the environment, type

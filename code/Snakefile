@@ -2,6 +2,10 @@ import numpy as np
 from os import listdir
 import uuid
 
+#--------------- Change paths to external software ---------------#
+path_to_TCSM='/Users/lenamorrill/Software/tcsm'
+#-----------------------------------------------------------------#
+
 configfile: "config_PCAWG_do_not_modify.yaml"
 cancer_types = config["sample_groups"]
 # cancer_type = "Cervix-SCC"
@@ -21,6 +25,8 @@ for parameter_names_it in list_basic_params_sim:
       config[parameter_names_it+'GenerationJnormChangingNmBTwoLambdasOneChangingBeta'] = config[parameter_names_it+'GenerationJnormBTwoLambdasOneChangingBeta']
 config['simulation_nlambda_GenerationJnormChangingNmBTwoLambdasOneChangingBeta'] = [40,60,80,120,140,160]
 
+## number of categories or signatures for each Mixture simulation framework
+d_list = {'GenerationMixtureSimulation': 4}
 
 ## which parameters n, d, etc. do we use for each dataset?
 datasetgeneration2_dict = {'GenerationC': 'generationC', 'GenerationCnorm': 'generationC',\
@@ -316,28 +322,36 @@ rule all:
       ## Simulation for HilDA, TCSM, CompSign
       ## Simulating data using mixtures. Now, here, the beta represents the ALR of the mixture proporions
       ## CompSign results:
-      # [expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
-      # datasetgeneration='GenerationMixtureSimulation',\
-      # model=['diagREDM'], optimiser = 'nlminb', \
-      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
-      # sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
-      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1],\
-      #  itnum=range(10)),
+      expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      datasetgeneration='GenerationMixtureSimulation',\
+      model=['diagREDM'], optimiser = 'nlminb', \
+      fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
+      d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1],\
+      itnum=range(10))
       ## HilDA results:
       ## as it is slow, start with a subset of parameters
-      [expand("../data/assessing_models_simulation/inference_results/HiLDA/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
-      datasetgeneration='GenerationMixtureSimulation',\
-      model=['HiLDA'], fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
-      sdRE_input = 'NA', n = '150', nlambda = '200', lmbda = ['NA'],\
-      d = 'NA', beta_intensity=[-8, -3, 0], itnum=range(10))
-      ]
+      # [expand("../data/assessing_models_simulation/inference_results/HiLDA/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration='GenerationMixtureSimulation',\
+      # model=['HiLDA'], fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -3, 0], itnum=range(10))
+      # ]
+      ## TCSM results:
+      ## see below (rule inference_simulation_TCSM_multiple_2) for a discussion on the conda env that must be used (tcsm)
+      # expand("../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration='GenerationMixtureSimulation',\
+      # model=['TCSM'], fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
+      
 # expand(['/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/'+x.strip('.gz')+'.annovar' for x in listdir('/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/') if re.search('.gz$', x)])
 
 
 numreplicates_for_bias = 1000 ## for bias analysis
 # numreplicates_for_bias = 200 ## for baseline comparisons
 
-
+#-----------------------------------------------------------------------------------------------------------------#
 rule index_vcf:
     input:
         "../data/restricted/pcawg/pcawg_restricted_snv/{sample}.consensus.20160830.somatic.snv_mnv.vcf.gz"
@@ -367,20 +381,9 @@ rule make_roo_filesMSE:
        ct="{cancer_type}",
     shell:
         "Rscript 1_create_ROO/sigextractB_extract_mutations_mutSigExtractor.R --input_files {input} --cancer_type {params.ct} --output {output}"
+#-----------------------------------------------------------------------------------------------------------------#
 
-rule inference_TMB:
-    input:
-        "../data/roo/{cancer_type}_{feature_type}_ROO.RDS"
-    params:
-       model="{model}",
-       feature_type="{feature_type}"
-    log:
-        "logs/inference/TMBinference_{cancer_type}_{feature_type}_{model}.log"
-    output:
-        "../results/results_TMB/pcawg_robjects/tmb_results/nlminb/{model}_{cancer_type}_{feature_type}.RDS"
-    shell:
-        "Rscript 2_inference_TMB/run_TMB.R --input {input} --output {output} --model {params.model} --feature_type {params.feature_type} --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T"
-
+#-----------------------------------------------------------------------------------------------------------------#
 rule simulate_for_comparison_multiple:
     input:
         "../data/assessing_models_simulation/{datasetgeneration}"
@@ -399,6 +402,22 @@ rule simulate_for_comparison_multiple:
        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
     shell:
        "Rscript --vanilla 3_analysis/2_simulation_model_assessment/1_generate_datasets_simulations/{params.datasetgeneration}.R --input {input} --d {params.d} --n {params.n} --nlambda {params.nlambda} --lambda {params.lmbda} --beta_gamma_shape {params.beta_intensity} --outfile {output} --beta_intercept_input ../data/assessing_models_simulation/additional_files/multiple_fixed_{params.fixed_beta_intercept}.RDS --beta_slope_input ../data/assessing_models_simulation/additional_files/multiple_fixed_{params.fixed_beta_slope}.RDS --sdRE_input ../data/assessing_models_simulation/additional_files/multiple_fixed_{params.sdRE_input}.RDS"
+#-----------------------------------------------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------------------------------------------#
+
+rule inference_TMB:
+    input:
+        "../data/roo/{cancer_type}_{feature_type}_ROO.RDS"
+    params:
+       model="{model}",
+       feature_type="{feature_type}"
+    log:
+        "logs/inference/TMBinference_{cancer_type}_{feature_type}_{model}.log"
+    output:
+        "../results/results_TMB/pcawg_robjects/tmb_results/nlminb/{model}_{cancer_type}_{feature_type}.RDS"
+    shell:
+        "Rscript 2_inference_TMB/run_TMB.R --input {input} --output {output} --model {params.model} --feature_type {params.feature_type} --optimiser nlminb --simulation_bool F --read_directly T --use_previous_run_startingvals T"
 
 rule inference_simulation_TMB_multiple:
     input:
@@ -425,8 +444,10 @@ rule inference_simulation_TMB_multiple_LRT:
        "../data/assessing_models_simulation/inference_results/TMB_LRT/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
     shell:
        "Rscript 2_inference_TMB/run_TMB.R --return_opt_bool T --input {input} --output {output} --model {params.model} --optimiser {params.optimiser}  --use_previous_run_startingvals T"
+#-----------------------------------------------------------------------------------------------------------------#
 
 
+#-----------------------------------------------------------------------------------------------------------------#
 rule analyse_simulation_TMB_bias:
     input:
       lambda wildcards: expand("../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
@@ -448,7 +469,9 @@ rule analyse_simulation_TMB_bias:
         --dataset_generation {wildcards.datasetgeneration} --model {wildcards.model}\
         --multiple_runs T --run_nonconverged F --beta_intercept_input {wildcards.fixed_beta_intercept} \
         --beta_slope_input {wildcards.fixed_beta_slope} --sdRE_input {wildcards.sdRE_input}  --d {wildcards.d} --n {wildcards.n} --nlambda {wildcards.nlambda} --lambda {wildcards.lmbda} --beta_gamma_shape {wildcards.beta_intensity} "
+#-----------------------------------------------------------------------------------------------------------------#
 
+#-----------------------------------------------------------------------------------------------------------------#
 
 rule unzip:
     input:
@@ -468,8 +491,9 @@ rule annotate_vcf:
         "/Users/morril01/software/annovar/./table_annovar.pl {input} \
         /Users/morril01/software/annovar/humandb/ -buildver hg19 -out {output} -remove -protocol icgc28 -operation f -nastring . -csvout -polish \
         -xref /Users/morril01/software/annovar/example/gene_xref.txt; gzip {input}; mv {output}.hg19_multianno.csv {output}"
+#-----------------------------------------------------------------------------------------------------------------#
 
-
+#-----------------------------------------------------------------------------------------------------------------#
 rule inference_simulation_HiLDA_multiple:
     input:
         "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
@@ -480,5 +504,83 @@ rule inference_simulation_HiLDA_multiple:
     output:
        "../data/assessing_models_simulation/inference_results/HiLDA/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
     shell:
-       "Rscript 3_analysis/2_simulation_model_assessment/3_Comparison_other_models/run_alternative_models.R --input {input} --output {output} --model {params.model}"
+       "Rscript 3_analysis/2_simulation_model_assessment/3_Comparison_other_models/1_run_alternative_models.R --input {input} --output {output} --model {params.model}"
+#-----------------------------------------------------------------------------------------------------------------#
 
+#-----------------------------------------------------------------------------------------------------------------#
+## TCSM
+## Create input files for TCSM
+rule inference_simulation_TCSM_multiple_1:
+    input:
+        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    log:
+        "logs/inference/TCSM/simulation_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_Model{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.log"
+    params:
+        model="{model}",
+    output:
+        "../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/mutationcount{itnum}TEMP"
+    shell:
+        "Rscript 3_analysis/2_simulation_model_assessment/3_Comparison_other_models/1_run_alternative_models.R --input {input} --output {output} --model {params.model}"
+
+## Run TCSM
+## for running this rule, activate the conda environment: `conda activate tcsm`
+## and you need to specify cores; `snakemake -p --cores 1`
+## moreover, the following packages need to be installed in the tcsm conda environment:
+## - r-optparse `conda install r-optparse`
+## - r-uuid `conda install conda-forge::r-uuid`
+## - HiLDA is not installed in this environment so make sure that the rule simulate_for_comparison_multiple is run before
+rule inference_simulation_TCSM_multiple_2:
+    input:
+        "../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/mutationcount{itnum}TEMP"
+    log:
+        "logs/inference/TCSM/simulation_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_Model{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.log"
+    params:
+       model="{model}",
+       d = lambda wildcards: d_list[wildcards.datasetgeneration],
+    output:
+       "../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/exposures{itnum}TEMP"
+    conda:
+        "tcsm"
+    benchmark: ## timing
+       "../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.time"
+    shell:
+       path_to_TCSM + "/src/./run_tcsm.R  ../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/mutationcount{wildcards.itnum}TEMP"+\
+       "  {params.d} -c=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/covariate{wildcards.itnum}TEMP"+\
+       " --covariates group"+\
+       " --exposures=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/exposures{wildcards.itnum}TEMP "+\
+       " --signatures=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/signatures{wildcards.itnum}TEMP "+\
+       " --effect=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/effect{wildcards.itnum}TEMP "+\
+       " --sigma=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/sigma{wildcards.itnum}TEMP "+\
+       " --gamma=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/gamma{wildcards.itnum}TEMP "
+
+## get the significance of the change (by simulation). Time this as well!
+rule inference_simulation_TCSM_multiple_3:
+    input: ## even though this file in particular is not taken as input, but it is created at the same time as all the inputs, in rule inference_simulation_TCSM_multiple_2
+           "../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/exposures{itnum}TEMP"
+    output:
+       "../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/EstSignificance{itnum}TEMP"
+    benchmark: ## timing
+       "../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.time2"
+    shell:
+       "python3 3_analysis/2_simulation_model_assessment/3_Comparison_other_models/2_TCSM_estimate_significance.py " +\
+         #../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/mutationcount{wildcards.itnum}TEMP"+\
+       " --covariates group --covariate_of_interest group"+\
+       # " --signatures=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/signatures{wildcards.itnum}TEMP "+\
+       # " --effect=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/effect{wildcards.itnum}TEMP "+\
+       " --sigma=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/sigma{wildcards.itnum}TEMP "+\
+       " --gamma=../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/gamma{wildcards.itnum}TEMP "+\
+       " --output {output}"
+
+
+## Remove files from TCSM, and rename output file
+## Assemble results in a single file
+rule inference_simulation_TCSM_multiple_4:
+    input:
+     "../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/EstSignificance{itnum}TEMP"
+    output:
+       "../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    shell:
+       "Rscript 3_analysis/2_simulation_model_assessment/3_Comparison_other_models/3_delete_temp_TCSM_files.R "+\
+       " --filestring ../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/"+\
+       " --it {wildcards.itnum} --input {input} --output {output}"
+#-----------------------------------------------------------------------------------------------------------------#

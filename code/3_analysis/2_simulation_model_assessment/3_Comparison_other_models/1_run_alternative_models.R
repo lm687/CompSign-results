@@ -3,9 +3,7 @@
 
 rm(list = ls())
 
-library(TMB)
 library(optparse)
-library(HiLDA)
 # library(CompSign)
 
 # source("1_create_ROO/roo_functions.R")
@@ -46,13 +44,15 @@ cat('Model:', opt$model, '\n')
 
 # for(i_file in flder_fles){
   # dataset <- readRDS(i_file)
-cat(opt$input)
-dataset = readRDS(opt$input) ## using this instead of load_PCAWG as we are interested in loading the input matrices for HiLDA and TSMC
+cat(opt$input, '\n')
+dataset = readRDS(opt$input) ## using this instead of load_PCAWG as we are interested in loading the input matrices for HiLDA and TCSM
 
 
 stopifnot(dataset$d == ncol(dataset$W))
   
 if(opt$model == 'HiLDA'){
+  library(HiLDA)
+  
   ## with initial values
   cat('\nRunning HiLDA...\n')
   time1=Sys.time() 
@@ -63,34 +63,39 @@ if(opt$model == 'HiLDA'){
   cat('... end\n')
 }else if(opt$model == 'TCSM'){
   ## write files
-  arg_TCSM_mutation_count_file = paste0(dirname(opt$output), '/mutation_countTEMP')
-  arg_TCSM_num_sigs = ncol(dataset$W)
-  arg_TCSM_covariate = paste0(dirname(opt$output), '/', gsub(".RDS", "", basename(opt$input)), 'covariateTEMP')
-  out_TCSM_exposures = paste0(dirname(opt$output), '/', gsub(".RDS", "", basename(opt$input)), 'exposuresTEMP')
-  out_TCSM_signatures = paste0(dirname(opt$output), '/', gsub(".RDS", "", basename(opt$input)), 'signaturesTEMP')
-  out_TCSM_effect = paste0(dirname(opt$output), '/', gsub(".RDS", "", basename(opt$input)), 'effectTEMP')
-  out_TCSM_sigma = paste0(dirname(opt$output), '/', gsub(".RDS", "", basename(opt$input)), 'sigmaTEMP')
-  out_TCSM_gamma = paste0(dirname(opt$output), '/', gsub(".RDS", "", basename(opt$input)), 'gammaTEMP')
-  out_TCSM_script = paste0(dirname(opt$output), '/', gsub(".RDS", "", basename(opt$input)), 'scriptTEMP.sh')
+  it_num <- gsub(".RDS", "", gsub("dataset", "", gsub("..*_", "", basename(opt$input))))
+  arg_TCSM_mutation_count_file = paste0(dirname(opt$output), '/mutationcount', it_num, 'TEMP')
+  arg_TCSM_covariate = paste0(dirname(opt$output), '/', 'covariate', it_num, 'TEMP')
+  
+  system(paste0('mkdir -p ', dirname(arg_TCSM_mutation_count_file)))
+  
+  # arg_TCSM_num_sigs = ncol(dataset$W)
+  # out_TCSM_exposures = paste0(dirname(opt$output), '/', 'exposures', it_num, 'TEMP')
+  # out_TCSM_signatures = paste0(dirname(opt$output), '/', 'signatures', it_num, 'TEMP')
+  # out_TCSM_effect = paste0(dirname(opt$output), '/', 'effect', it_num, 'TEMP')
+  # out_TCSM_sigma = paste0(dirname(opt$output), '/', 'sigma', it_num, 'TEMP')
+  # out_TCSM_gamma = paste0(dirname(opt$output), '/', 'gamma', it_num, 'TEMP')
+  # out_TCSM_script = paste0(dirname(opt$output), '/', 'script', it_num, 'TEMP.sh')
   rownames(dataset$W_TCSM) = paste0('Subsample', 1:nrow(dataset$W_TCSM))
   write.table(dataset$W_TCSM, file = arg_TCSM_mutation_count_file,
               row.names = T, quote = F, sep = '\t', col.names=NA)
-  write.table(data.frame(group=rep(c(0, 1), each=nrow(dataset$W_TCSM)/2), row.names = rownames(dataset$W_TCSM)), file = paste0(dirname(opt$output), '/covariateTEMP'),
+  write.table(data.frame(group=rep(c(0, 1), each=nrow(dataset$W_TCSM)/2),
+                         row.names = rownames(dataset$W_TCSM)), file = arg_TCSM_covariate,
               row.names = T, quote = F, sep = '\t', col.names=NA)
   
-  library(reticulate)
-  use_condaenv("tcsm")
-  
-  ## conda init; conda activate tcsm;
-  writeLines(text = paste0(tcsm_path, 'src/./run_tcsm.R  ', arg_TCSM_mutation_count_file, ' ', arg_TCSM_num_sigs,
-                           ' -c=', arg_TCSM_covariate, ' --covariates group', ' --exposures=', out_TCSM_exposures, ' --signatures=',
-                           out_TCSM_signatures, ' --effect=', out_TCSM_effect, ' --sigma=', out_TCSM_sigma, ' --gamma=', out_TCSM_gamma),
-             con = out_TCSM_script)
-  
-  ## run TCSM and output to temporary files
-  time1=Sys.time() 
-  system(readLines(out_TCSM_script))
-  time2=Sys.time() 
+  # library(reticulate)
+  # use_condaenv("tcsm")
+  # 
+  # ## conda init; conda activate tcsm;
+  # writeLines(text = paste0(tcsm_path, 'src/./run_tcsm.R  ', arg_TCSM_mutation_count_file, ' ', arg_TCSM_num_sigs,
+  #                          ' -c=', arg_TCSM_covariate, ' --covariates group', ' --exposures=', out_TCSM_exposures, ' --signatures=',
+  #                          out_TCSM_signatures, ' --effect=', out_TCSM_effect, ' --sigma=', out_TCSM_sigma, ' --gamma=', out_TCSM_gamma),
+  #            con = out_TCSM_script)
+  # 
+  # ## run TCSM and output to temporary files
+  # time1=Sys.time() 
+  # system(readLines(out_TCSM_script))
+  # time2=Sys.time() 
   
   ## read output files and create object
   
@@ -105,10 +110,10 @@ if(opt$model == 'HiLDA'){
 # saveRDS(hildaLocal, "../../CompSign-results/data/assessing_models_simulation/inference_results/HiLDA/")
 # saveRDS(time2-time1, "../../CompSign-results/data/assessing_models_simulation/inference_results/HiLDA/")
 
-system(paste0('mkdir -p ', dirname(opt$output)))
-saveRDS(object = results_inference, file = opt$output)
-
-saveRDS(object = time2-time1, file = gsub(".RDS", ".time", opt$output))
+# system(paste0('mkdir -p ', dirname(opt$output)))
+# saveRDS(object = results_inference, file = opt$output)
+# 
+# saveRDS(object = time2-time1, file = gsub(".RDS", ".time", opt$output))
 
 
 # }
