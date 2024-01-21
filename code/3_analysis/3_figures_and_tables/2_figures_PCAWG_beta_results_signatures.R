@@ -19,7 +19,7 @@ library(reshape2)
 library(dplyr)
 library(gridExtra)
 library(ggdendro)
-library(xlsx)
+# library(xlsx)
 # library(viridis)
 theme_set(theme_bw())
 ##-----------------------------------------------------------------------------------------------------##
@@ -88,8 +88,6 @@ all_diagREDMDL_betas_df = all_diagREDMDL_betas_df %>%
 all_diagREDMDL_betas_df = all_diagREDMDL_betas_df %>% 
   group_by(L1) %>% mutate(idx_in_ct = 1:n())
 
-
-
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
@@ -143,7 +141,7 @@ ggplot(all_diagREDMDL_betas_df_with_estimate,
   geom_errorbar(aes(ymin=Estimate-`Std. Error`, ymax=Estimate+`Std. Error`))+
   scale_color_manual(values=c('black', '#ffba81', '#a3f6ab'))
 ggsave("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror.png", height = 5, width = 10)
-all_diagREDMDL_betas_df_with_estimate$L1_rows = all_diagREDMDL_betas_df_with_estimate$L1 %in% unique(all_diagREDMDL_betas_df_with_estimate$L1)[1:12]
+
 
 plot_row_sorted_betas <- function(df, return_legend=F){
   a <- ggplot(df, 
@@ -152,9 +150,9 @@ plot_row_sorted_betas <- function(df, return_legend=F){
     geom_line(aes(group=L1))+
     geom_point()+
     geom_errorbar(aes(ymin=Estimate-`Std. Error`, ymax=Estimate+`Std. Error`))+
-    scale_color_manual(values=c('black', '#ffba81', '#a3f6ab'))+
+    scale_color_manual(values=c('black', '#FFC107', '#C86518'))+
     facet_wrap(.~L1_rows, nrow=2)+
-    facet_grid(.~L1, scales='free', space='free_x' )+
+    facet_grid(.~L1, scales='free', space='free_x')+
     theme(legend.position = 'bottom')+
     theme(axis.title.x=element_blank(),
           axis.text.x=element_blank(),
@@ -167,10 +165,24 @@ plot_row_sorted_betas <- function(df, return_legend=F){
   }
 }
 
-png("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror_facets.png", height = 12, width = 20, units = 'cm', res = 200)
-plot_grid(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(L1_rows)),
-          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(!L1_rows)),
-          cowplot::get_legend(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(L1_rows), return_legend = T)), rel_heights = c(1, 1, 0.2), nrow=3)
+# all_diagREDMDL_betas_df_with_estimate$L1_rows = all_diagREDMDL_betas_df_with_estimate$L1 %in% unique(all_diagREDMDL_betas_df_with_estimate$L1)[1:12]
+# png("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror_facets.png", height = 12, width = 20, units = 'cm', res = 200)
+# plot_grid(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(L1_rows)),
+#           plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(!L1_rows)),
+#           cowplot::get_legend(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(L1_rows), return_legend = T)), rel_heights = c(1, 1, 0.2), nrow=3)
+# dev.off()
+.tab_rows <- table(all_diagREDMDL_betas_df_with_estimate$L1, c(rep(1:4, each=rep(round(nrow(all_diagREDMDL_betas_df_with_estimate)/4)))[-1]))
+all_diagREDMDL_betas_df_with_estimate$L1_rows = apply(.tab_rows, 1, which.max)[match(all_diagREDMDL_betas_df_with_estimate$L1, names(apply(.tab_rows, 1, which.max)))]
+# png("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror_facetsv2.png",
+#     height = 25, width = 32, units = 'cm', res = 200)
+pdf("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror_facetsv2.pdf",
+    height = 10.9375, width = 14)
+plot_grid(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(L1_rows == 1)),
+          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(L1_rows == 2)),
+          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(L1_rows == 3)),
+          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(L1_rows == 4)),
+          cowplot::get_legend(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate %>% filter(L1_rows == 1), return_legend = T)),
+          rel_heights = c(1, 1, 1, 1, 0.2), nrow=5)
 dev.off()
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -249,12 +261,30 @@ colnames(all_diagREDMDL_betas_softmax_1_5_40) <- paste0('SBS', names_sigs_unique
 all_diagREDMDL_betas_softmax_1_5_40 <- data.frame(all_diagREDMDL_betas_softmax_1_5_40, ct=enough_samples)
 # pairs(all_diagREDMDL_betas_softmax_1_5_40)
 
+cbind(names(pcawg_palette), enough_samples)
+stopifnot(length(names(pcawg_palette)) == length(enough_samples))
+names(pcawg_palette) <- enough_samples
 give_scatter_two_betas <- function(sig1, sig2){
   ggplot(all_diagREDMDL_betas_softmax_1_5_40, aes_string(x=sig1, y=sig2, col='ct', group=1))+
     geom_abline(slope = 1, intercept = 0, lty='dashed')+  geom_point(color='black', size=2)+ geom_point()+ 
     theme_bw()+ scale_color_manual(values = pcawg_palette)+theme(legend.position = "bottom")+
     geom_smooth(method = "lm", size=0.2)+
     ggpubr::stat_cor(method = "pearson", label.x = 0, label.y = 0.38, vjust=1, hjust=-.02, size=3.5, label.sep='\n')+
+    labs(x=paste0('Beta slope of ', sig1), y=paste0('Beta slope of ', sig2))+guides(col='none')
+}
+
+
+give_scatter_two_betas_MSE <- function(sig1, sig2){
+  subsetct = !(is.na(all_diagREDMDL_betas_softmax_1_5_40[,sig1])) & !(is.na(all_diagREDMDL_betas_softmax_1_5_40[,sig2]))
+  mse <- mean((all_diagREDMDL_betas_softmax_1_5_40[subsetct,sig1]-all_diagREDMDL_betas_softmax_1_5_40[subsetct,sig2])**2)
+  ggplot(all_diagREDMDL_betas_softmax_1_5_40[subsetct,], aes_string(x=sig1, y=sig2, col='ct', group=1))+
+    geom_abline(slope = 1, intercept = 0, lty='dashed')+  geom_point(color='black', size=2)+ geom_point()+ 
+    theme_bw()+ scale_color_manual(values = pcawg_palette)+theme(legend.position = "bottom")+
+    # geom_smooth(method = "lm", size=0.2)+
+    annotate("text", 
+             x = min(all_diagREDMDL_betas_softmax_1_5_40[subsetct,sig1], na.rm = T)+0.3*(max(all_diagREDMDL_betas_softmax_1_5_40[subsetct,sig1], na.rm = T)-min(all_diagREDMDL_betas_softmax_1_5_40[subsetct,sig1], na.rm = T)),
+             y = max(all_diagREDMDL_betas_softmax_1_5_40[subsetct,sig2], na.rm = T)-0.15*(max(all_diagREDMDL_betas_softmax_1_5_40[subsetct,sig2], na.rm = T)-min(all_diagREDMDL_betas_softmax_1_5_40[subsetct,sig2], na.rm = T)),
+             label = paste0("MSE=", signif(mse, 2)), size=3.5, )+
     labs(x=paste0('Beta slope of ', sig1), y=paste0('Beta slope of ', sig2))+guides(col='none')
 }
 
@@ -265,6 +295,17 @@ do.call('grid.arrange', c(list(
   give_scatter_two_betas('SBS2', 'SBS8'),
   give_scatter_two_betas('SBS2', 'SBS18'),
   give_scatter_two_betas('SBS3', 'SBS18')), nrow=2))
+
+tikzDevice::tikz("../../../results/figures_paper/betas_MSE_scatter.tex", height = 5)
+do.call('grid.arrange', c(list(
+  give_scatter_two_betas_MSE('SBS1', 'SBS5'),
+  give_scatter_two_betas_MSE('SBS5', 'SBS40'),
+  give_scatter_two_betas_MSE('SBS2', 'SBS13'),
+  give_scatter_two_betas_MSE('SBS2', 'SBS8'),
+  give_scatter_two_betas_MSE('SBS2', 'SBS18'),
+  give_scatter_two_betas_MSE('SBS3', 'SBS18')), nrow=2))
+dev.off()
+
 
 ##-----------------------------------------------------------------------------------------------------##
 

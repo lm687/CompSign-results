@@ -12,140 +12,11 @@ cancer_types = config["sample_groups"]
 grouped_samples = config["grouped_samples"]
 
 samples_list = dict(zip(cancer_types, [grouped_samples[ct].split() for ct in cancer_types]))
-num_iterations = 15000
-# num_iterations = 2000
-
-list_basic_params_sim = ['simulation_n_', 'simulation_lambda_', 'simulation_nlambda_', 'simulation_d_', 'beta_gamma_shape_']
-
-# list_models = ['fullREM', 'diagREDM', 'singleREDM', 'fullREDMsinglelambda']
-list_models = ['fullREM', 'diagREDM', 'fullREDMsinglelambda', 'diagREDMsinglelambda']
-
-## for some datasets, copy the parameter sets of another dataset
-for parameter_names_it in list_basic_params_sim:
-      config[parameter_names_it+'GenerationJnormChangingNmBTwoLambdasOneChangingBeta'] = config[parameter_names_it+'GenerationJnormBTwoLambdasOneChangingBeta']
-config['simulation_nlambda_GenerationJnormChangingNmBTwoLambdasOneChangingBeta'] = [40,60,80,120,140,160]
 
 ## number of categories or signatures for each Mixture simulation framework
-d_list = {'GenerationMixtureSimulation': 4}
-
-## which parameters n, d, etc. do we use for each dataset?
-datasetgeneration2_dict = {'GenerationC': 'generationC', 'GenerationCnorm': 'generationC',\
- 'GenerationCnormsimpler': 'generationC', 'generationFnorm': 'generationF', 'generationGnorm': 'generationG',\
- 'generationMGnorm': 'generationG', 'GenerationHnorm': 'generationHnorm', 'GenerationInoRE': 'generationC',\
- 'GenerationJnorm' : 'generationC',  'GenerationJnorm2' : 'generationC',  'GenerationJnorm3' : 'generationC',\
- 'GenerationInoREscaledbeta': 'generationC', 'GenerationK': 'generationG', 'GenerationK2': 'generationG',\
- 'GenerationJnormTwoLambdas': 'generationG', 'GenerationInoREtwolambdas': 'generationG',\
- 'generationHnormtwolambdas': 'generationG', 'GenerationMixture1': 'generationMixture1',\
- 'GenerationJnormTwoLambdasOneChangingBeta': 'generationG',\
- 'GenerationJnormBTwoLambdasOneChangingBeta': 'GenerationJnormBTwoLambdasOneChangingBeta',\
- 'GenerationPois': 'GenerationPois',\
- 'GenerationMixturePCAWG': 'GenerationMixturePCAWG', 'GenerationMixturefewersignaturesPCAWG': 'GenerationMixturefewersignaturesPCAWG',\
- 'GenerationMixturefewersignaturespairedPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedstomachPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedKidneyRCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedBoneOsteosarcPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedBreastAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedCNSGBMPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedCNSMedulloPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedCNSPiloAstroPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedColoRectAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedEsoAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedHeadSCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedKidneyChRCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedKidneyRCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedKidneyRCCpapillaryPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedLiverHCC': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedLungSCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedLymphBNHLPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedLymphCLLPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedOvaryAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedPancAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedPancEndocrinePCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedProstAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedSkinMelanomacutaneousPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedStomachPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedThyAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedUterusAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmBoneOsteosarcPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmBreastAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmCNSGBMPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmCNSMedulloPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmCNSPiloAstroPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmColoRectAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmEsoAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmHeadSCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmKidneyChRCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmKidneyRCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmKidneyRCCpapillaryPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmLiverHCC': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmLungSCCPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmLymphBNHLPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmLymphCLLPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmOvaryAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmPancAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmPancEndocrinePCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmProstAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmSkinMelanomacutaneousPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmStomachPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturespairedObsNmThyAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationMixturefewersignaturespairedObsNmUterusAdenoCAPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG',\
- 'GenerationJnormChangingNmBTwoLambdasOneChangingBeta': 'GenerationJnormChangingNmBTwoLambdasOneChangingBeta',\
- 'GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG': 'GenerationMixturefewersignaturespairedstomachPCAWG' }
-
-for j in ['CNSGBMPCAWG', 'CNSMedulloPCAWG', 'CNSPiloAstroPCAWG',\
-      'ColoRectAdenoCAPCAWG', 'EsoAdenoCAPCAWG', 'HeadSCCPCAWG', 'KidneyChRCCPCAWG', 'KidneyRCCpapillaryPCAWG',\
-      'LungSCCPCAWG', 'LymphBNHLPCAWG', 'LymphCLLPCAWG', 'OvaryAdenoCAPCAWG', 'PancAdenoCAPCAWG', 'PancEndocrinePCAWG',\
-      'ProstAdenoCAPCAWG', 'SkinMelanomacutaneousPCAWG', 'ThyAdenoCAPCAWG', 'UterusAdenoCAPCAWG']:
-      datasetgeneration2_dict['GenerationMixturefewersignaturespairedObsNm'+j] = 'GenerationMixturefewersignaturespairedstomachPCAWG'
-      datasetgeneration2_dict['GenerationMixtureallsignaturespairedObsNm'+j] = 'GenerationMixturefewersignaturespairedstomachPCAWG'
-      datasetgeneration2_dict['GenerationMixturefewersignaturespairedObsNmObsDM'+j] = 'GenerationMixturefewersignaturespairedstomachPCAWG'
-      datasetgeneration2_dict['GenerationMixturefewersignaturespairedObsNmGaussianPCAWG'+j] = 'GenerationMixturePCAWG2'
-      datasetgeneration2_dict['GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWG'+j] = 'GenerationMixturePCAWG2'
-      datasetgeneration2_dict['GenerationMixturefewersignaturespairedObsNmPoissonUnifPCAWG'+j] = 'GenerationMixturePCAWG2'
-      datasetgeneration2_dict['GenerationMixturefewersignaturespairedObsNmPoissonSigPCAWG'+j] = 'GenerationMixturePCAWG2'
-      datasetgeneration2_dict['GenerationMixturefewersignaturespairedObsNmInvPCAWG'+j] = 'GenerationMixturePCAWG2'
-      datasetgeneration2_dict['GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG'+j] = 'GenerationMixturePCAWG2'
-
-
-numreplicates = {'GenerationJnorm': 1, 'GenerationJnorm2': 4, 'GenerationJnorm3': 4, 'GenerationMixture1': 2,\
-'GenerationK': 1,\
-'GenerationJnormTwoLambdasOneChangingBeta': 2, 'GenerationJnormBTwoLambdasOneChangingBeta': 6, 'GenerationMixturePCAWG': 1,\
-'GenerationPois': 6,\
-'GenerationMixturefewersignaturesPCAWG': 20, 'GenerationMixturefewersignaturespairedPCAWG': 20,\
-'GenerationMixturefewersignaturespairedstomachPCAWG': 20, 'GenerationMixturefewersignaturespairedKidneyRCCPCAWG': 20,\
-'GenerationMixturefewersignaturespairedBoneOsteosarcPCAWG': 20, 'GenerationMixturefewersignaturespairedBreastAdenoCAPCAWG': 20,\
-'GenerationMixturefewersignaturespairedCNSGBMPCAWG': 20, 'GenerationMixturefewersignaturespairedCNSMedulloPCAWG': 20,\
-'GenerationMixturefewersignaturespairedCNSPiloAstroPCAWG': 20, 'GenerationMixturefewersignaturespairedColoRectAdenoCAPCAWG': 20,\
-'GenerationMixturefewersignaturespairedEsoAdenoCAPCAWG': 20, 'GenerationMixturefewersignaturespairedHeadSCCPCAWG': 20,\
-'GenerationMixturefewersignaturespairedKidneyChRCCPCAWG': 20, 'GenerationMixturefewersignaturespairedKidneyRCCPCAWG': 20,\
-'GenerationMixturefewersignaturespairedKidneyRCCpapillaryPCAWG': 20, 'GenerationMixturefewersignaturespairedLiverHCC': 20,\
-'GenerationMixturefewersignaturespairedLungSCCPCAWG': 20, 'GenerationMixturefewersignaturespairedLymphBNHLPCAWG': 20,\
-'GenerationMixturefewersignaturespairedLymphCLLPCAWG': 20, 'GenerationMixturefewersignaturespairedOvaryAdenoCAPCAWG': 20,\
-'GenerationMixturefewersignaturespairedPancAdenoCAPCAWG': 20, 'GenerationMixturefewersignaturespairedPancEndocrinePCAWG': 20,\
-'GenerationMixturefewersignaturespairedProstAdenoCAPCAWG': 20, 'GenerationMixturefewersignaturespairedSkinMelanomacutaneousPCAWG': 20,\
-'GenerationMixturefewersignaturespairedStomachPCAWG': 20, 'GenerationMixturefewersignaturespairedThyAdenoCAPCAWG': 20,\
-'GenerationMixturefewersignaturespairedUterusAdenoCAPCAWG': 20, 'GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG': 20,\
-'GenerationMixturefewersignaturespairedObsNmBoneOsteosarcPCAWG': 3, 'GenerationJnormChangingNmBTwoLambdasOneChangingBeta': 10,\
-'GenerationMixturefewersignaturespairedTMBcorBoneOsteosarcPCAWG': 3}
-
-##--------------------GenerationMixturefewersignaturespairedObsNm--------------------##
-for j in ['CNSGBMPCAWG', 'CNSMedulloPCAWG', 'CNSPiloAstroPCAWG',\
-      'ColoRectAdenoCAPCAWG', 'EsoAdenoCAPCAWG', 'HeadSCCPCAWG', 'KidneyChRCCPCAWG', 'KidneyRCCpapillaryPCAWG',\
-      'LungSCCPCAWG', 'LymphBNHLPCAWG', 'LymphCLLPCAWG', 'OvaryAdenoCAPCAWG', 'PancAdenoCAPCAWG', 'PancEndocrinePCAWG',\
-      'ProstAdenoCAPCAWG', 'SkinMelanomacutaneousPCAWG', 'ThyAdenoCAPCAWG', 'UterusAdenoCAPCAWG']:
-      numreplicates['GenerationMixturefewersignaturespairedObsNm'+j] = 10
-
-for j in ['PancEndocrinePCAWG', 'UterusAdenoCAPCAWG']:
-      numreplicates['GenerationMixturefewersignaturespairedObsNm'+j] = 3
-##------------------- GenerationMixturefewersignaturespairedObsNm -------------------##
-
-##--------------------GenerationMixtureallsignaturespairedObsNm--------------------##
-for j in ['CNSGBMPCAWG', 'CNSMedulloPCAWG', 'CNSPiloAstroPCAWG',\
-      'ColoRectAdenoCAPCAWG', 'EsoAdenoCAPCAWG', 'HeadSCCPCAWG', 'KidneyChRCCPCAWG', 'KidneyRCCpapillaryPCAWG',\
-      'LungSCCPCAWG', 'LymphBNHLPCAWG', 'LymphCLLPCAWG', 'OvaryAdenoCAPCAWG', 'PancAdenoCAPCAWG', 'PancEndocrinePCAWG',\
-      'ProstAdenoCAPCAWG', 'SkinMelanomacutaneousPCAWG', 'ThyAdenoCAPCAWG', 'UterusAdenoCAPCAWG']:
-      numreplicates['GenerationMixtureallsignaturespairedObsNm'+j] = 3
-##------------------- GenerationMixtureallsignaturespairedObsNm -------------------##
-
-##--------------------GenerationMixtureallsignaturespairedObsNmObsDM--------------------##
-for j in ['CNSGBMPCAWG', 'CNSMedulloPCAWG', 'CNSPiloAstroPCAWG',\
-      'ColoRectAdenoCAPCAWG', 'EsoAdenoCAPCAWG', 'HeadSCCPCAWG', 'KidneyChRCCPCAWG', 'KidneyRCCpapillaryPCAWG',\
-      'LungSCCPCAWG', 'LymphBNHLPCAWG', 'LymphCLLPCAWG', 'OvaryAdenoCAPCAWG', 'PancAdenoCAPCAWG', 'PancEndocrinePCAWG',\
-      'ProstAdenoCAPCAWG', 'SkinMelanomacutaneousPCAWG', 'ThyAdenoCAPCAWG', 'UterusAdenoCAPCAWG']:
-      numreplicates['GenerationMixturefewersignaturespairedObsNmObsDM'+j] = 3 #20
-      numreplicates['GenerationMixturefewersignaturespairedObsNmGaussianPCAWG'+j] = 3
-      numreplicates['GenerationMixturefewersignaturespairedObsNmPoissonUnifPCAWG'+j] = 3
-      numreplicates['GenerationMixturefewersignaturespairedObsNmPoissonSigPCAWG'+j] = 3 #20
-      numreplicates['GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWG'+j] = 20
-      numreplicates['GenerationMixturefewersignaturespairedObsNmInvPCAWG'+j] = 20
-
-##------------------- GenerationMixtureallsignaturespairedObsNmObsDM -------------------##
-
-
-config['simulation_n_generationMGnorm'] = 200
-
-
-## unzip
+d_list = {'GenerationMixtureSimulation': 4, 'GenerationMixtureSimulationv4': 4,\
+ 'GenerationMixtureSimulationv5': 4, 'GenerationMixtureSimulationv6': 4, 'GenerationMixtureSimulationv7': 4,\
+ 'GenerationMixtureSimulationTwoCT': 6}
 
 def remove_end(i):
     return i[:-3]
@@ -321,14 +192,42 @@ rule all:
       # --------------------------------------------------------------------------------------------------------- #
       ## Simulation for HilDA, TCSM, CompSign
       ## Simulating data using mixtures. Now, here, the beta represents the ALR of the mixture proporions
+      # --------------------- #
       ## CompSign results:
+      # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration='GenerationMixtureSimulation',\
+      # model=['diagREDM'], optimiser = 'nlminb', \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1],\
+      # itnum=range(10))
+      ## fixed number of mutations in each of the subsamples
+      # expand("../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixtureSimulationv7'],\
+      # ## GenerationMixtureSimulationv4
+      # model=['diagREDM'], optimiser = 'nlminb', \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['20', '100'], nlambda = '50', lmbda = ['NA'],\
+      # d = 'NA',\
+      # beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1],\
+      # itnum=range(10))
+      # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixtureSimulationv6'],\
+      # # GenerationMixtureSimulationv5
+      # model=['diagREDM'], optimiser = 'nlminb', \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100'], nlambda = 'NA', lmbda = ['NA'],\
+      # d = 'NA',\
+      # beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1],\
+      # itnum=range(10))
       expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
-      datasetgeneration='GenerationMixtureSimulation',\
+      datasetgeneration=['GenerationMixtureSimulationTwoCT'],\
       model=['diagREDM'], optimiser = 'nlminb', \
       fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
-      sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
-      d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1],\
-      itnum=range(10))
+      sdRE_input = 'NA', n = ['100'], nlambda = ['50', '1773'], lmbda = ['NA'],\
+      d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
+      # --------------------- #
       ## HilDA results:
       ## as it is slow, start with a subset of parameters
       # [expand("../data/assessing_models_simulation/inference_results/HiLDA/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
@@ -337,6 +236,13 @@ rule all:
       # sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
       # d = 'NA', beta_intensity=[-8, -3, 0], itnum=range(10))
       # ]
+      # [expand("../data/assessing_models_simulation/inference_results/HiLDA/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration='GenerationMixtureSimulationv4',\
+      # model=['HiLDA'], fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
+      # ]
+      # --------------------- #
       ## TCSM results:
       ## see below (rule inference_simulation_TCSM_multiple_2) for a discussion on the conda env that must be used (tcsm)
       # expand("../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
@@ -344,7 +250,37 @@ rule all:
       # model=['TCSM'], fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
       # sdRE_input = 'NA', n = ['100', '150'], nlambda = '200', lmbda = ['NA'],\
       # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
-      
+      # expand("../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixtureSimulationv7'],\
+      # # GenerationMixtureSimulationv4
+      # model=['TCSM'],\
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['20', '100'], nlambda = '50', lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
+      ## no differences in the number of mutations in each group, but the number of mutations is taken from the observed data
+      # expand("../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # expand("../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=[ 'GenerationMixtureSimulationv6'],\
+      # # GenerationMixtureSimulationv5
+      # model=['TCSM'],\
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100'], nlambda = 'NA', lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
+      ## With TMB, but re-extracting signatures
+      # expand("../data/assessing_models_simulation/inference_results/TMB_with_sigextract/nlminb/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=[ 'GenerationMixtureSimulationv6'],\
+      # model=['diagREDMsigextraction1', 'diagREDMsigextraction2', 'diagREDMsigextraction3'],\
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100'], nlambda = 'NA', lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
+      ## mixture using two cancer types      
+      # expand("../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # expand("../data/assessing_models_simulation/inference_results/TCSM/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixtureSimulationTwoCT'],\
+      # model=['TCSM'],\
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100'], nlambda = ['50', '1773'], lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
 # expand(['/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/'+x.strip('.gz')+'.annovar' for x in listdir('/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/') if re.search('.gz$', x)])
 
 
@@ -584,3 +520,18 @@ rule inference_simulation_TCSM_multiple_4:
        " --filestring ../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/"+\
        " --it {wildcards.itnum} --input {input} --output {output}"
 #-----------------------------------------------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------------------------------------------#
+rule inference_simulation_TMB_sigreextraction_multiple:
+    input:
+        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    log:
+        "logs/inference/TMB_with_sigextract/simulation_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_Model{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.log"
+    params:
+       model="{model}",
+    output:
+       "../data/assessing_models_simulation/inference_results/TMB_with_sigextract/nlminb/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    shell:
+       "Rscript 3_analysis/2_simulation_model_assessment/3_Comparison_other_models/1_run_alternative_models.R --input {input} --output {output} --model {params.model}"
+#-----------------------------------------------------------------------------------------------------------------#
+

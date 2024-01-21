@@ -2707,7 +2707,7 @@ matrix_mutations_to_HilDA <- function(m){
   ## for each sample, create this dataframe
   positions <- split(positions, rep(1:ncol(m), colSums(m)))
   
-  
+  ## for each sample, get a data frame with its mutations
   mutationPosition_in <- lapply(1:ncol(m), function(sam){
     nummuts <- sum(m[,sam])
     data.frame(  chr= rep('chr1', sum(m[,sam])),
@@ -2717,7 +2717,7 @@ matrix_mutations_to_HilDA <- function(m){
                  strand = rep(NA, nummuts),
                  context = rep(substr(rownames(m), 5, 8), m[,sam]),
                  sampleID = rep(sam, nummuts),
-                 mutID = paste0(sam, '-', nummuts))
+                 mutID = paste0(sam, '-', 1:nummuts))
   })
   mutationPosition_in <- do.call('rbind.data.frame', mutationPosition_in)
   possibleFeatures_in <- c(6L, 4L, 4L)
@@ -2731,7 +2731,7 @@ matrix_mutations_to_HilDA <- function(m){
                                })
   feature_idx_per_mut_paste <- apply(feature_idx_per_mut, 2, paste0, collapse='-')
   featureVectorList_in_paste <- apply(featureVectorList_in, 2, paste0, collapse='-')
-  feature_idx_per_mut_paste_match <- match(feature_idx_per_mut_paste, featureVectorList_in_paste, featureVectorList_in_paste)
+  feature_idx_per_mut_paste_match <- match(feature_idx_per_mut_paste, featureVectorList_in_paste)
   
   stopifnot(length(feature_idx_per_mut_paste_match) == nrow(mutationPosition_in))
   
@@ -2762,9 +2762,9 @@ matrix_mutations_to_HilDA <- function(m){
                         mutationPosition_in$sampleID)
   ## collapse and add as the third column the number of occurrences of the same sample + feature combination
   countDats_in_2 <- table(countDats_in[1,], countDats_in[2,])
-  countDats_in_2 <- rbind(rep(1:nrow(countDats_in_2), ncol(countDats_in_2)),
-                          rep(1:ncol(countDats_in_2), nrow(countDats_in_2)),
-                          as.vector(countDats_in_2))
+  countDats_in_2 <- rbind(rep(as.numeric(rownames(countDats_in_2)), ncol(countDats_in_2)), ## feature combinations
+                          rep(as.numeric(colnames(countDats_in_2)), each=nrow(countDats_in_2)), ## samples
+                          as.vector(countDats_in_2)) ## mutation count in each category
   apply(countDats_in_2, 1, unique)
   
   ## remove columns where there are no combinations of sample+feature
@@ -2796,4 +2796,52 @@ matrix_mutations_to_HilDA <- function(m){
   }
   ## return pmsignature object
   return(res)
+}
+
+extract_sigs = function(W_muts, W, fitWsubsetsigs=T, subset_sigs=NULL){
+  
+  if(is.null(subset_sigs)){
+    if(fitWsubsetsigs){
+      subset_sigs = colnames(W)
+    }else{
+      subset_sigs = colnames(signature_definitions)
+    }
+  }
+  ## else, subset_sigs is kept as indicated
+  
+  W_QP = t(sapply(1:nrow(W_muts), function(i){
+    QPsig(signatures.ref = signature_definitions[,subset_sigs], tumour.ref = rep(colnames(W_muts), W_muts[i,]))
+  }))
+  W_QP[W_QP<0] <- 0 ## some values migth be extremely low but negative
+  
+  ## get new exposures
+  W_QP = t(sapply(1:nrow(W_QP), function(j) table(factor(sample(x = 1:ncol(W_QP), size = rowSums(W)[j], replace = T, prob = W_QP[j,]),
+                                                         levels=1:ncol(W_QP)))))
+  colnames(W_QP) <- subset_sigs
+
+  stopifnot(rowSums(W_QP) == rowSums(W))
+  return(W_QP)
+}
+
+pval_thresholds = c(0.01, 0.02, 0.03, 0.04, 0.05, 0.075, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+
+## get sensitivity and specificity for a given p-value threshold and each model
+get_sensivity_specificity <- function(pvals_df, column_pvalues='value', model, pval_threshold, not_subset_df=F, give_accuracy=F){
+  stopifnot(('datasetnotDA' %in% colnames(pvals_df)))
+  stopifnot((column_pvalues %in% colnames(pvals_df)))
+  if(!not_subset_df) pvals_df <- pvals_df[pvals_df$variable == model,]
+  tab = table(DA= factor(as.character(pvals_df[,column_pvalues] <= pval_threshold), levels=c('TRUE', 'FALSE')),
+              trueDA = factor(as.character(pvals_df$datasetnotDA), levels=c('TRUE', 'FALSE')))
+  TPR = tab['TRUE','TRUE']/(tab['FALSE','TRUE']+tab['TRUE','TRUE'])
+  FPR = tab['TRUE','TRUE']/(tab['TRUE','FALSE']+tab['TRUE','TRUE'])
+  Sensitivity= tab['TRUE','TRUE'] / (tab['TRUE','TRUE'] + tab['FALSE','TRUE'])
+  Specificity = tab['FALSE','FALSE'] / (tab['FALSE','FALSE'] + tab['TRUE','FALSE'])
+  # TNR = tab['TRUE','TRUE']/tab['FALSE','TRUE']
+  if(give_accuracy){
+    c(TPR=TPR, FPR=FPR, 
+      accuracy=(tab['TRUE','TRUE']+tab['FALSE','FALSE'])/sum(tab),
+      balanced_accuracy=(Sensitivity+Specificity)/2)
+  }else{
+    c(TPR=TPR, FPR=FPR)
+  }
 }

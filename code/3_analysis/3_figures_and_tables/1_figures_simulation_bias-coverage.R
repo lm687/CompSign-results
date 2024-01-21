@@ -17,16 +17,23 @@ source("../../1_create_ROO/roo_functions.R")
 # flder_out <- "../../../results/results_TMB/simulated_datasets/mixed_effects_models_multiple_replot/"
 # flder_in <- "../../../data/assessing_models_simulation/inference_results/TMB/nlminb/summaries_multiple/"
 
-find_input_from_list <- function(j){
-  string_files <- paste0("../../../data/assessing_models_simulation/inference_results/TMB/", j$optimiser, "/",
-         'multiple_', j$dataset_generation, '_', j$n, '_',
-         j$nlambda, '_', j$lambda, '_', j$d, '_', j$beta_gamma_shape, '_', j$model, '_',
-         j$betaintercept, '_',
-         j$betaslope, '_', j$cov, '/')
+
+find_string_files <- function(j) paste0("../../../data/assessing_models_simulation/inference_results/TMB/", j$optimiser, "/",
+       'multiple_', j$dataset_generation, '_', j$n, '_',
+       j$nlambda, '_', j$lambda, '_', j$d, '_', j$beta_gamma_shape, '_', j$model, '_',
+       j$betaintercept, '_',
+       j$betaslope, '_', j$cov, '/')
+
+find_input_from_list <- function(j, keep_NC=F){
+  require(TMB)
+  
+  string_files <- find_string_files(j)
   cat('Looking for files that match <', string_files, '>...\n')
   lst <- list.files(string_files, full.names = T)
   lst <- lst[grepl(paste0('multiple_', j$dataset_generation, '_'), lst)]
-  lst <- lst[!grepl('_NC.RDS', lst)]
+  if(!keep_NC){
+    lst <- lst[!grepl('_NC.RDS', lst)]
+  }
   lst <- lst[grepl(j$model, lst)]
   lst <- lst[grep(paste0(j$betaintercept, "_", j$betaslope, "_", j$cov, "*"), lst)]
   lst <- lst[grepl(paste0(j$n, '_', j$nlambda, '_', j$lambda, '_', j$d, '_', j$beta_gamma_shape), lst)]
@@ -50,13 +57,22 @@ opt_from_bias_fig <- function(i){
               cov =  isplit[13]
   )
   opt$input = find_input_from_list(opt)
+  opt$input_all = find_input_from_list(opt, keep_NC=T)
+  opt$string_files = find_string_files(opt)
+  
   return(opt)
 }
 
 opt_all_datasets <- list()
 opt_all_datasets[['A1diag']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_180_2_5_0_diagREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_bias_betas_v2')
 opt_all_datasets[['A1full']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_180_2_5_0_fullREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_bias_betas_v2')
+opt_all_datasets[['A1single']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_180_2_5_0_singleREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_bias_betas_v2')
 opt_all_datasets[['A2diag']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_180_20_5_0_diagREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_bias_betas_v2')
+opt_all_datasets[['A2full']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_180_20_5_0_fullREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_bias_betas_v2')
+opt_all_datasets[['A2single']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_180_20_5_0_singleREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_bias_betas_v2')
+opt_all_datasets[['A3diag']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_180_100_5_0_diagREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_bias_betas_v2')
+opt_all_datasets[['A3full']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_180_100_5_0_fullREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_bias_betas_v2')
+opt_all_datasets[['A3single']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_180_100_5_0_singleREDM_betaintercept1d4_betaslope1d4_covmat1d4_onlyconverged_bias_betas_v2')
 opt_all_datasets[['baselinediag']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_14072_80_6_0_diagREDM_betainterceptPCAWG4_betaslopeonechangingPCAWG4_covmatPCAWG4_onlyconverged_bias_betas_v2')
 opt_all_datasets[['B1full']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_3401_18_6_0_fullREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_coverage_beta_v2')
 opt_all_datasets[['B1diag']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_200_3401_18_6_0_diagREDM_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2_onlyconverged_coverage_beta_v2')
@@ -70,18 +86,35 @@ opt_all_datasets[['B4full_lownlambda']] <- opt_from_bias_fig('setsim_multiple_Ge
 opt_all_datasets[['B4diag_lownlambda']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_nPCAWG6_lownlambdaPCAWG6_lambdaPCAWG6_dPCAWG6_0_diagREDM_betainterceptPCAWG6_betaslopePCAWG6_covmatFULLPCAWG6_onlyconverged_bias_betas_v2')
 opt_all_datasets[['B4full_low2nlambda']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_nPCAWG6_low2nlambdaPCAWG6_lambdaPCAWG6_dPCAWG6_0_fullREDM_betainterceptPCAWG6_betaslopePCAWG6_covmatFULLPCAWG6_onlyconverged_bias_betas_v2')
 opt_all_datasets[['B4diag_low2nlambda']] <- opt_from_bias_fig('setsim_multiple_GenerationJnorm_nlminb_nPCAWG6_low2nlambdaPCAWG6_lambdaPCAWG6_dPCAWG6_0_diagREDM_betainterceptPCAWG6_betaslopePCAWG6_covmatFULLPCAWG6_onlyconverged_bias_betas_v2')
+sapply(opt_all_datasets, function(i) length(i$input_all)) ## if zero, no files were found
+## ------------------------------------------------------------------- ##
 
-sapply(opt_all_datasets, function(i) length(i$input)) ## if zero, no files were found
+## ------------------------------------------------------------------- ##
+for(i in opt_all_datasets){
+  ## for each non-converged run, check if we have converged files from a run, remove the non-converged files from the same fun
+  sapply(grep('_NC.RDS', i$input_all, value = T), function(j){
+    if(gsub("_NC", "", j) %in% i$input_all){
+      # print('Present')
+      # print(j)
+      # print(i$input_all[i$input_all == gsub("_NC", "", j)])
+      newfile <- gsub('../../../data/assessing_models_simulation/inference_results/TMB/nlminb/', ' ~/Desktop/DM_revisions/obsolete_runs/', j)
+      system(paste0('mkdir -p ', dirname(newfile)))
+      system(paste0('mv ', j, newfile))
+      cat('\n')
+    }
+  })
+}
+## ------------------------------------------------------------------- ##
 
 ## ------------------------------------------------------------------- ##
 
-return_df_plots_bias_coverage <- function(opt_list){
+return_df_plots_bias_coverage <- function(opt, path_to_data="../../../data/"){
   
   for(opt_param in c('d', 'lambda', 'n', 'nlambda')){
     opt_param_as_numeric <- as.numeric(opt[[opt_param]])
     if(is.na(opt_param_as_numeric)){
       ## is character: read file
-      opt_param_file = paste0('../data/assessing_models_simulation/additional_files/multiple_fixed_',
+      opt_param_file = paste0(path_to_data, 'assessing_models_simulation/additional_files/multiple_fixed_',
                               opt[[opt_param]], '.RDS')
       if(opt_param == 'nlambda'){
         ## it should be a list
@@ -145,15 +178,15 @@ return_df_plots_bias_coverage <- function(opt_list){
     })
   }
   
-  first_part_output <- paste0("../results/results_TMB/simulated_datasets/bias_and_coverage-replot/",
-                              # "multiple_", 
-                              name_dataset, opt$optimiser, '_', opt$n, '_', opt$nlambda,  '_', opt$lambda,  '_', opt$d,
-                              '_', opt$beta_gamma_shape,  '_', model,  '_', idx_dataset_betaintercept, '_',
-                              idx_dataset_betaslope, '_', idx_dataset_cov, "/setsim_", 
-                              name_dataset, opt$optimiser, '_', opt$n, '_', opt$nlambda,  '_', opt$lambda,  '_', opt$d,
-                              '_', opt$beta_gamma_shape,  '_', model,  '_', idx_dataset_betaintercept, '_',
-                              idx_dataset_betaslope, '_', idx_dataset_cov, add_convergence)
-  system(paste0('mkdir -p ', first_part_output))
+  # first_part_output <- paste0("../results/results_TMB/simulated_datasets/bias_and_coverage-replot/",
+  #                             # "multiple_", 
+  #                             name_dataset, opt$optimiser, '_', opt$n, '_', opt$nlambda,  '_', opt$lambda,  '_', opt$d,
+  #                             '_', opt$beta_gamma_shape,  '_', model,  '_', idx_dataset_betaintercept, '_',
+  #                             idx_dataset_betaslope, '_', idx_dataset_cov, "/setsim_", 
+  #                             name_dataset, opt$optimiser, '_', opt$n, '_', opt$nlambda,  '_', opt$lambda,  '_', opt$d,
+  #                             '_', opt$beta_gamma_shape,  '_', model,  '_', idx_dataset_betaintercept, '_',
+  #                             idx_dataset_betaslope, '_', idx_dataset_cov, add_convergence)
+  # system(paste0('mkdir -p ', first_part_output))
   
   # name_dataset0 <- paste0(strsplit(name_dataset, '_')[[1]][1:2], sep = '_', collapse = '')
   
@@ -176,18 +209,18 @@ return_df_plots_bias_coverage <- function(opt_list){
   runs <- runs[tryerror]
   lst <- lst[tryerror]
   
-  print(paste0("../data/assessing_models_simulation/datasets/",
-               gsub(paste0(opt$model, "_"), "", basename(lst[1]))))
+  # print(paste0(path_to_data, "assessing_models_simulation/datasets/",
+  #              gsub(paste0(opt$model, "_"), "", basename(lst[1]))))
   
   if(opt$dataset_generation %in% c("GenerationJnormMax", "GenerationJnormInv")){
     ## as we do not have the true values, because we have changed the column order (for betas we could easily softmax and re-take the ALR, but for the covariances it would be more difficult)
-    ggplot()
-    ggsave(paste0(first_part_output, "coverage_beta.pdf"), width = 2.5, height = 2.8)
+    # ggplot()
+    # ggsave(paste0(first_part_output, "coverage_beta.pdf"), width = 2.5, height = 2.8)
   }else{
     
     ### load datasets
     cat("Loading datasets...\n")
-    x <- lapply(lst, function(i) (readRDS(paste0("../data/assessing_models_simulation/datasets/",
+    x <- lapply(lst, function(i) (readRDS(paste0(path_to_data, "assessing_models_simulation/datasets/",
                                                  gsub("_dataset.*", "", gsub(paste0(opt$model, "_"), "", basename(i))), '/',
                                                  gsub(paste0(opt$model, "_"), "", basename(i))))))
     cat("... datasets loaded.\n")
@@ -244,7 +277,9 @@ return_df_plots_bias_coverage <- function(opt_list){
     if(opt$dataset_generation %in% c("GenerationJnorm")){
       ## full, unconstrained, random effects matrix
       cat('Reading covariance matrix\n')
-      cov_mat_true = readRDS(paste0("../data/assessing_models_simulation/additional_files/multiple_fixed_", idx_dataset_cov, ".RDS"))
+      covmat_path = paste0(path_to_data, "assessing_models_simulation/additional_files/multiple_fixed_", opt$cov, ".RDS")
+      cat('Reading ', covmat_path, '\n')
+      cov_mat_true = readRDS(covmat_path)
       sds <- diag(cov_mat_true)
       covs <- cov_mat_true[upper.tri(cov_mat_true)]
       covs_true <- TRUE
@@ -325,19 +360,19 @@ return_df_plots_bias_coverage <- function(opt_list){
     summaries_melt$true = rep(true_vals, length(lst))
     summaries_melt$subtract = summaries_melt$value - summaries_melt$true
     
-    plot(summaries_melt$true[summaries_melt$Var1 == 'beta'],
-         summaries_melt$value[summaries_melt$Var1 == 'beta']) ### correlation between true and estimated beta
-    abline(coef = c(0,1), lty='dashed', col='blue')
+    # plot(summaries_melt$true[summaries_melt$Var1 == 'beta'],
+    #      summaries_melt$value[summaries_melt$Var1 == 'beta']) ### correlation between true and estimated beta
+    # abline(coef = c(0,1), lty='dashed', col='blue')
     
-    cat('Creating ', paste0(first_part_output, "betacorrelation.pdf"), '\n')
-    ggplot(cbind.data.frame(summaries_melt[summaries_melt$Var1 == 'beta',], intslope=c('Intercept', 'Slope') ),
-           aes(x=true, y=value, shape=intslope))+geom_point()+
-      geom_abline(intercept = 0, slope = 1, lty='dashed', col='black')+theme_bw()+labs(shape="", x='True beta coefficient', y='Estimated beta coefficient')+
-      theme(legend.position = "bottom")#+scale_color_manual(values = c(''))
+    # cat('Creating ', paste0(first_part_output, "betacorrelation.pdf"), '\n')
+    # ggplot(cbind.data.frame(summaries_melt[summaries_melt$Var1 == 'beta',], intslope=c('Intercept', 'Slope') ),
+    #        aes(x=true, y=value, shape=intslope))+geom_point()+
+    #   geom_abline(intercept = 0, slope = 1, lty='dashed', col='black')+theme_bw()+labs(shape="", x='True beta coefficient', y='Estimated beta coefficient')+
+    #   theme(legend.position = "bottom")#+scale_color_manual(values = c(''))
     # ggsave(paste0(first_part_output, "betacorrelation.pdf"), width = 2.5, height = 2.8)
   
-    cat('Creating ', paste0(first_part_output, "bias_betas_v2.pdf"), '\n')
-    ggplot(cbind.data.frame(summaries_melt[summaries_melt$Var1 == 'beta',], 
+    # cat('Creating ', paste0(first_part_output, "bias_betas_v2.pdf"), '\n')
+    plot_bias <- ggplot(cbind.data.frame(summaries_melt[summaries_melt$Var1 == 'beta',], 
                             intslope=c('Intercept', 'Slope')),
            aes(x=(1+idx_param) %/% 2, y=subtract, group=idx_param))+
       geom_abline(slope = 0, intercept = 0, lty='dashed', col='blue')+
@@ -405,11 +440,11 @@ return_df_plots_bias_coverage <- function(opt_list){
       theme(axis.text.x=element_blank(),
             axis.ticks.x=element_blank())+
       ylim(min=c(min_y, 1))
-    if(min_y == 0.3){
-      A <- A+annotate(geom="label",x=-Inf,y=0.315,label="   //", fill="white", col='black', label.size = NA)+
-        annotate(geom="label",x=Inf,y=0.315,label="//   ", fill="white", col='black', label.size = NA)+
-        geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=0.31, ymax=0.32), col='black', fill="white", alpha=0.2, lty=1)
-    }
+    # if(min_y == 0.3){
+    #   A <- A+annotate(geom="label",x=-Inf,y=0.315,label="   //", fill="white", col='black', label.size = NA)+
+    #     annotate(geom="label",x=Inf,y=0.315,label="//   ", fill="white", col='black', label.size = NA)+
+    #     geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=0.31, ymax=0.32), col='black', fill="white", alpha=0.2, lty=1)
+    # }
     B <- ggplot(df_coverage[df_coverage$type_param %in% c("Slope"),])+
       geom_ribbon(data = pbinomprobs[pbinomprobs$type_param %in% c("Slope"),], aes(x=transformparam(parameter), ymin=x1, ymax=x2, group=type_param),
                   fill='yellow', alpha=0.9)+
@@ -425,354 +460,118 @@ return_df_plots_bias_coverage <- function(opt_list){
       labs(shape="", x='Beta', y='Coverage')+
       theme(axis.text.x=element_blank(),
             axis.ticks.x=element_blank(), axis.title.y=element_blank())
-    if(min_y == 0.3){
-      B <- B+  annotate(geom="label",x=-Inf,y=0.715,label="   //", fill="white", col='black', label.size = NA)+
-        annotate(geom="label",x=Inf,y=0.715,label="//   ", fill="white", col='black', label.size = NA)+
-        geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=0.71, ymax=0.715), col='black', fill="white", alpha=0.2, lty=1)
-    }
+    # if(min_y == 0.3){
+    #   B <- B+  annotate(geom="label",x=-Inf,y=0.715,label="   //", fill="white", col='black', label.size = NA)+
+    #     annotate(geom="label",x=Inf,y=0.715,label="//   ", fill="white", col='black', label.size = NA)+
+    #     geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=0.71, ymax=0.715), col='black', fill="white", alpha=0.2, lty=1)
+    # }
     
     # try(dev.off())
-    cat('Creating ', paste0(first_part_output, "coverage_beta_v3.pdf"), '\n')
+    # cat('Creating ', paste0(first_part_output, "coverage_beta_v3.pdf"), '\n')
     # pdf(paste0(first_part_output, "coverage_beta_v3.pdf"), width = 2.2, height = 2)
     print(cowplot::plot_grid(A, B, nrow=1, rel_widths = c(1.1, 0.95)))
     # dev.off()
-  return(list(bias_df=, coverage_df=))
+  return(list(bias_df=plot_bias, coverage_df=list(A,B)))
     
   }
 }
 
-# for(generation in c(
-#   # 'GenerationHnormtwolambdas', 'GenerationJnorm', 'GenerationK',
-#   # 'GenerationMixturefewersignaturespairedKidneyRCCPCAWG', 'GenerationMixturefewersignaturespairedPCAWG',
-#   #                   'GenerationMixturefewersignaturespairedstomachPCAWG', 'GenerationMixturefewersignaturesPCAWG',
-#   #                   'GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG',
-#   #                   'GenerationMixturefewersignaturespairedProstAdenoCAPCAWG',
-#   #                   'GenerationMixturefewersignaturespairedCNSGBMPCAWG',
-#   #                   'GenerationMixturefewersignaturespairedObsNmPancEndocrinePCAWG',
-#   #                   'GenerationMixturefewersignaturespairedObsNmUterusAdenoCAPCAWG',
-#   # 'GenerationJnormBTwoLambdasOneChangingBeta',
-#   # 'GenerationPois',
-#   'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGProstAdenoCAPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMOvaryAdenoCAPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMLungSCCPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMKidneyRCCpapillaryPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMPancEndocrinePCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMColoRectAdenoCAPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMLymphBNHLPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMHeadSCCPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMEsoAdenoCAPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMLymphCLLPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMPancAdenoCAPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMKidneyChRCCPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmObsDMCNSGBMPCAWG',
-#   'GenerationMixtureallsignaturespairedObsNmCNSGBMPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmPoissonSigPCAWGColoRectAdenoCAPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGEsoAdenoCAPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGHeadSCCPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGLungSCCPCAWG',
-#   'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGKidneyChRCCPCAWG'
-#                     )){
-#   
-#   try(rm(a))
-#   a <- readRDS(paste0("../../../data/assessing_models_simulation/summaries_synthetic_DA/", generation, ".RDS"))
-#   
-#   all_converged <- !apply(a$pvals_data_frame, 1, function(i) any(is.na(i)))
-#   a$pvals_data_frame_adj <- a$pvals_data_frame
-#   
-#   a$pvals_data_frame_adj <- adjust_all(a$pvals_data_frame_adj, new_version = T, method = "bonferroni")
-#   varying_betashape <-give_accuracies_with_varying_var(var = 'beta_gamma_shape',
-#                                                        datasets_arg = a$datasets,
-#                                                        pvals_data_frame_arg = a$pvals_data_frame)
-#   varying_betashape_adj <-give_accuracies_with_varying_var(var = 'beta_gamma_shape',
-#                                                        datasets_arg = a$datasets,
-#                                                        pvals_data_frame_arg = a$pvals_data_frame_adj)
-#   varying_betashapeAC <-give_accuracies_with_varying_var(var = 'beta_gamma_shape',
-#                                                        datasets_arg = a$datasets[all_converged],
-#                                                        pvals_data_frame_arg = a$pvals_data_frame[all_converged,])
-#   
-#   varying_betashape_n_adj <-give_accuracies_with_varying_var(var = c('beta_gamma_shape', 'n'), two_var = T,
-#                                                        datasets_arg = a$datasets,
-#                                                        pvals_data_frame_arg = a$pvals_data_frame_adj)
-#   
-#   varying_betashape_n <-give_accuracies_with_varying_var(var = c('beta_gamma_shape', 'n'), two_var = T,
-#                                                              datasets_arg = a$datasets,
-#                                                              pvals_data_frame_arg = a$pvals_data_frame)
-#   varying_betashape_d <-give_accuracies_with_varying_var(var = c('beta_gamma_shape', 'd'), two_var = T,
-#                                                          datasets_arg = a$datasets,
-#                                                          pvals_data_frame_arg = a$pvals_data_frame)
-#   
-#   if((generation %in% c("GenerationMixturePCAWG", "GenerationMixturefewersignaturesPCAWG", "GenerationMixturefewersignaturespairedPCAWG")) | grepl('GenerationMixturefewersignaturespaired', generation) ){
-#     varying_betashape$beta_gamma_shape <- signif(varying_betashape$beta_gamma_shape, 2)
-#     varying_betashape_adj$beta_gamma_shape <- signif(varying_betashape_adj$beta_gamma_shape, 2)
-#   }
-#   
-#   varying_betashape$model <- gsub("pvals_", "", varying_betashape$model)
-#   varying_betashape_adj$model <- gsub("pvals_", "", varying_betashape_adj$model)
-#   
-#   .xx <- varying_betashape[which(varying_betashape$beta_gamma_shape == max(varying_betashape$beta_gamma_shape)),]
-#   ## sometimes there are problems with numeric precision. if that is the case, select as the last value only one of the selected rows
-#   .xx <- .xx[!duplicated(.xx$model),]
-#   
-#   remove_duplicated_rows <- function(.xx){
-#     .xx <- .xx[!duplicated(.xx$model),]
-#   }
-#   
-#   
-#   if(generation == 'GenerationMixturefewersignaturespairedKidneyRCCPCAWG'){
-#     title = 'Kidney-RCC (paired, larger sigs)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedPCAWG'){
-#     title = 'Liver-HCC (paired, larger sigs)'
-#   }else if ( generation  == 'GenerationMixturefewersignaturespairedstomachPCAWG'){
-#     title = 'Stomach-AdenoCa (paired, larger sigs)'
-#   }else if( generation == 'GenerationMixturefewersignaturesPCAWG'){
-#     title = 'Liver-HCC (not paired, larger sigs)'
-#   }else if( generation == 'GenerationMixturefewersmallsignaturespairedKidneyRCCPCAWG'){
-#     title = 'Kidney-RCC (paired, small sigs)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedProstAdenoCAPCAWG'){
-#     title = 'Prost-AdenoCA (paired, larger sigs)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedCNSGBMPCAWG'){
-#     title = 'CNS-GBM (paired, larger sigs)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmPancEndocrinePCAWG'){
-#     title = 'Panc-Endocrine (paired, larger sigs)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmUterusAdenoCAPCAWG'){
-#     title = 'Uterus-AdenoCA (paired, larger sigs)'
-#   }else if( generation ==  'GenerationMixtureallsignaturespairedObsNmCNSGBMPCAWG'){
-#     title = 'CNS-GBM (paired, all sigs)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMOvaryAdenoCAPCAWG'){
-#     title = 'Ovary-Adeno (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMLungSCCPCAWG'){
-#     title = 'Lung-SCC (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMKidneyRCCpapillaryPCAWG'){
-#     title = 'Kidney-RCCp (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMPancEndocrinePCAWG'){
-#     title = 'Panc-Endocrine (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMColoRectAdenoCAPCAWG'){
-#     title = 'ColoRect-AdenoCA (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMLymphBNHLPCAWG'){
-#     title = 'Lymph-BNHL (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMHeadSCCPCAWG'){
-#     title = 'Head-SCC (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMEsoAdenoCAPCAWG'){
-#     title = 'Eso-Adeno (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMLymphCLLPCAWG'){
-#     title = 'Lymph-CLL (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMPancAdenoCAPCAWG'){
-#     title = 'Panc-AdenoCA (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMKidneyChRCCPCAWG'){
-#     title = 'Kidney-ChRCC (paired, larger sigs, DM)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmObsDMCNSGBMPCAWG'){
-#     title = 'CNS-GBM (paired, larger sigs, DM)'
-#   }else if(generation == 'GenerationJnormBTwoLambdasOneChangingBeta'){
-#     title = "Single category change"
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmPoissonSigPCAWGColoRectAdenoCAPCAWG'){
-#     title = 'Colo-RectAdenoCA (paired, larger sigs, Poisson)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGEsoAdenoCAPCAWG'){
-#     title = 'Eso-AdenoCA (paired, larger sigs, Norm)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGHeadSCCPCAWG'){
-#     title = 'Head-SCC (paired, larger sigs, Gaussian)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGLungSCCPCAWG'){
-#     title = 'Lung-SCC (paired, larger sigs, Gaussian)'
-#   }else if( generation == 'GenerationMixturefewersignaturespairedObsNmGaussianVarPCAWGKidneyChRCCPCAWG'){
-#     title = 'Kidney-ChRCC (paired, larger sigs, Norm)'
-#   }else{
-#     title = generation
-#   }
-# 
-#   varying_betashape$beta_gamma_shape <- signif(varying_betashape$beta_gamma_shape, 2)
-#   varying_betashape_adj$beta_gamma_shape <- signif(varying_betashape_adj$beta_gamma_shape, 2)
-#   
-#   title_x <- 'Percentage of mixture'
-#   if(generation %in% c("GenerationJnormBTwoLambdasOneChangingBeta", "GenerationPois", "GenerationJnorm", "GenerationHnormtwolambdas", "GenerationK")){
-#     title_x <- TeX("$\\gamma$")
-#   }
-#   
-#   ggplot(varying_betashape, aes(x=factor(beta_gamma_shape), y = Accuracy, col=model, group=model, label=model,
-#                                 lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_point()+geom_line()+theme_bw()+
-#     scale_color_manual(values=colours_models2)+labs(col='', x=title_x)+guides(col='none', lty='none')+
-#     ggtitle(title)+
-#     geom_label_repel(data = .xx,
-#                      max.overlaps = Inf, aes(x=factor(max(varying_betashape$beta_gamma_shape))), direction = "y",
-#                      nudge_x=max(varying_betashape$beta_gamma_shape)+2,
-#                      size=2.5)+
-#     coord_cartesian(xlim = c(0, length(unique(varying_betashape$beta_gamma_shape))*1.3))+ ## used to be *1.5
-#     theme_bw()+theme(axis.text.x=element_text(angle = 45, hjust = 1, vjust=1))
-#   ggsave(paste0(flder_out, generation, "/summaries/accuracy_with_betagammashape_palette2_factorv2.pdf"),
-#          height = 3.0, width = 4.0)
-#   
-#   ggplot(varying_betashape_adj, aes(x=factor(beta_gamma_shape), y = Accuracy, col=model, group=model, label=model,
-#                                 lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_point()+geom_line()+theme_bw()+
-#     scale_color_manual(values=colours_models2)+labs(col='', x=title_x)+guides(col='none', lty='none')+
-#     ggtitle(title)+
-#     geom_label_repel(data = remove_duplicated_rows(varying_betashape_adj[which(varying_betashape_adj$beta_gamma_shape == max(varying_betashape_adj$beta_gamma_shape)),]),
-#                      max.overlaps = Inf, aes(x=factor(max(varying_betashape_adj$beta_gamma_shape)),
-#                                              lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')), direction = "y",
-#                      nudge_x=max(varying_betashape_adj$beta_gamma_shape)+2,
-#                      size=2.5)+
-#     coord_cartesian(xlim = c(0, length(unique(varying_betashape_adj$beta_gamma_shape))*1.5))+
-#     theme_bw()+theme(axis.text.x=element_text(angle = 45, hjust = 1, vjust=1))
-#   ggsave(paste0(flder_out, generation, "/summaries/accuracy_adjbonferroni_with_betagammashape_palette2_factorv2.pdf"),
-#          height = 3.0, width = 4.0)
-#   
-#   system(paste0("open ", flder_out, generation, "/summaries/"))
-#   
-#   ggplot(varying_betashapeAC, aes(x=factor(beta_gamma_shape), y = Accuracy, col=model, group=model, label=model,
-#                                 lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_point()+geom_line()+theme_bw()+
-#     scale_color_manual(values=colours_models2)+labs(col='', x=title_x)+guides(col='none', lty='none')+
-#     ggtitle(title)+
-#     geom_label_repel(data = .xx,
-#                      max.overlaps = Inf, aes(x=factor(max(varying_betashapeAC$beta_gamma_shape))), direction = "y",
-#                      nudge_x=max(varying_betashapeAC$beta_gamma_shape)+2,
-#                      size=2.5)+
-#     coord_cartesian(xlim = c(0, length(unique(varying_betashapeAC$beta_gamma_shape))*1.5))+
-#     theme_bw()+theme(axis.text.x=element_text(angle = 45, hjust = 1, vjust=1))
-#   
-#   
-#   varying_betashape_n_adj$beta_gamma_shape <- signif(varying_betashape_n_adj$beta_gamma_shape, 2)
-#   varying_betashape_n$beta_gamma_shape <- signif(varying_betashape_n$beta_gamma_shape, 2)
-#   varying_betashape_d$beta_gamma_shape <- signif(varying_betashape_d$beta_gamma_shape, 2)
-#   ggplot(varying_betashape_n_adj, aes(x=factor(beta_gamma_shape), y = Accuracy, col=model, group=model, label=model,
-#                                 lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_point()+geom_line()+theme_bw()+
-#     scale_color_manual(values=colours_models2)+labs(col='', x=title_x)+guides(col='none', lty='none')+
-#     ggtitle(title)+
-#     geom_label_repel(data = .xx,
-#                      max.overlaps = Inf, aes(x=factor(max(varying_betashape$beta_gamma_shape))), direction = "y",
-#                      nudge_x=max(varying_betashape$beta_gamma_shape)+2,
-#                      size=2.5)+
-#     coord_cartesian(xlim = c(0, length(unique(varying_betashape$beta_gamma_shape))*1.5))+
-#     theme_bw()+theme(axis.text.x=element_text(angle = 45, hjust = 1, vjust=1))+
-#     facet_wrap(.~n)
-#   
-#   ggplot(varying_betashape_n_adj[varying_betashape_n_adj$model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM'),],
-#          aes(x=factor(beta_gamma_shape), y = Accuracy, col=model, group=model, label=model,
-#                                       lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_point()+geom_line()+theme_bw()+
-#     scale_color_manual(values=colours_models2)+labs(col='', x=title_x)+guides(col='none', lty='none')+
-#     ggtitle(title)+
-#     geom_label_repel(data = .xx[varying_betashape_n_adj$model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM'),],
-#                      max.overlaps = Inf, aes(x=factor(max(varying_betashape$beta_gamma_shape))), direction = "y",
-#                      nudge_x=max(varying_betashape$beta_gamma_shape)+2,
-#                      size=2.5)+
-#     coord_cartesian(xlim = c(0, length(unique(varying_betashape$beta_gamma_shape))*1.5))+
-#     theme_bw()+theme(axis.text.x=element_text(angle = 45, hjust = 1, vjust=1))+
-#     facet_wrap(.~n)
-#   ggsave(paste0(flder_out, generation, "/summaries/accuracy_adjbonferroni_with_betagammashape_palette2_factorv2_subset.pdf"),
-#          height = 3.0, width = 6.6)
-#   
-#   ggplot(varying_betashape_n[varying_betashape_n$model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM'),],
-#          aes(x=factor(beta_gamma_shape), y = Accuracy, col=model, group=model, label=model,
-#              lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_point()+geom_line()+theme_bw()+
-#     scale_color_manual(values=colours_models2)+labs(col='', x=title_x)+guides(col='none', lty='none')+
-#     ggtitle(title)+
-#     geom_label_repel(data = .xx[varying_betashape_n$model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM'),],
-#                      max.overlaps = Inf, aes(x=factor(max(varying_betashape$beta_gamma_shape))), direction = "y",
-#                      nudge_x=max(varying_betashape$beta_gamma_shape)+2,
-#                      size=2.5)+
-#     coord_cartesian(xlim = c(0, length(unique(varying_betashape$beta_gamma_shape))*1.5))+
-#     theme_bw()+theme(axis.text.x=element_text(angle = 45, hjust = 1, vjust=1))+
-#     facet_wrap(.~n)
-#   ggsave(paste0(flder_out, generation, "/summaries/accuracy_with_betagammashape_palette2_factorv2_subset.pdf"),
-#          height = 3.0, width = 6.6)
-#   
-#   ggplot(varying_betashape_d[varying_betashape_d$model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM'),],
-#          aes(x=factor(beta_gamma_shape), y = Accuracy, col=model, group=model, label=model,
-#              lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_point()+geom_line()+theme_bw()+
-#     scale_color_manual(values=colours_models2)+labs(col='', x=title_x)+guides(col='none', lty='none')+
-#     ggtitle(title)+
-#     geom_label_repel(data = .xx[varying_betashape_d$model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM'),],
-#                      max.overlaps = Inf, aes(x=factor(max(varying_betashape_d$beta_gamma_shape))), direction = "y",
-#                      nudge_x=max(varying_betashape_d$beta_gamma_shape)+2,
-#                      size=2.5)+
-#     coord_cartesian(xlim = c(0, length(unique(varying_betashape$beta_gamma_shape))*1.5))+
-#     theme_bw()+theme(axis.text.x=element_text(angle = 45, hjust = 1, vjust=1))+
-#     facet_wrap(.~d)
-#   ggsave(paste0(flder_out, generation, "/summaries/accuracy_with_betagammashape_facetD_palette2_factorv2_subset.pdf"),
-#          height = 3.0, width = 6.6)
-#   
-#   ggplot(varying_betashape_n_adj[varying_betashape_n_adj$beta_gamma_shape == 0,],
-#          aes(x=n, y = Accuracy, col=model, group=model, label=model,
-#                                   lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_point()+geom_line()+theme_bw()+
-#     scale_color_manual(values=colours_models2)+labs(col='', x='Number of samples')+
-#     guides(lty='none')+
-#     ggtitle(title)+
-#     geom_label_repel(data = remove_duplicated_rows(varying_betashape_n_adj[which(varying_betashape_n_adj$beta_gamma_shape == 0),]),
-#                      max.overlaps = Inf, aes(x=(max(varying_betashape_n_adj$n))), direction = "y",
-#                      size=2.5)+
-#     coord_cartesian(xlim = c(0, max(varying_betashape_n_adj$n)*1.5))+
-#     theme_bw()+theme(axis.text.x=element_text(angle = 45, hjust = 1, vjust=1))
-#   
-#   pvals_noDA <- a$pvals_data_frame[as.vector(sapply(a$datasets, function(i) i$beta_gamma_shape)) == 0,]
-#   pvals_DA <- a$pvals_data_frame[as.vector(sapply(a$datasets, function(i) i$beta_gamma_shape)) != 0,]
-#   plot(pvals_noDA$pvals_diagREDM, pvals_noDA$pvals_fullREM); abline(coef = c(0,1))
-#   
-#   table(pvals_noDA$pvals_diagREDM < 0.05)
-#   table(pvals_noDA$pvals_fullREM < 0.05)
-#   
-#   hist(pvals_noDA$pvals_diagREDM, breaks = 20)
-#   hist(pvals_noDA$pvals_fullREM, breaks = 20)
-#   
-#   pvals_noDA_adj <- a$pvals_data_frame_adj[as.vector(sapply(a$datasets, function(i) i$beta_gamma_shape)) == 0,]
-#   plot(pvals_noDA_adj$pvals_diagREDM, pvals_noDA_adj$pvals_fullREM); abline(coef = c(0,1), main=generation)
-#   table(pvals_noDA_adj$pvals_diagREDM < 0.05)
-#   table(pvals_noDA_adj$pvals_fullREDMSL < 0.05)
-#   table(pvals_noDA_adj$pvals_fullREM < 0.05)
-#   
-# 
-#   length_out_rocauc <- 50
-#   rocauc <- lapply(seq(0, 1, length.out = length_out_rocauc), function(thresholdit) (as(t(sapply(colnames(a$pvals_data_frame), function(col_it){
-#     summarise_DA_detection(true = a$pvals_data_frame$true, predicted = a$pvals_data_frame[,col_it] < thresholdit, verbose = F)[c('Specificity', 'Sensitivity')]
-#   })), 'matrix')))
-#   names(rocauc) <- seq(0, 1, length.out = length_out_rocauc)
-#   # rocauc <- lapply(rocauc, as.matrix)
-#   rocauc <- (reshape2::melt(rocauc, id.vars=c('Specificity', 'Sensitivity')))
-#   rocauc <- dcast(rocauc, Var1+L1~Var2, value.var = "value")
-#   rocauc$model <- gsub("pvals_", "", rocauc$Var1)
-#   rocauc <- rocauc[rocauc$model != "true",]
-#   unique(rocauc$model)
-#   rocauc$model[rocauc$model == "ttest_ilr_adj"] = "ILR"
-#   rocauc$model[rocauc$model == "ttest_props"] = "ttest"
-#   
-#   ggplot(rocauc, aes(x=1-Specificity, y= Sensitivity, col=model,
-#                      lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_line()+theme_bw()+theme(legend.position = "bottom")+
-#     scale_color_manual(values=colours_models2)+labs(col='', x='1- Specificity', y='Sensitivity')+guides(col='none', lty='none')
-#   ggsave(paste0(flder_out, generation, "/summaries/ROCAUCcurve_palette.pdf"),
-#          height = 3.0, width = 3)
-#   
-#   ggplot(rocauc, aes(x=1-Specificity, y= Sensitivity, col=model,
-#                      lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_line()+theme_bw()+theme(legend.position = "bottom")+
-#     scale_color_manual(values=colours_models2)+labs(col='', x='1- Specificity', y='Sensitivity')+guides(col='none', lty='none')+facet_wrap(.~model)
-#   
-#   ## for fixed cut-offs, changing effect sizes
-#   ## information about effect sizes
-#   beta_gamma_shapes <- as.vector(unlist(sapply(a$datasets, `[`, 'beta_gamma_shape')))
-#   ns <- as.vector(unlist(sapply(a$datasets, `[`, 'n')))
-#   thresholdit = 0.05
-#   rocauc_2 <- lapply(sort(unique(ns)), function(betagammashapeit){
-#     (as(t(sapply(colnames(a$pvals_data_frame), function(col_it){
-#     summarise_DA_detection(true = a$pvals_data_frame$true[ns == betagammashapeit],
-#                            predicted = a$pvals_data_frame[ns == betagammashapeit,col_it] < thresholdit, verbose = F)[c('Specificity', 'Sensitivity')]
-#     })), 'matrix'))
-#   })
-#   names(rocauc_2) <- sort(unique(ns))
-#   rocauc_2 <- (reshape2::melt(rocauc_2, id.vars=c('Specificity', 'Sensitivity')))
-#   rocauc_2 <- dcast(rocauc_2, Var1+L1~Var2, value.var = "value")
-#   rocauc_2$model <- gsub("pvals_", "", rocauc_2$Var1)
-#   rocauc_2$model[rocauc_2$model == "ttest_ilr_adj"] = "ILR"
-#   rocauc_2$model[rocauc_2$model == "ttest_props"] = "ttest"
-#   ggplot(rocauc_2, aes(x=1-Specificity, y= Sensitivity, col=model,
-#                      lty=model%in% c('fullREM', 'fullREDMSL', 'diagREDMSL', 'diagREDM')))+
-#     geom_line()+theme_bw()+theme(legend.position = "bottom")+
-#     scale_color_manual(values=colours_models2)+labs(col='', x='1- Specificity', y='Sensitivity')+guides(col='none', lty='none')
-# 
-#   
-# }
-# 
-# a$pvals_data_frame$pvals_diagREDM[log(as.vector(sapply(a$datasets, function(i) i$beta_gamma_shape))) == -1.2]
+# return_df_plots_bias_coverage(opt_all_datasets$A1diag) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$A1full) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$A1single) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$A2diag) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$A2full) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$A2single) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$A3diag) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$A3full) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$A3single) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$baselinediag) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B1diag) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B1full) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B2diag) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B2full) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B3diag) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B3full) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B4diag) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B4full) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B4full_lownlambda) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B4diag_lownlambda) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B4full_low2nlambda) ## pass
+# return_df_plots_bias_coverage(opt_all_datasets$B4diag_low2nlambda) ## pass
+
+# opt_all_datasets_subset <- opt_all_datasets[!grepl("B4|B2", names(opt_all_datasets))] ## already done
+# df_plots_bias_coverage_subset <- lapply(opt_all_datasets_subset, function(i) try(return_df_plots_bias_coverage(i)))
+df_plots_bias_coverage_all <- lapply(opt_all_datasets, function(i) try(return_df_plots_bias_coverage(i)))
+
+
+## maybe there should be two shared limits, one for intercept and one for slope - https://stackoverflow.com/questions/51735481/ggplot2-change-axis-limits-for-each-individual-facet-panel
+common_lims <- list(
+                    baselinediag = list(bias=c(-0.35, 0.35), coverage=list(c(0.71, 1), c(0.71, 1))), ## only one run
+                    # A1 =list(bias=c(-3, 7)),
+                    # A2 =list(bias=c(-2.1, 1.8)),
+                    # A3 =list(bias=c(-2.5, 1.5)),
+                    A = list(bias = c(-3, 7), coverage=list(c(0,1), c(0.25,1))),
+                    B1 =list(bias=c(-4.2, 1), coverage=list(c(0.71,1), c(0.71,1))),
+                    B2=list(bias=c(-0.4, 0.4), coverage=list(c(0.71,1), c(0.71,1))),
+                    B3=list(bias=c(-.5, .3), coverage=list(c(0.51, 1), c(0.71,1))),
+                    B4 = list(bias = c(-1, 1), coverage=list(c(0.71,1), c(0.61,1)))
+)
+names(df_plots_bias_coverage_all)
+
+for(sim_name in names(common_lims)){
+  require(gridExtra)
+  
+  cat('Sim name: ', sim_name, '\n')
+  
+  idx_sim = grep(sim_name, names(df_plots_bias_coverage_all))
+  for(i in idx_sim){
+    if(sim_name %in% c('A1', 'A2', 'A3')){
+      sim_name2 = 'A'
+    }else{
+      sim_name2 = sim_name
+    }
+    ## bias
+    df_plots_bias_coverage_all[[i]]$bias_df = df_plots_bias_coverage_all[[i]]$bias_df+lims(y=common_lims[[sim_name2]]$bias)
+    
+    
+    add_line <- function(input, idx){
+      input$coverage_df[[idx]] +
+        annotate(geom="label",x=-Inf,y=common_lims[[sim_name2]]$coverage[[idx]][1]+0.01,label="   //", fill="white", col='black', label.size = NA)+
+        annotate(geom="label",x=Inf,y=common_lims[[sim_name2]]$coverage[[idx]][1]+0.01, label="//   ", fill="white", col='black', label.size = NA)+
+        geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, 
+                              ymin=common_lims[[sim_name2]]$coverage[[idx]][1]+0.005,
+                              ymax=common_lims[[sim_name2]]$coverage[[idx]][1]+0.015),
+                  col='black', fill="white", alpha=0.2, lty=1)
+    }
+    ## coverage
+    for(idx in c(1,2)){
+      if(common_lims[[sim_name2]]$coverage[[idx]][1] != 0){
+        df_plots_bias_coverage_all[[i]]$coverage_df[[idx]] = add_line(df_plots_bias_coverage_all[[i]], idx=idx)
+      }
+      if(idx == 1){
+        df_plots_bias_coverage_all[[i]]$coverage_df[[idx]] = df_plots_bias_coverage_all[[i]]$coverage_df[[idx]]+lims(y=common_lims[[sim_name2]]$coverage[[idx]])
+      }else if(idx == 2){
+        df_plots_bias_coverage_all[[i]]$coverage_df[[idx]] = df_plots_bias_coverage_all[[i]]$coverage_df[[idx]]+ 
+          scale_y_continuous(position = "right", limits = common_lims[[sim_name2]]$coverage[[idx]])+
+          theme(axis.text.x=element_blank(),
+                axis.ticks.x=element_blank(), axis.title.y=element_blank())
+      }
+    }
+  }
+  
+  # do.call('grid.arrange', lapply(df_plots_bias_coverage_all[idx_sim], `[[`, 'bias_df'))
+  # do.call('grid.arrange', lapply(lapply(df_plots_bias_coverage_all[idx_sim], `[[`, 'coverage_df'), `[[`, 1))
+  for(i in idx_sim){
+    print(df_plots_bias_coverage_all[[i]]$bias_df)
+    ggsave(paste0("../../../results/figures_paper/bias_coverage/", names(df_plots_bias_coverage_all)[i], "_bias.pdf"),
+           width = 2.2, height = 2)
+  }
+  
+  for(i in idx_sim){
+    print(cowplot::plot_grid(df_plots_bias_coverage_all[[i]]$coverage_df[[1]],
+                             df_plots_bias_coverage_all[[i]]$coverage_df[[2]], nrow=1, rel_widths = c(1.1, 0.95)))
+    ggsave(paste0("../../../results/figures_paper/bias_coverage/", names(df_plots_bias_coverage_all)[i], "_coverage.pdf"),
+           width = 2.2, height = 2)
+  }
+}
+

@@ -1,13 +1,39 @@
+## Introduction
+
+In this repository we apply the methods from the package `CompSign` to answer questions on the differential abundance of mutational signatures between clonal and subclonal samples in the PCAWG cohort.
+
+We refer the reader to the [CompSign](https://github.com/lm687/CompSign) github repository for
+
+- example input data
+- minimal examples showing how to estimate the parameters
+- different variants of the model
+
+all of this information can be accessed in the Vignettes:
+
+```
+browseVignettes("CompSign")
+```
+
 ## Ignored folders
-Some elements inside the data folder `data/` is restricted and therefore not available
+Some elements inside the data folder `data/` is restricted and therefore not available. Specifically, count PCAWG data are indentifiable and with restricted access.
+
+The summarised data which is not identifiable and available in this github repository is, however, enough to run the code:
+
+- `data/roo/` (see [here](https://github.com/lm687/CompSign-results/tree/main/data/roo)) includes the exposures for each of the PCAWG datasets
 
 ## Environment
+The results from CompSign applied to PCAWG can be reproduced in a conda environment.
+
 To set up the environment, run
+
 ```
 cd code/
 conda env create -f environment.yaml
 ```
-to enter the environment, type
+
+alternatively, to use additional functionality such as being able to run competing models, a more complex environment is found in `environment-extended.yaml`.
+
+To enter the environment, type
 
 ```
 source activate snakemake-globalDA
@@ -17,23 +43,27 @@ conda deactivate
 
 ## Running in cluster
 
+If running in a cluster, you might have to specify additional parameters (see the example below, for a slurm system)
+
 ```
 source activate snakemake-globalDA
 snakemake --cluster "sbatch -t 0:10:00 --cores 1" --jobs 40 --printshellcmds
 conda deactivate
 ```
 
-## Creating Snakemake's config file
-The file `config_PCAWG.yaml` is created by running
+<!-- ## Creating Snakemake's config file
+The snakemake pipeline needs an input file, `config_PCAWG.yaml`. Y -->
+
+<!-- The file `config_PCAWG.yaml` is created by running
 ```
 sh make_config.sh
 ```
 
-`make_config` contains the arguments (i.e. parameters, for the most part) for the different Simulation Generations. Note using `bash make_config.sh` will throw an error - use sh instead.
+`make_config` contains the arguments (i.e. parameters, for the most part) for the different Simulation Generations. Note using `bash make_config.sh` will throw an error - use sh instead. -->
 
 ## Other considerations
 ### PCAWG samples for which there is no VCF file
-These files appear in the metadata and may have them in the mutccf file, but I don't have their VCF, which is the only file that contains what mutation it is (in mutccf you can have the position and CCF, but not mutation type).
+These files appear in the metadata and for which we might have the mutccf file, but not their VCF, which is the only file that contains details about the mutation (the mutccf files give information about position and CCF, but not mutation type).
 
 ```
 ../data/restricted/pcawg/pcawg_restricted_snv_counts/f8467ec8-2d61-ba21-e040-11ac0c483584

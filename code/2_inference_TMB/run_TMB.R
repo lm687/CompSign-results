@@ -60,6 +60,8 @@ if(opt$optimiser == "optim"){
   use_nlminb = T
 }
 
+system(paste0('mkdir -p ', dirname(opt$output)))
+
 cat('Model:', opt$model, '\n')
 cat('Feature type:', opt$feature_type, '\n')
 cat('Using nlminb:', use_nlminb, '\n')
