@@ -51,4 +51,11 @@ ex1 <- list(python_like_select_rownames(subset_10kit_list$HiLDA_10kit[[1]]$BUGSo
             python_like_select_rownames(subset_10kit_list$HiLDA[[1]]$BUGSoutput$summary, 'alpha*'),
             python_like_select_rownames(subset_10kit_list$HiLDA_Global[[1]]$BUGSoutput$summary, 'alpha*'))
 
+alphas <- list(HiLDA_10kit=as.vector(sapply(subset_10kit_list$HiLDA_10kit, function(j) python_like_select_rownames(j$BUGSoutput$summary, 'alpha*')[,1])),
+               HiLDA=as.vector(sapply(subset_10kit_list$HiLDA, function(j) python_like_select_rownames(j$BUGSoutput$summary, 'alpha*')[,1])),
+               HiLDA_Global=as.vector(sapply(subset_10kit_list$HiLDA_Global, function(j) python_like_select_rownames(j$BUGSoutput$summary, 'alpha*')[,1])))
+
+
 pairs(sapply(ex1, function(i) i[,1]))
+pairs(alphas)
+

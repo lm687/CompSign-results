@@ -431,7 +431,7 @@ createBarplot(normalise_rw(non_duplicated_rows(read_info_list[[ct]]$dataset_acti
 
 
 View(read_info_list[[ct]]$dataset_active_sigs$Y)
-fullDM_no_small_sigs <- wrapper_run_TMB(obje<- = give_subset_sigs_TMBobj(read_info_list[[ct]]$dataset_active_sigs,
+fullDM_no_small_sigs <- wrapper_run_TMB(object = give_subset_sigs_TMBobj(read_info_list[[ct]]$dataset_active_sigs,
                            sigs_to_remove = c('SBS13', 'SBS17a', 'SBS17b', 'SBS30')),
                                         model = "fullRE_DM", use_nlminb=T, smart_init_vals=F)
 fullDM_no_small_sigs
@@ -3154,3 +3154,80 @@ xxxx_melt$converged <- !sapply(converged, is.na)[match(xxxx_melt$L1, names(conve
 ggplot(xxxx_melt,
        aes(x=full.Estimate, y=diag.Estimate, col=converged))+
   geom_point()+geom_abline()+facet_wrap(.~L1)
+
+##-----------------------------------------------------------------------------------------------------##
+## Zero counts of signatures
+zeros_df <- data.frame(frac_zeros=sapply(read_info_list, function(i) mean(i$dataset_active_sigs$Y == 0)),
+           max_frac_zeros_any_sig=sapply(read_info_list, function(i) max(colMeans(i$dataset_active_sigs$Y == 0))))
+xtable::xtable(zeros_df)
+range(zeros_df$frac_zeros)
+range(zeros_df$max_frac_zeros_any_sig)
+##-----------------------------------------------------------------------------------------------------##
+
+##-----------------------------------------------------------------------------------------------------##
+# ## Analyis of beta for particular cancer types
+# ## Lung-SCC: SBS1 and SBS5. Is SBS1 truly active?
+# read_info_list$`Lung-SCC`$dataset_active_sigs$Y
+# 
+# read_info_list$
+ct <- 'Lung-SCC'
+
+source("../1_create_ROO/helper_1_create_ROO.R")
+
+extract_sigs_TMB_obj_QP <- function(dataset_obj_trinucleotide, subset_signatures){
+  W_muts = dataset_obj_trinucleotide$Y
+  colnames(W_muts) <- sapply(colnames(W_muts), function(i) paste0(substr(i, 3, 5), '_', substr(i, 1, 1), substr(i, 3, 3), substr(i, 7, 7)))
+  signature_definitions <- read.table("../../data/cosmic/sigProfiler_SBS_signatures_2019_05_22.csv", sep=',', header = T)
+  signature_definitions_cats <- paste0(signature_definitions$Type, '_', signature_definitions$SubType)
+  signature_definitions <- apply(signature_definitions[,-c(1,2)], 2, function(i) i)
+  rownames(signature_definitions) <- signature_definitions_cats
+  
+  W_QP = t(sapply(1:nrow(W_muts), function(i){
+    sigs = QPsig(signatures.ref = signature_definitions[,subset_signatures], tumour.ref = rep(colnames(W_muts), W_muts[i,]))
+  }))
+  W_QP[W_QP<0] <- 0 ## some values migth be extremely low but negative
+  W_QP <- sweep(W_QP, 1, rowSums(W_muts), '*')
+  dataset_obj_trinucleotide$Y <- W_QP
+  dataset_obj_trinucleotide
+}
+
+
+head(read_info_list[[ct]]$dataset_active_sigs$Y)
+subset_sigs_additional_runs <- list()
+subset_sigs_additional_runs[[paste0(ct, 'noSBS8')]] <- c('SBS1', 'SBS2', 'SBS4', 'SBS5', 'SBS13')
+subset_sigs_additional_runs[[paste0(ct, 'noSBS4')]] <- c('SBS1', 'SBS2', 'SBS5', 'SBS8', 'SBS13')
+subset_sigs_additional_runs[[paste0(ct, 'noSBS4SBS8')]] <- c('SBS1', 'SBS2', 'SBS5', 'SBS13')
+subset_sigs_additional_runs[[paste0(ct, 'manysigs')]] <- c(colnames(signature_definitions)[1:10], 'SBS8', 'SBS13')
+subset_sigs_additional_runs[[paste0(ct, 'noSBS2SBS13')]] <- c('SBS1', 'SBS4', 'SBS5', 'SBS8')
+subset_sigs_additional_runs[[paste0(ct, 'noSBS1')]] <- c('SBS2', 'SBS4', 'SBS5', 'SBS8', 'SBS13')
+subset_sigs_additional_runs[[paste0(ct)]] <- colnames(read_info_list[[ct]]$dataset_active_sigs$Y)
+name_it <- paste0(ct)
+name_it <- paste0(ct, 'noSBS1')
+name_it <- paste0(ct, 'noSBS4SBS8')
+name_it <- paste0(ct, 'noSBS2SBS13')
+name_it <- paste0(ct, 'noSBS8')
+name_it <- paste0(ct, 'noSBS4')
+name_it<- paste0(ct, 'manysigs')
+for(name_it in names(subset_signatures)){
+  new_sigs[[name_it]] <- extract_sigs_TMB_obj_QP(dataset_obj_trinucleotide = read_info_list[[ct]]$dataset_nucleotidesubstitution3,
+                       subset_signatures = subset_sigs_additional_runs[[name_it]])
+  head(new_sigs[[name_it]]$Y)
+  
+  diagDM_newsigs[[name_it]] <- wrapper_run_TMB(object = new_sigs[[name_it]],
+                                          model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
+  plot_betas(diagDM_newsigs[[name_it]], names_cats = rev(rev(colnames(new_sigs[[name_it]]$Y))[-1]), remove_SBS = F)
+}
+
+plt_LungSCC = list(plot_betas(diagDM_newsigs[['Lung-SCC']], names_cats = rev(rev(colnames(new_sigs[['Lung-SCC']]$Y))[-1]), remove_SBS = F, return_ggplot = T, title = 'Original signatures'),
+                        plot_betas(diagDM_newsigs[['Lung-SCCnoSBS1']], names_cats = rev(rev(colnames(new_sigs[['Lung-SCCnoSBS1']]$Y))[-1]), remove_SBS = F, title = 'Removing SBS1'),
+                        plot_betas(diagDM_newsigs[['Lung-SCCnoSBS4']], names_cats = rev(rev(colnames(new_sigs[['Lung-SCCnoSBS4']]$Y))[-1]), remove_SBS = F, title = 'Removing SBS4'),
+                        plot_betas(diagDM_newsigs[['Lung-SCCmanysigs']], names_cats = rev(rev(colnames(new_sigs[['Lung-SCCmanysigs']]$Y))[-1]), remove_SBS = F, title = 'Including additional signatures'))
+
+png("../../results/results_TMB/pcawg/LungSCC_betas_subsets_signatures.png", height = 4, width = 7, units = 'in', res = 300)
+do.call('grid.arrange', plt_LungSCC)
+dev.off()
+##-----------------------------------------------------------------------------------------------------##
+
+##-----------------------------------------------------------------------------------------------------##
+## APOBEC signatures
+##-----------------------------------------------------------------------------------------------------##

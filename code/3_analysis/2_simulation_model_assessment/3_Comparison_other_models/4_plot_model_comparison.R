@@ -618,12 +618,37 @@ ggplot(out_betas_df2 %>%
          dplyr::filter(dataset == 'C1', Var2 == 'Slope',
                        variable %in% c('diagREDM_softmax_sorted', 'TCSM_sorted', 'HiLDA0_sorted_SE')),  ## HiLDA_MSE
        aes(x=interaction(round(pi_softmax, 3)), y=value, col=as.character(Var1), group=interaction(pi, Var1)))+geom_boxplot()+
-  facet_wrap(.~interaction(gsub("HiLDA0 sorted SE", "HiLDA SE sorted", gsub("_", " ", variable)), dataset, 'n=', n, 'T=', nlambda, drop = T, sep = ', '), nrow=1, scales = 'free_y')+
+  facet_wrap(.~interaction(gsub("HiLDA0 sorted SE", "HiLDA SE sorted", gsub("_", " ", variable)),
+                           ' ', dataset, ' n=', n, ', T=', nlambda, drop = T, sep = ''), nrow=1, scales = 'free_y')+
   scale_color_manual(values = c('#D81B60', '#1E88E5', '#FFC107', '#004D40', '#572AC7', '#51D0E0', 'black'))+
   labs(x=latex2exp::TeX('$\\pi$'), y='(Transformed) Coefficient', col='Signature')+
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), legend.position = 'bottom')+
   guides(color=guide_legend(nrow=1))
-ggsave("../../../../results/figures_paper/comparison_methods/beta1_boxplot1.pdf", height = 4, width = 10)
+ggsave("../../../../results/figures_paper/comparison_methods/beta1_boxplotc1.pdf", height = 4, width = 10)
+
+ggplot(out_betas_df2 %>% 
+         dplyr::filter(dataset == 'C2', Var2 == 'Slope',
+                       variable %in% c('diagREDM_softmax_sorted', 'TCSM_sorted', 'HiLDA0_sorted_SE')),  ## HiLDA_MSE
+       aes(x=interaction(round(pi_softmax, 3)), y=value, col=as.character(Var1), group=interaction(pi, Var1)))+geom_boxplot()+
+  facet_wrap(.~interaction(gsub("HiLDA0 sorted SE", "HiLDA SE sorted", gsub("_", " ", variable)), dataset,
+                           ' ', dataset, ' n=', n, ', T=', nlambda, drop = T, sep = ''), nrow=2, scales = 'free_y')+
+  scale_color_manual(values = c('#D81B60', '#1E88E5', '#FFC107', '#004D40', '#572AC7', '#51D0E0', 'black'))+
+  labs(x=latex2exp::TeX('$\\pi$'), y='(Transformed) Coefficient', col='Signature')+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), legend.position = 'bottom')+
+  guides(color=guide_legend(nrow=1))
+ggsave("../../../../results/figures_paper/comparison_methods/beta1_boxplotc2.pdf", height = 4, width = 10)
+
+ggplot(out_betas_df2 %>% 
+         dplyr::filter(dataset == 'C3', Var2 == 'Slope',
+                       variable %in% c('diagREDM_softmax_sorted', 'TCSM_sorted', 'HiLDA0_sorted_SE')),  ## HiLDA_MSE
+       aes(x=interaction(round(pi_softmax, 3)), y=value, col=as.character(Var1), group=interaction(pi, Var1)))+geom_boxplot()+
+  facet_wrap(.~interaction(gsub("HiLDA0 sorted SE", "HiLDA SE sorted", gsub("_", " ", variable)),
+                           ' ', dataset, ' n=', n, ', T=', nlambda, drop = T, sep = ''), nrow=2, scales = 'free_y')+
+  scale_color_manual(values = c('#D81B60', '#1E88E5', '#FFC107', '#004D40', '#572AC7', '#51D0E0', 'black'))+
+  labs(x=latex2exp::TeX('$\\pi$'), y='(Transformed) Coefficient', col='Signature')+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), legend.position = 'bottom')+
+  guides(color=guide_legend(nrow=1))
+ggsave("../../../../results/figures_paper/comparison_methods/beta1_boxplotc3.pdf", height = 4, width = 10)
 
 ggplot(out_betas_without_HiLDA_df2 %>% 
          dplyr::filter(dataset == 'C1', Var2 == 'Slope',
@@ -637,15 +662,15 @@ ggplot(out_betas_without_HiLDA_df2 %>%
 
 unique(out_betas_df2$dataset)
 ## with patient pairing
-ggplot(out_betas_df2 %>% 
-         dplyr::filter(dataset == 'C3', Var2 == 'Slope',
-                       variable %in% c('TMB_softmax_sorted', 'TCSM_sorted', 'HiLDA_normalised_sorted')), 
-       aes(x=interaction(round(pi_softmax, 3)), y=value, col=as.character(Var1), group=interaction(pi, Var1)))+geom_boxplot()+
-  facet_wrap(.~interaction(variable, dataset, n, nlambda, drop = T), nrow=2, scales = 'free_y')+
-  scale_color_manual(values = c('#D81B60', '#1E88E5', '#FFC107', '#004D40', '#572AC7', '#51D0E0'))+
-  labs(x=latex2exp::TeX('$\\pi$'), y='(Transformed) Coefficient', col='Signature')+
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-ggsave("../../../../results/figures_paper/comparison_methods/beta1_boxplot2.pdf", height = 5, width = 12)
+# ggplot(out_betas_df2 %>% 
+#          dplyr::filter(dataset == 'C3', Var2 == 'Slope',
+#                        variable %in% c('TMB_softmax_sorted', 'TCSM_sorted', 'HiLDA_normalised_sorted')), 
+#        aes(x=interaction(round(pi_softmax, 3)), y=value, col=as.character(Var1), group=interaction(pi, Var1)))+geom_boxplot()+
+#   facet_wrap(.~interaction(variable, dataset, n, nlambda, drop = T), nrow=2, scales = 'free_y')+
+#   scale_color_manual(values = c('#D81B60', '#1E88E5', '#FFC107', '#004D40', '#572AC7', '#51D0E0'))+
+#   labs(x=latex2exp::TeX('$\\pi$'), y='(Transformed) Coefficient', col='Signature')+
+#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+# ggsave("../../../../results/figures_paper/comparison_methods/beta1_boxplot2.pdf", height = 5, width = 12)
 
 ## without patient pairing
 ggplot(out_betas_df2 %>% 
