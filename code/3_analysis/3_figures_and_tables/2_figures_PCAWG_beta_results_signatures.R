@@ -205,7 +205,7 @@ dev.off()
 ## same plot but for the intercept
 # png("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror_facets_v2_intercept.png",
 #     height = 25, width = 32, units = 'cm', res = 200)
-pdf("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror_facetsv2.pdf",
+pdf("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror_facetsv2_intercept.pdf",
     height = 10.9375, width = 14)
 plot_grid(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 1), lty='dashed', col='blue', nudge_y_arg = 0.8),
           plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 2), lty='dashed', col='blue', nudge_y_arg = 0.8),

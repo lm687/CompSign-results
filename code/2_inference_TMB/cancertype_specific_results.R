@@ -3170,7 +3170,6 @@ range(zeros_df$max_frac_zeros_any_sig)
 # read_info_list$`Lung-SCC`$dataset_active_sigs$Y
 # 
 # read_info_list$
-ct <- 'Lung-SCC'
 
 source("../1_create_ROO/helper_1_create_ROO.R")
 
@@ -3191,7 +3190,7 @@ extract_sigs_TMB_obj_QP <- function(dataset_obj_trinucleotide, subset_signatures
   dataset_obj_trinucleotide
 }
 
-
+ct <- 'Lung-SCC'
 head(read_info_list[[ct]]$dataset_active_sigs$Y)
 subset_sigs_additional_runs <- list()
 subset_sigs_additional_runs[[paste0(ct, 'noSBS8')]] <- c('SBS1', 'SBS2', 'SBS4', 'SBS5', 'SBS13')
@@ -3229,5 +3228,139 @@ dev.off()
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
-## APOBEC signatures
+## Other ct
+
+appender <- function(string){
+  sapply(string, function(stringb){
+    if(stringb == 'Intercept'){
+      TeX(paste("$\\beta_0$")) 
+    }else if (stringb == 'Slope'){
+      TeX(paste("$\\beta_1$")) 
+    }
+  })
+}
+
+new_sigs <- diagDM_newsigs <- list()
+subset_sigs_additional_runs <- list()
+
+all_CNS_sigs = unique(gtools::mixedsort(c(colnames(read_info_list$`CNS-GBM`$dataset_active_sigs$Y),
+                                          colnames(read_info_list$`CNS-Medullo`$dataset_active_sigs$Y),
+                                          colnames(read_info_list$`CNS-PiloAstro`$dataset_active_sigs$Y))))
+all_CNS_sigs
+ct <- 'CNS-GBM'
+ct <- 'CNS-Medullo'
+ct <- 'CNS-PiloAstro'
+
+subset_sigs_additional_runs[[paste0(ct, '_allCNSsigs')]] <- all_CNS_sigs
+name_it<- paste0(ct, '_allCNSsigs')
+
+for(name_it in names(subset_signatures)){
+  new_sigs[[name_it]] <- extract_sigs_TMB_obj_QP(dataset_obj_trinucleotide = read_info_list[[ct]]$dataset_nucleotidesubstitution3,
+                                                 subset_signatures = subset_sigs_additional_runs[[name_it]])
+  head(new_sigs[[name_it]]$Y)
+  
+  diagDM_newsigs[[name_it]] <- wrapper_run_TMB(object = new_sigs[[name_it]],
+                                               model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
+  plot_betas(diagDM_newsigs[[name_it]], names_cats = rev(rev(colnames(new_sigs[[name_it]]$Y))[-1]), remove_SBS = F)
+}
+
+do.call('grid.arrange', lapply(diagDM_newsigs, function(l){
+  plot_betas(l, names_cats = rev(rev(colnames(new_sigs[[name_it]]$Y))[-1]), remove_SBS = F)
+}))
+
+df_CNS = lapply(diagDM_newsigs, function(l){
+  plot_betas(l, names_cats = rev(rev(colnames(new_sigs[[name_it]]$Y))[-1]), remove_SBS = F, return_df = T)
+}); names(df_CNS) <- gsub("_allCNSsigs", "", names(subset_sigs_additional_runs))
+
+ggplot((dcast(melt(df_CNS), type_beta+LogR+L1~variable, value.var = 'value')),
+       aes(x=interaction(LogR), y=Estimate, group=L1, shape=L1, col=L1))+geom_point()+
+  facet_wrap(.~type_beta, drop = T, labeller = as_labeller(appender, 
+                                                          default = label_parsed), scales = 'free')+
+  geom_ribbon(aes(ymin=Estimate-`Std. Error`, ymax=Estimate+`Std. Error`, fill=L1), alpha=0.4)+
+  geom_errorbar(aes(ymin=Estimate-`Std. Error`, ymax=Estimate+`Std. Error`))+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  labs(x='LogR (wrt SBS40)', y=TeX(paste("$\\hat{\\beta}\\pm sd$")), fill='Cancer type' , shape='Cancer type' , color='Cancer type' )+
+  scale_fill_manual(values = pcawg_palette[names(df_CNS)])+
+  scale_color_manual(values = pcawg_palette[names(df_CNS)])
+ggsave("../../results/results_TMB/pcawg/tissue_CNS_betas.pdf", height = 3)  
+
+##---
+
+all_panc_sigs = unique(gtools::mixedsort(c(colnames(read_info_list$`Panc-AdenoCA`$dataset_active_sigs$Y),
+                                          colnames(read_info_list$`Panc-Endocrine`$dataset_active_sigs$Y))))
+all_CNS_sigs
+ct <- 'Panc-AdenoCA'
+ct <- 'Panc-Endocrine'
+
+subset_sigs_additional_runs[[paste0(ct, '_allPancsigs')]] <- all_panc_sigs
+name_it<- paste0(ct, '_allPancsigs')
+
+for(name_it in names(subset_signatures)){
+  new_sigs[[name_it]] <- extract_sigs_TMB_obj_QP(dataset_obj_trinucleotide = read_info_list[[ct]]$dataset_nucleotidesubstitution3,
+                                                 subset_signatures = subset_sigs_additional_runs[[name_it]])
+  head(new_sigs[[name_it]]$Y)
+  
+  diagDM_newsigs[[name_it]] <- wrapper_run_TMB(object = new_sigs[[name_it]],
+                                               model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
+  plot_betas(diagDM_newsigs[[name_it]], names_cats = rev(rev(colnames(new_sigs[[name_it]]$Y))[-1]), remove_SBS = F)
+}
+
+df_Panc = lapply(diagDM_newsigs[grep('Panc', names(diagDM_newsigs))], function(l){
+  plot_betas(l, names_cats = rev(rev(colnames(new_sigs[[name_it]]$Y))[-1]), remove_SBS = F, return_df = T)
+}); names(df_Panc) <- gsub("_allPancsigs", "", names(subset_sigs_additional_runs[grep('Panc', names(diagDM_newsigs))]))
+
+ggplot((dcast(melt(df_Panc), type_beta+LogR+L1~variable, value.var = 'value')),
+       aes(x=interaction(LogR), y=Estimate, group=L1, shape=L1, col=L1))+geom_point()+
+  facet_wrap(.~type_beta, drop = T, labeller = as_labeller(appender, 
+                                                           default = label_parsed), scales = 'free')+
+  geom_ribbon(aes(ymin=Estimate-`Std. Error`, ymax=Estimate+`Std. Error`, fill=L1), alpha=0.4)+
+  geom_errorbar(aes(ymin=Estimate-`Std. Error`, ymax=Estimate+`Std. Error`))+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  labs(x='LogR (wrt SBS51)', y=TeX(paste("$\\hat{\\beta}\\pm sd$")), fill='Cancer type' , shape='Cancer type' , color='Cancer type' )+
+  scale_fill_manual(values = pcawg_palette[names(df_Panc)])+
+  scale_color_manual(values = pcawg_palette[names(df_Panc)])
+ggsave("../../results/results_TMB/pcawg/tissue_Panc_betas.pdf", height = 3, width = 9)  
+
+##---------
+
+all_kidney_sigs = unique(gtools::mixedsort(c(colnames(read_info_list$`Kidney-ChRCC`$dataset_active_sigs$Y),
+                                           colnames(read_info_list$`Kidney-RCC.clearcell`$dataset_active_sigs$Y),
+                                           colnames(read_info_list$`Kidney-RCC.papillary`$dataset_active_sigs$Y))))
+all_kidney_sigs
+ct <- 'Kidney-ChRCC'
+ct <- 'Kidney-RCC.clearcell'
+ct <- 'Kidney-RCC.papillary'
+
+subset_sigs_additional_runs[[paste0(ct, '_allKidneysigs')]] <- all_kidney_sigs
+name_it<- paste0(ct, '_allKidneysigs')
+
+for(name_it in names(subset_signatures)){
+  new_sigs[[name_it]] <- extract_sigs_TMB_obj_QP(dataset_obj_trinucleotide = read_info_list[[ct]]$dataset_nucleotidesubstitution3,
+                                                 subset_signatures = subset_sigs_additional_runs[[name_it]])
+  head(new_sigs[[name_it]]$Y)
+  
+  diagDM_newsigs[[name_it]] <- wrapper_run_TMB(object = new_sigs[[name_it]],
+                                               model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
+  plot_betas(diagDM_newsigs[[name_it]], names_cats = rev(rev(colnames(new_sigs[[name_it]]$Y))[-1]), remove_SBS = F)
+}
+
+df_Kidney = lapply(diagDM_newsigs[grep('Kidney', names(diagDM_newsigs))], function(l){
+  plot_betas(l, names_cats = rev(rev(colnames(new_sigs[[name_it]]$Y))[-1]), remove_SBS = F, return_df = T)
+}); names(df_Kidney) <- gsub("_allKidneysigs", "", names(subset_sigs_additional_runs[grep('Kidney', names(diagDM_newsigs))]))
+
+ggplot((dcast(melt(df_Kidney), type_beta+LogR+L1~variable, value.var = 'value')),
+       aes(x=interaction(LogR), y=Estimate, group=L1, shape=L1, col=L1))+geom_point()+
+  facet_wrap(.~type_beta, drop = T, labeller = as_labeller(appender, 
+                                                           default = label_parsed), scales = 'free')+
+  geom_ribbon(aes(ymin=Estimate-`Std. Error`, ymax=Estimate+`Std. Error`, fill=L1), alpha=0.4)+
+  geom_errorbar(aes(ymin=Estimate-`Std. Error`, ymax=Estimate+`Std. Error`))+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  labs(x='LogR (wrt SBS41)', y=TeX(paste("$\\hat{\\beta}\\pm sd$")), fill='Cancer type' , shape='Cancer type' , color='Cancer type' )+
+  scale_fill_manual(values = pcawg_palette[names(df_Kidney)])+
+  scale_color_manual(values = pcawg_palette[names(df_Kidney)])
+ggsave("../../results/results_TMB/pcawg/tissue_Kidney_betas.pdf", height = 3, width = 9)  
+
+saveRDS(new_sigs, "../../results/results_TMB/pcawg_robjects/tissue_specific_sigs.RDS")
+saveRDS(diagDM_newsigs, "../../results/results_TMB/pcawg_robjects/tissue_specific_diagREDM.RDS")
+
 ##-----------------------------------------------------------------------------------------------------##
