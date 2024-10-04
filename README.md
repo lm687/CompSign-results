@@ -43,7 +43,7 @@ conda deactivate
 
 ## Running in cluster
 
-If running in a cluster, you might have to specify additional parameters (see the example below, for a slurm system)
+If running in a cluster, you might have to specify additional parameters (see the example below, for a slurm system). Note that for Snakemake >=8 the syntax has changed substantially. Here Snakemake < 8 is used.
 
 ```
 source activate snakemake-globalDA
