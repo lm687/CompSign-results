@@ -18,6 +18,7 @@ library(gridExtra)
 library(dplyr)
 library(jcolors)
 library(viridis)
+library(reshape2)
 library(mutSigExtractor)
 
 ##-----------------------------------------------------------------------------------------------------##
@@ -91,7 +92,9 @@ pcawg_palette <- pcawg.colour.palette(x = gsub("\\..*", "", names(read_info_list
 names(pcawg_palette) <- names(read_info_list)
 ##-----------------------------------------------------------------------------------------------------##
 
+##-----------------------------------------------------------------------------------------------------##
 diagRE_DMDL <- lapply(read_info_list, function(i) i$diagRE_DMDL_SP)
+##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -126,7 +129,14 @@ ggplot(melt(as(betas_nucleotides_slopes, 'matrix')),
   # labs(y=("$\\widehat{\\betab}_1$"))+
   labs(y=("$\\hat{\\beta}_1$"))+
   guides(col=guide_legend(nrow=1,byrow=TRUE))+
-  scale_color_manual(values = nucleotide_colours_logR)
+  scale_color_manual(values = nucleotide_colours_logR)+
+  # geom_segment(aes(x = 5, y = 0, xend = 5, yend = Inf),
+  #              arrow = arrow(length = unit(0.2, "cm")), col='black')+
+  # geom_segment(aes(x = 19, y = 0, xend = 18, yend = -Inf),
+  #              arrow = arrow(length = unit(0.2, "cm")), col='black')+
+  annotate("text", x = 5.5, y = -0.6, label="More clonal than baseline")+
+  annotate("text", x = 18, y = 0.65, label="More subclonal than baseline")+
+  ylim(c(-0.7, 0.8))
 dev.off()
 
 betas_nucleotides_slopes_softmax <- apply(betas_nucleotides_slopes, 2, function(i) softmax(c(i,0)))

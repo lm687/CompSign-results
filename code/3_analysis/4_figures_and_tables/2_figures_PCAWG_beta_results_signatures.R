@@ -19,8 +19,8 @@ library(reshape2)
 library(dplyr)
 library(gridExtra)
 library(ggdendro)
-# library(xlsx)
-# library(viridis)
+library(writexl)
+library(pheatmap)
 theme_set(theme_bw())
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -99,12 +99,13 @@ all_diagREDMDL_betas_df_with_estimate = df_slopes$all_diagREDMDL_betas_df_with_e
 df_interceots <- give_betas_df(return_df=T, plot=F, only_slope = F, line_zero=F, add_confint = T)
 all_diagREDMDL_betas_df_intercept = df_interceots$all_diagREDMDL_betas_df %>% filter(type_beta == 'Intercept')
 all_diagREDMDL_betas_df_with_estimate_intercept = df_interceots$all_diagREDMDL_betas_df_with_estimate %>% filter(type_beta == 'Intercept')
+all_diagREDMDL_betas_df_with_estimate_intercept = all_diagREDMDL_betas_df_with_estimate_intercept %>%
+  group_by(L1) %>% mutate(idx_in_ct = 1:n()) %>% ungroup()
 
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
-# library(scico)
-palette_name <- 'lisbon'
+palette_name <- 'cork'
 
 ggplot(all_diagREDMDL_betas_df, aes(y=L1, x=sig, col=value))+
   geom_tile(aes(fill=value_minSBS1))+
@@ -155,7 +156,7 @@ ggplot(all_diagREDMDL_betas_df_with_estimate,
 ggsave("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror.png", height = 5, width = 10)
 
 
-plot_row_sorted_betas <- function(df, return_legend=F, nudge_y_arg=0.3, ...){
+plot_row_sorted_betas <- function(df, return_legend=F, nudge_y_arg=0.3, isintercept=FALSE, ...){
   a <- ggplot(df, 
               aes(x=idx_in_ct, y=Estimate, col=signature_to_col(numerator_LogR),
                   shape=signature_to_col(numerator_LogR)))+
@@ -172,8 +173,13 @@ plot_row_sorted_betas <- function(df, return_legend=F, nudge_y_arg=0.3, ...){
     theme(legend.position = 'bottom')+
     theme(axis.title.x=element_blank(),
           axis.text.x=element_blank(),
-          axis.ticks.x=element_blank())+
-    labs(y=TeX(r"($\hat{\beta_1}$)"), col='Signature', shape='Signature')
+          axis.ticks.x=element_blank())
+  if(isintercept){
+    a <- a + labs(y=TeX(r"($\hat{\beta_0}$)"), col='Signature', shape='Signature')
+    
+  }else{
+    a <- a + labs(y=TeX(r"($\hat{\beta_1}$)"), col='Signature', shape='Signature')
+  }
   if(return_legend){
     a
   }else{
@@ -207,10 +213,10 @@ dev.off()
 #     height = 25, width = 32, units = 'cm', res = 200)
 pdf("../../../results/results_TMB/pcawg/betas_comparing_with_SBS1_SBS5_line_stderror_facetsv2_intercept.pdf",
     height = 10.9375, width = 14)
-plot_grid(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 1), lty='dashed', col='blue', nudge_y_arg = 0.8),
-          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 2), lty='dashed', col='blue', nudge_y_arg = 0.8),
-          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 3), lty='dashed', col='blue', nudge_y_arg = 0.8),
-          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 4), lty='dashed', col='blue', nudge_y_arg = 0.8),
+plot_grid(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 1), lty='dashed', col='blue', nudge_y_arg = 0.8, isintercept = TRUE),
+          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 2), lty='dashed', col='blue', nudge_y_arg = 0.8, isintercept = TRUE),
+          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 3), lty='dashed', col='blue', nudge_y_arg = 0.8, isintercept = TRUE),
+          plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 4), lty='dashed', col='blue', nudge_y_arg = 0.8, isintercept = TRUE),
           cowplot::get_legend(plot_row_sorted_betas(all_diagREDMDL_betas_df_with_estimate_intercept %>% filter(L1_rows == 1), return_legend = T)),
           rel_heights = c(1, 1, 1, 1, 0.2), nrow=5)
 dev.off()
@@ -240,7 +246,7 @@ a <- cbind.data.frame(num_sigs=sapply(all_diagREDMDL, function(j) try(length(pyt
                       pval_full=sapply(all_fullREDMDL, wald_TMB_wrapper))
 # View(a)
 
-matrix(all_fullREDMDL_betas[[1]]$diag.cov.random, ncol=length(python_like_select_name(all_fullREDMDL_betas[[1]]$par.fixed, 'beta'))/2)
+# matrix(all_fullREDMDL_betas[[1]]$diag.cov.random, ncol=length(python_like_select_name(all_fullREDMDL_betas[[1]]$par.fixed, 'beta'))/2)
 
 read_info_all <- lapply(enough_samples, read_info); names(read_info_all) <- enough_samples
 nrow(read_info_all$`CNS-GBM`$dataset_active_sigs$Y)/2
@@ -419,9 +425,24 @@ ggplot(dcast(all_diagREDMDL_betas0_and_beta1 %>% filter(numerator_LogR %in% c(2,
 
 ##-----------------------------------------------------------------------------------------------------##
 all_fullREDMDL_converged <- sapply(all_fullREDMDL, wald_TMB_wrapper)
-all_fullREDMDL_converged
 
-idx <- 2
+cors_betas_fullREDM_diagREDM <- t(sapply(names(all_fullREDMDL_converged[!is.na(all_fullREDMDL_converged)]), function(ct){
+  x1= give_betas(all_fullREDMDL[[ct]])
+  x2 = give_betas(all_diagREDMDL[[ct]])
+  c(cor_beta=cor(as.vector(x1), as.vector(x2)),
+    cor_beta0 = cor(x1[1,] ,x2[1,]),
+    cor_beta1 = cor(x1[2,] ,x2[2,]))
+}))
+cors_betas_fullREDM_diagREDM
+
+##-----------------------------------------------------------------------------------------------------##
+
+##-----------------------------------------------------------------------------------------------------##
+all_fullREDMDL_converged
+##-----------------------------------------------------------------------------------------------------##
+
+
+# idx <- 2
 
 plot_intercepts_from_mat <- function(RI_mat, order_x, colour_scheme_bool, order_both){
   require(scico)
@@ -445,7 +466,7 @@ plot_intercepts_from_mat <- function(RI_mat, order_x, colour_scheme_bool, order_
           axis.title.y=element_blank())
 }
 
-get_intercepts_and_plot <- function(idx, plot_correlation_mat=F, order_both=F, return_df=F){
+get_intercepts_and_plot <- function(idx, plot_correlation_mat=F, order_both=F, return_df=F, use_empirical_cor=FALSE){
   if(!is.na(all_fullREDMDL_converged[idx])){
     cat('Converged run\n')
     converged <- T
@@ -457,11 +478,12 @@ get_intercepts_and_plot <- function(idx, plot_correlation_mat=F, order_both=F, r
   
   random_intercepts_diag <- matrix(all_diagREDMDL[[idx]]$par.random, ncol=dmin1)
   
-  if(converged){
+  if(converged & !use_empirical_cor){
     random_intercepts <- matrix(all_fullREDMDL[[idx]]$par.random, ncol=dmin1)
     cormat <- L_to_cov(python_like_select_name(all_fullREDMDL[[idx]]$par.fixed, 'cov_par_RE'),
              d = dmin1)
   }else{
+    ## Use the empirical correlation, either because it has not converged or because we are forcing it with use_empirical_cor
     random_intercepts <- matrix(all_diagREDMDL[[idx]]$par.random, ncol=dmin1)
     cormat = cor(random_intercepts)
   }
@@ -505,7 +527,7 @@ get_intercepts_and_plot(2)
 get_intercepts_and_plot(2, plot_correlation_mat = T, order_both=T)
 
 all_random_intercepts_plot <- lapply(1:length(enough_samples), get_intercepts_and_plot, plot_correlation_mat=F); names(all_random_intercepts_df) <- enough_samples
-all_random_intercepts_df <- lapply(1:length(enough_samples), get_intercepts_and_plot, plot_correlation_mat=F, return_df=T)
+all_random_intercepts_df <- lapply(1:length(enough_samples), get_intercepts_and_plot, plot_correlation_mat=F, return_df=T); names(all_random_intercepts_df) <- enough_samples
 all_random_intercepts_plot_cor <- lapply(1:length(enough_samples), get_intercepts_and_plot, plot_correlation_mat = T, order_both=T)
 all_random_intercepts_plot_cor_df <- lapply(1:length(enough_samples), get_intercepts_and_plot, plot_correlation_mat = T, order_both=T, return_df=T)
 
@@ -515,6 +537,25 @@ dev.off()
 pdf("../../../results/results_TMB/pcawg/randomintercepts_cormat.pdf", height = 13, width = 11)
 do.call('grid.arrange', all_random_intercepts_plot_cor)
 dev.off()
+
+## In cases where both converged, is the empirical correlation similar to the estimated correlation?
+ct_converged_fullREDM = names(all_fullREDMDL_converged[!is.na(all_fullREDMDL_converged)])
+all_random_intercepts_df[ct_converged_fullREDM] ## this contains the estimated covariances, or the 
+all_random_intercepts_df_empiricalcor <- lapply(1:length(enough_samples), get_intercepts_and_plot, plot_correlation_mat=F, return_df=T, use_empirical_cor=T); names(all_random_intercepts_df_empiricalcor) <- enough_samples
+
+ct_conv = ct_converged_fullREDM[1]
+cor_covariances = sapply(ct_converged_fullREDM, function(ct_conv){
+  cor(as.vector(all_random_intercepts_df[[ct_conv]]),
+      as.vector(all_random_intercepts_df_empiricalcor[[ct_conv]]))
+})
+sort(cor_covariances)
+max(cor_covariances); min(cor_covariances); median(cor_covariances)
+
+cor_covariances = sapply(ct_converged_fullREDM, function(ct_conv){
+  cor(as.vector(all_random_intercepts_df[[ct_conv]]),
+      as.vector(all_random_intercepts_df_empiricalcor[[ct_conv]]))
+})
+######################################################################
 
 plot(all_random_intercepts_df$`Eso-AdenoCA`[,c('SBS2', 'SBS13')])
 APOBEC <- lapply(all_random_intercepts_df, function(i) try(i[,c('SBS2', 'SBS13')]))
