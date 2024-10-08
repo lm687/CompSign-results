@@ -83,27 +83,27 @@ G bay
 
 An example CompSign run name is:
 
-multiple_GenerationMixtureSimulationTwoCT_100_50_NA_NA_-3.75_diagREDM_NA_NA_NA
+  multiple_GenerationMixtureSimulationTwoCT_100_50_NA_NA_-3.75_diagREDM_NA_NA_NA
 
 where the information is as follows
 
-{multiple = fixed}_{GenerationMixtureSimulationTwoCT = simulation framework}_{100 = number of simulated patients}_{50 = number of simulated mutations per subsample}_{NA
-Lambda}_{NA = d number of mutational signatures}_{-3.75 - beta1intensity,
-differential abundance parameter used to simulate beta1}_{diagREDM = model}_{NA
-beta0, path to file with beta0 parameters}_{NA = beta1, path to file with beta1 parameters, incompatible with beta1intensity}_{NA = cov}
+  {multiple = fixed}_{GenerationMixtureSimulationTwoCT = simulation framework}_{100 = number of simulated patients}_{50 = number of simulated mutations per subsample}_{NA
+  Lambda}_{NA = d number of mutational signatures}_{-3.75 - beta1intensity,
+  differential abundance parameter used to simulate beta1}_{diagREDM = model}_{NA
+  beta0, path to file with beta0 parameters}_{NA = beta1, path to file with beta1 parameters, incompatible with beta1intensity}_{NA = cov}
 
 Names of datasets
-A1    GenerationJnorm_200_180_2_5_0_betaintercept1d4_betaslope1d4_covmat1d4
-A2    GenerationJnorm_200_180_20_5_0_betaintercept1d4_betaslope1d4_covmat1d4
-A3    GenerationJnorm_200_180_100_5_0_betaintercept1d4_betaslope1d4_covmat1d4
-
-B1    GenerationJnorm_200_3401_18_6_0_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2
-B2    GenerationJnorm_200_14072_80_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatPCAWG4
-B3    GenerationJnorm_200_14072_87_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4
-B4    GenerationJnorm_nPCAWG6_{nlambdaPCAWG6,lownlambdaPCAWG6,low2nlambdaPCAWG6}_lambdaPCAWG6_dPCAWG6_0_betainterceptPCAWG6_betaslopePCAWG6_covmatFULLPCAWG6
-
-C1    GenerationMixtureSimulationTwoCT
-C2    GenerationMixtureSimulationv4
-C3    GenerationMixtureSimulation
-C3    GenerationMixtureSimulationv7
-
+  A1    GenerationJnorm_200_180_2_5_0_betaintercept1d4_betaslope1d4_covmat1d4
+  A2    GenerationJnorm_200_180_20_5_0_betaintercept1d4_betaslope1d4_covmat1d4
+  A3    GenerationJnorm_200_180_100_5_0_betaintercept1d4_betaslope1d4_covmat1d4
+  
+  B1    GenerationJnorm_200_3401_18_6_0_betainterceptPCAWG2_betaslopePCAWG2_covmatPCAWG2
+  B2    GenerationJnorm_200_14072_80_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatPCAWG4
+  B3    GenerationJnorm_200_14072_87_6_0_betainterceptPCAWG4_betaslopePCAWG4_covmatFULLPCAWG4
+  B4    GenerationJnorm_nPCAWG6_{nlambdaPCAWG6,lownlambdaPCAWG6,low2nlambdaPCAWG6}_lambdaPCAWG6_dPCAWG6_0_betainterceptPCAWG6_betaslopePCAWG6_covmatFULLPCAWG6
+  
+  C1    GenerationMixtureSimulationTwoCT
+  C2    GenerationMixtureSimulationv4
+  C3    GenerationMixtureSimulation
+  C3    GenerationMixtureSimulationv7
+  
