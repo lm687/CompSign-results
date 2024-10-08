@@ -117,9 +117,9 @@ add_one_signature_exposures <- sapply(enough_samples, function(ct){
 }, simplify = F)
 
 
+percentages_misclassification <- c(0.05, 0.10, 0.20, 0.4)
 give_missclassified_exposures_and_nucleotides <- function(){
   sapply(enough_samples, function(ct){
-    percentages_misclassification <- c(0.05, 0.10, 0.20, 0.4)
     ## Creating exposures with a percentage of misclassified counts
     x <- lapply(percentages_misclassification, function(percentages_misclassification_ct){
       original_matrix = read_info_list[[ct]]$dataset_nucleotidesubstitution3
@@ -171,22 +171,6 @@ give_missclassified_exposures_and_nucleotides <- function(){
     x
   }, simplify = F)
 }
-
-misclassification_signature_exposures <- give_missclassified_exposures_and_nucleotides()
-misclassification_signature_exposures_repl2 <- give_missclassified_exposures_and_nucleotides()
-misclassification_signature_exposures_repl3 <- give_missclassified_exposures_and_nucleotides()
-misclassification_signature_exposures_repl4 <- give_missclassified_exposures_and_nucleotides()
-
-saveRDS(misclassification_signature_exposures,
-        file = "../../../data/assessing_models_real_data/simulated_datasets/misclassification_signature_exposures.RDS")
-
-misclassification_signature_exposures_signatures = sapply(misclassification_signature_exposures, function(i) sapply(i, `[[`, 'signatures_matrix', simplify = F), simplify = F)
-misclassification_signature_exposures_nucleotide = sapply(misclassification_signature_exposures, function(i) sapply(i, `[[`, 'nucleotide_matrix', simplify = F), simplify = F)
-
-## Check that indeed, counts have only been re-arranged within patients
-stopifnot(rowSums(matrix(rowSums(misclassification_signature_exposures_nucleotide$`Bone-Osteosarc`$misclassified0.05$Y), ncol=2)) ==
-            rowSums(matrix(rowSums(misclassification_signature_exposures_nucleotide$`Bone-Osteosarc`$misclassified0.1$Y), ncol=2)))
-
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
@@ -224,51 +208,35 @@ give_digRE_results <- function(misclassification_signature_exposures_list){
   }, simplify = F)
 }
 
-diagDM_misclassification_signature_exposures_signatures <- (misclassification_signature_exposures_signatures)
-diagDM_misclassification_signature_exposures_nucleotide <- (misclassification_signature_exposures_nucleotide)
-
-## save
-saveRDS(diagDM_misclassification_signature_exposures_signatures,
-        file = "../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_signatures.RDS")
-
-saveRDS(diagDM_misclassification_signature_exposures_nucleotide,
-        file = "../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_nucleotide.RDS")
-
-
-misclassification_signature_exposures_repl2 <- give_missclassified_exposures_and_nucleotides()
-misclassification_signature_exposures_repl3 <- give_missclassified_exposures_and_nucleotides()
-misclassification_signature_exposures_repl4 <- give_missclassified_exposures_and_nucleotides()
-misclassification_signature_exposures_signatures_repl2 = sapply(misclassification_signature_exposures_repl2, function(i) sapply(i, `[[`, 'signatures_matrix', simplify = F), simplify = F)
-misclassification_signature_exposures_nucleotide_repl2 = sapply(misclassification_signature_exposures_repl2, function(i) sapply(i, `[[`, 'nucleotide_matrix', simplify = F), simplify = F)
-misclassification_signature_exposures_signatures_repl3 = sapply(misclassification_signature_exposures_repl3, function(i) sapply(i, `[[`, 'signatures_matrix', simplify = F), simplify = F)
-misclassification_signature_exposures_nucleotide_repl3 = sapply(misclassification_signature_exposures_repl3, function(i) sapply(i, `[[`, 'nucleotide_matrix', simplify = F), simplify = F)
-misclassification_signature_exposures_signatures_repl4 = sapply(misclassification_signature_exposures_repl4, function(i) sapply(i, `[[`, 'signatures_matrix', simplify = F), simplify = F)
-misclassification_signature_exposures_nucleotide_repl4 = sapply(misclassification_signature_exposures_repl4, function(i) sapply(i, `[[`, 'nucleotide_matrix', simplify = F), simplify = F)
-diagDM_misclassification_signature_exposures_signatures_repl2 <- (misclassification_signature_exposures_signatures_repl2)
-diagDM_misclassification_signature_exposures_nucleotide_repl2 <- (misclassification_signature_exposures_nucleotide_repl2)
-diagDM_misclassification_signature_exposures_signatures_repl3 <- (misclassification_signature_exposures_signatures_repl3)
-diagDM_misclassification_signature_exposures_nucleotide_repl3 <- (misclassification_signature_exposures_nucleotide_repl3)
-diagDM_misclassification_signature_exposures_signatures_repl4 <- (misclassification_signature_exposures_signatures_repl4)
-diagDM_misclassification_signature_exposures_nucleotide_repl4 <- (misclassification_signature_exposures_nucleotide_repl4)
-
-saveRDS(diagDM_misclassification_signature_exposures_nucleotide_repl2,
-        file = "../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_nucleotide_repl2.RDS")
-saveRDS(diagDM_misclassification_signature_exposures_nucleotide_repl3,
-        file = "../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_nucleotide_repl3.RDS")
-saveRDS(diagDM_misclassification_signature_exposures_nucleotide_repl4,
-        file = "../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_nucleotide_repl4.RDS")
-saveRDS(diagDM_misclassification_signature_exposures_signatures_repl2,
-        file = "../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_signatures_repl2.RDS")
-saveRDS(diagDM_misclassification_signature_exposures_signatures_repl3,
-        file = "../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_signatures_repl3.RDS")
-saveRDS(diagDM_misclassification_signature_exposures_signatures_repl4,
-        file = "../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_signatures_repl4.RDS")
-saveRDS(misclassification_signature_exposures_repl2,
-        file = "../../../data/assessing_models_real_data/simulated_datasets/misclassification_signature_exposures_repl2.RDS")
-saveRDS(misclassification_signature_exposures_repl3,
-        file = "../../../data/assessing_models_real_data/simulated_datasets/misclassification_signature_exposures_repl3.RDS")
-saveRDS(misclassification_signature_exposures_repl4,
-        file = "../../../data/assessing_models_real_data/simulated_datasets/misclassification_signature_exposures_repl4.RDS")
+misclassification_signature_exposures <- list()
+misclassification_signature_exposures_signatures <- list()
+misclassification_signature_exposures_nucleotide <- list()
+diagDM_misclassification_signature_exposures_signatures <- list()
+diagDM_misclassification_signature_exposures_nucleotide <- list()
+# for(repl in 1:4){
+for(repl in 2:4){
+  cat('Replicate: ', repl, '\n')
+  misclassification_signature_exposures[[repl]] <- give_missclassified_exposures_and_nucleotides()
+  misclassification_signature_exposures_signatures[[repl]] = sapply(misclassification_signature_exposures[[repl]], function(i) sapply(i, `[[`, 'signatures_matrix', simplify = F), simplify = F)
+  misclassification_signature_exposures_nucleotide[[repl]] = sapply(misclassification_signature_exposures[[repl]], function(i) sapply(i, `[[`, 'nucleotide_matrix', simplify = F), simplify = F)
+  diagDM_misclassification_signature_exposures_signatures[[repl]] <- give_digRE_results(misclassification_signature_exposures_signatures[[repl]])
+  diagDM_misclassification_signature_exposures_nucleotide[[repl]] <- give_digRE_results(misclassification_signature_exposures_nucleotide[[repl]])
+  
+  ## save dataset
+  saveRDS(misclassification_signature_exposures[[repl]],
+          file = paste0("../../../data/assessing_models_real_data/simulated_datasets/misclassification_signature_exposures_repl", repl, ".RDS"))
+  
+  ## save inference results
+  saveRDS(diagDM_misclassification_signature_exposures_nucleotide[[repl]],
+          file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_nucleotide_repl", repl, ".RDS"))
+  saveRDS(diagDM_misclassification_signature_exposures_signatures[[repl]],
+          file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_signatures_repl", repl, ".RDS"))
+  
+  ## Check that indeed, counts have only been re-arranged within patients
+  stopifnot(rowSums(matrix(rowSums(misclassification_signature_exposures_nucleotide[[repl]]$`Bone-Osteosarc`$misclassified0.05$Y), ncol=2)) ==
+              rowSums(matrix(rowSums(misclassification_signature_exposures_nucleotide[[repl]]$`Bone-Osteosarc`$misclassified0.1$Y), ncol=2)))
+  
+}
 
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -308,13 +276,15 @@ diagDM_leave_one_out_exposures_tests <- sapply(diagDM_leave_one_out_exposures, f
 }, simplify = FALSE)
 
 
-diagDM_misclassification_signature_exposures_signatures_tests <- sapply(diagDM_misclassification_signature_exposures_signatures, function(ct){
+## Several replicates for the below
+diagDM_misclassification_signature_exposures_signatures_tests <- lapply(diagDM_misclassification_signature_exposures_signatures, function(j) sapply(j, function(ct){
   sapply(ct, function(j) CompSign::wald_TMB_wrapper(j))
-}, simplify = FALSE)
+}, simplify = FALSE))
 
-diagDM_misclassification_signature_exposures_nucleotide_tests <- sapply(diagDM_misclassification_signature_exposures_nucleotide, function(ct){
+diagDM_misclassification_signature_exposures_nucleotide_tests <- lapply(diagDM_misclassification_signature_exposures_nucleotide, function(j) sapply(j, function(ct){
   sapply(ct, function(j) CompSign::wald_TMB_wrapper(j))
-}, simplify = FALSE)
+}, simplify = FALSE))
+
 
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -323,6 +293,7 @@ diagDM_misclassification_signature_exposures_nucleotide_tests <- sapply(diagDM_m
 get_pcawg_name <- function(L1){
   return(tolower(make.names(gsub("[.].*", "", L1))))
 }
+
 give_barplot_agreement_in_DA <- function(diagRE_DM_tests, diagDM_leave_one_out_exposures_tests, ylabel='Number of leave-one-out datasets'){
   diagDM_leave_one_out_exposures_tests_accordance_DA = melt(sapply(enough_samples, function(ct) t(t(rep(diagRE_DM_tests[[ct]] <= 0.05, length(diagDM_leave_one_out_exposures_tests[[ct]])) + (diagDM_leave_one_out_exposures_tests[[ct]] <= 0.05))), simplify = F))
   diagDM_leave_one_out_exposures_tests_accordance_DA$accordance = ifelse(diagDM_leave_one_out_exposures_tests_accordance_DA$value == 1, 'Discordance', 'Accordance')
@@ -337,12 +308,58 @@ give_barplot_agreement_in_DA <- function(diagRE_DM_tests, diagDM_leave_one_out_e
     labs(alpha='Accordance', x='Cancer types', y=ylabel)
 }
 
+give_indices_beta <- function(j, items_per_category=2){
+  c(1+(j-1)*2, 2+(j-1)*2)
+}
+
+give_beta_cor <- function(df, diagRE_DM, mode='leave_one_out_all_betas'){
+  
+  if( grepl('leave_one_out', mode) | grepl('add_one', mode)){
+    ## correlation can only be computed for the first n-1 signatures, as if we leave out the last category we don't have a shared baseline
+    
+    ## this is with both betas, intercept and slope
+    sapply(enough_samples, function(ct) sapply(1:length(df[[ct]]),
+         function(j){
+           if(j == length(df[[ct]])){
+             NA ## this is the last signature; it doesn't make any sense for beta coefs to be compared because we are using a different baseline
+           }else{
+             if(mode == 'leave_one_out_all_betas'){
+              cor(plot_betas(df[[ct]][[j]], return_df = T, plot = F)[,'Estimate'],
+                                                                 plot_betas(diagRE_DM[[ct]], return_df = T, plot = F)[,'Estimate'][-give_indices_beta(j, 2)])
+             }else if(mode == 'leave_one_out_beta_slope'){
+               ## select only even coefficients
+               cor(plot_betas(df[[ct]][[j]], return_df = T, plot = F)[,'Estimate'][c(F,T)],
+                   plot_betas(diagRE_DM[[ct]], return_df = T, plot = F)[,'Estimate'][-give_indices_beta(j, 2)][c(F,T)])
+             }else if(mode == 'add_one'){
+               cor(plot_betas(df[[ct]][[j]], return_df = T, plot = F)[,'Estimate'],
+                   plot_betas(diagRE_DM[[ct]], return_df = T, plot = F)[,'Estimate'][-c(1:2)]) ## removing the first (new) signature
+             }else if(mode == 'add_one_beta_slope'){
+               cor(plot_betas(df[[ct]][[j]], return_df = T, plot = F)[,'Estimate'][c(F,T)],
+                   plot_betas(diagRE_DM[[ct]], return_df = T, plot = F)[,'Estimate'][-c(1:2)][c(F,T)])
+             }
+             
+           }
+           }, simplify = F),
+           simplify = F)
+  }else{
+    stop('Not implemented')
+  }
+}
+
 plt1 <- give_barplot_agreement_in_DA(diagRE_DM_tests, diagDM_leave_one_out_exposures_tests, ylabel='Number of leave-one-out datasets')
 plt2 <- give_barplot_agreement_in_DA(diagRE_DM_tests, diagDM_add_one_signature_exposures_tests, ylabel='Number of add-one datasets')
 plt3 <- give_barplot_agreement_in_DA(diagRE_DM_tests, diagDM_misclassification_signature_exposures_nucleotide_tests, ylabel='Number of datasets with misassigned mutations')
 plt4 <- give_barplot_agreement_in_DA(diagRE_DM_tests, diagDM_misclassification_signature_exposures_signatures_tests, ylabel='Number of datasets with misassigned mutations')
 
-cowplot::plot_grid(plt1, plt2, plt3, plt4, nrow=1)
+cowplot::plot_grid(plt1, plt2, nrow=1)
+
+sapply(diagDM_misclassification_signature_exposures_signatures_tests, function(j){
+  give_barplot_agreement_in_DA(diagRE_DM_tests, j, ylabel='Number of datasets with misassigned mutations')
+}, simplify = F)
+
+
+do.call('grid.arrange', c(nrow=1, lapply(diagDM_misclassification_signature_exposures_signatures_tests, function(j) give_barplot_agreement_in_DA(j, diagRE_DM_tests, ylabel='Number of datasets with misassigned mutations'))))
+do.call('grid.arrange', c(nrow=1, lapply(diagDM_misclassification_signature_exposures_nucleotide_tests, function(j) give_barplot_agreement_in_DA(j, diagRE_DM_tests, ylabel='Number of datasets with misassigned mutations'))))
 
 give_agreement_in_DA_percentages <- function(diagRE_DM_tests, df, return_df=F){
   diagDM_leave_one_out_exposures_tests_accordance_DA = melt(sapply(enough_samples, function(ct) t(t(rep(diagRE_DM_tests[[ct]] <= 0.05, length(df[[ct]])) + (df[[ct]] <= 0.05))), simplify = F))
@@ -369,16 +386,54 @@ give_agreement_in_DA_percentages <- function(diagRE_DM_tests, df, return_df=F){
 cowplot::plot_grid(give_agreement_in_DA_percentages(diagRE_DM_tests, diagDM_misclassification_signature_exposures_nucleotide_tests),
                    give_agreement_in_DA_percentages(diagRE_DM_tests, diagDM_misclassification_signature_exposures_signatures_tests))
 
-ggplot(rbind.data.frame(cbind.data.frame(give_agreement_in_DA_percentages(diagRE_DM_tests, diagDM_misclassification_signature_exposures_nucleotide_tests, return_df = T),
-                 category='nucleotides'),
-                 cbind.data.frame(give_agreement_in_DA_percentages(diagRE_DM_tests, diagDM_misclassification_signature_exposures_signatures_tests, return_df = T),
-                 category='signatures')),
+
+
+df_misclassification_percentage <- rbind.data.frame(cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_nucleotide_tests, function(j) give_agreement_in_DA_percentages(j, diagRE_DM_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                  category='nucleotides'),
+                 cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests, function(j) give_agreement_in_DA_percentages(j, diagRE_DM_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                  category='signatures'))
+df_misclassification_percentage$percentage_misclassified = percentages_misclassification[df_misclassification_percentage$percentage_misclassified]
+colnames(df_misclassification_percentage)[colnames(df_misclassification_percentage) == 'L1'] = 'Replicate'
+
+ggplot(df_misclassification_percentage,
        aes(x=percentage_misclassified, y = percent_accordance, col=category))+
-  geom_line()+
+  geom_line(data = df_misclassification_percentage %>% group_by(percentage_misclassified, category) %>% 
+              summarise(median=median(percent_accordance)) %>% ungroup(), aes(y=median))+
+  geom_boxplot(aes(group=interaction(percentage_misclassified, category)))+
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
   labs(y='Percentage of accordance across cancer types', x='Percentage of misclassified mutations')
 
 ##-----------------------------------------------------------------------------------------------------##
+## Beta correlation
+theme_set(theme_bw())
+table(is.na(beta_cor_leave_one_out_exposures$value))
 
+plot_beta_cor <- function(title_arg, ...){
+  beta_cor_leave_one_out_exposures <- give_beta_cor(...)
+  beta_cor_leave_one_out_exposures <- melt(beta_cor_leave_one_out_exposures)
+  ## remove NAs
+  beta_cor_leave_one_out_exposures <- beta_cor_leave_one_out_exposures[!is.na(beta_cor_leave_one_out_exposures$value),]
+  beta_cor_leave_one_out_exposures <- beta_cor_leave_one_out_exposures %>% group_by(L1) %>% arrange(-value, .by_group = TRUE)
+  beta_cor_leave_one_out_exposures$x = paste0(beta_cor_leave_one_out_exposures$L2, beta_cor_leave_one_out_exposures$L1)
+  beta_cor_leave_one_out_exposures$x <- factor(beta_cor_leave_one_out_exposures$x, levels=beta_cor_leave_one_out_exposures$x)
+  ggplot(beta_cor_leave_one_out_exposures, aes(x=x, y=value, col=get_pcawg_name(L1)))+geom_point()+geom_line(aes(group=L1))+
+    # facet_wrap(.~L1, scales = 'free_x', drop = T, nrow=1)+
+    scale_color_manual(values = c(pcawg_palette, "white"="white"), na.value="cyan")+
+    theme(axis.text.x=element_blank(),
+          axis.ticks.x=element_blank())+
+    labs(y='Correlation', x=title_arg)
+}
 
+beta_cor_leave_one_out_all_betas <-  plot_beta_cor(diagDM_leave_one_out_exposures, diagRE_DM, mode='leave_one_out_all_betas',
+                                                   title_arg=latex2exp::TeX(r"(Datasets with one signature removed prior to parameter estimation ($\beta_0, \beta_1$))"))
+beta_cor_leave_one_out_beta_slope <-  plot_beta_cor(diagDM_leave_one_out_exposures, diagRE_DM, mode='leave_one_out_beta_slope',
+                                                    title_arg=latex2exp::TeX(r"(Datasets with one signature removed prior to parameter estimation ($\beta_1$))"))
+beta_cor_add_one <-  plot_beta_cor(diagDM_leave_one_out_exposures, diagRE_DM, mode='add_one',
+                                              title_arg=latex2exp::TeX(r"(Datasets with one signature added prior to parameter estimation ($\beta_0, \beta_1$))"))
+beta_cor_add_one_beta_slope <-  plot_beta_cor(diagDM_leave_one_out_exposures, diagRE_DM, mode='add_one_beta_slope',
+                                                    title_arg=latex2exp::TeX(r"(Datasets with one signature added prior to parameter estimation ($\beta_1$))"))
 
+cowplot::plot_grid(beta_cor_leave_one_out_all_betas,
+                   beta_cor_leave_one_out_beta_slope,
+                   beta_cor_add_one,
+                   beta_cor_add_one_beta_slope)

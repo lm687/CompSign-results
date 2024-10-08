@@ -146,3 +146,37 @@ tikzDevice::tikz(file ="../../results/results_TMB/pcawg/betas_nucleotides_slopes
 pheatmap::pheatmap(cor(t(betas_nucleotides_slopes_softmax)))
 dev.off()
 
+
+## Correlations of coefficients
+
+betas_nucleotides_slopes_mat = apply(betas_nucleotides_slopes, 2, as.vector)
+rownames(betas_nucleotides_slopes_mat) <- gsub("/", "wrt", gsub("[$]|>", "", (rownames(betas_nucleotides_slopes))))
+
+## Correlation of C>T with all others
+(apply(betas_nucleotides_slopes_mat, 1, function(i) (cor(i, betas_nucleotides_slopes_mat['CTwrtTG',], method = 'pearson'))))
+
+cor(betas_nucleotides_slopes_mat['TAwrtTG',],
+     betas_nucleotides_slopes_mat['TCwrtTG',])
+cor.test(betas_nucleotides_slopes_mat['TAwrtTG',],
+    betas_nucleotides_slopes_mat['TCwrtTG',])
+
+plot(betas_nucleotides_slopes_mat['TAwrtTG',],
+     betas_nucleotides_slopes_mat['TCwrtTG',])
+
+plot(betas_nucleotides_slopes_mat['TAwrtTG',],
+     betas_nucleotides_slopes_mat['TCwrtTG',])
+
+plot(betas_nucleotides_slopes_mat[4,],
+     betas_nucleotides_slopes_mat[6,])
+
+
+outer(1:nrow(betas_nucleotides_slopes_softmax), 1:nrow(betas_nucleotides_slopes_softmax), Vectorize(function(i,j){
+  cor(betas_nucleotides_slopes_softmax[i,],
+      betas_nucleotides_slopes_softmax[j,], method = 'pearson')
+}))
+
+cor(betas_nucleotides_slopes_softmax['T$>$A',],
+    betas_nucleotides_slopes_softmax['T$>$C',], method = 'pearson')
+        
+cor.test(betas_nucleotides_slopes_softmax['T$>$A',],
+         betas_nucleotides_slopes_softmax['T$>$C',], method = 'kendall')
