@@ -144,13 +144,13 @@ createRDS_ROOSigs_object <- function(pre_path="",
       library(BSgenome.Hsapiens.UCSC.hg19)
       
       ## Clonal
-      ##  HERE
       contexts_snv_clonal <- extractSigsSnv(df=Clonal[,c('chrom','pos','ref','alt')], output='contexts',
                                      ref.genome=BSgenome.Hsapiens.UCSC.hg19)
       sigs_snv_clonal <- fitToSignatures(
         mut.context.counts=contexts_snv_clonal[,1], 
         signature.profiles=SBS_SIGNATURE_PROFILES_V3
       )
+      ## Subclonal
       contexts_snv_subclonal <- extractSigsSnv(df=Subclonal[,c('chrom','pos','ref','alt')], output='contexts',
                                             ref.genome=BSgenome.Hsapiens.UCSC.hg19)
       sigs_snv_subclonal <- fitToSignatures(

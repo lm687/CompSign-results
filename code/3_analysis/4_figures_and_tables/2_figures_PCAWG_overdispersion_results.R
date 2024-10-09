@@ -26,6 +26,9 @@ enough_samples = read.table("../../../data/pcawg/CT_sufficient_samples.txt", com
 diagRE_DMDL_SP <- sapply(enough_samples, function(ct){
   try(readRDS(paste0("../../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/diagREDM_", ct, "_signaturesPCAWG.RDS")))
 }, simplify = F); names(diagRE_DMDL_SP) <- enough_samples
+dataset_all_sigs  <- sapply(enough_samples, function(ct){
+  load_PCAWG(ct = ct, typedata = "signaturesPCAWG", path_to_data = "../../../data/", load_all_sigs = T, override_warning_X_Z = T)
+}, simplify = F)
 
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -58,6 +61,39 @@ differential_precision_2[(differential_precision_2 <= 0.05)]
 ovrdisp$differential_precision_2 = ifelse(ovrdisp$ct %in% names(differential_precision_2[(differential_precision_2 <= 0.05)]), yes = '*', no = '')
 
 ##-----------------------------------------------------------------------------------------------------##
+
+##-----------------------------------------------------------------------------------------------------##
+## Relationship between differential dispersion and the number of mutations
+ovrdisp %>% group_by(ct) %>% summarise(higher_disp_in_subclonal = ifelse())
+
+ovrdisp$higher_disp_in_subclonal <- rep(c(ovrdisp[c(T,F),'Estimate'] > ovrdisp[c(F,T),'Estimate']), each=2) ## higher dispersion in subclonal
+
+ovrdisp$higher_disp_in_subclonal
+
+num_muts_clonal_subclonal = sapply(dataset_all_sigs, function(x) sapply(split_matrix_in_half(x$Y), sum))
+num_muts_clonal_subclonal[1,] > num_muts_clonal_subclonal[2,]
+higher_nmuts_in_clonal = num_muts_clonal_subclonal[1,]>num_muts_clonal_subclonal[2,]
+
+higher_disp_in_subclonal_vec = ovrdisp$higher_disp_in_subclonal[c(T,F)]
+names(higher_disp_in_subclonal_vec) = ovrdisp$ct[c(T,F)]
+
+stopifnot(names(higher_disp_in_subclonal_vec) == colnames(num_muts_clonal_subclonal))
+table(higher_nmuts_in_clonal, higher_disp_in_subclonal_vec)
+
+## most ct have more mutations in the clonal group and higher dispersion in the subclonal group
+names(which(higher_nmuts_in_clonal & higher_disp_in_subclonal_vec))
+
+## 4 ct have higher mutations in the clonal group and higher dispersion in the clonal group
+names(which(higher_nmuts_in_clonal & !higher_disp_in_subclonal_vec)) #"Head-SCC"                "Kidney-RCC.clearcell"    "Kidney-RCC.papillary"    "Skin-Melanoma.cutaneous"
+
+## 3 ct have lower mutations in the clonal group and higher dispersion in the clonal group
+names(which(!higher_nmuts_in_clonal & higher_disp_in_subclonal_vec)) #"CNS-GBM"          "CNS-PiloAstro"    "ColoRect-AdenoCA"
+
+## none with lower mutations in the clonal group and lower dispersion in the clonal group
+names(which(!higher_nmuts_in_clonal & !higher_disp_in_subclonal_vec))
+
+##-----------------------------------------------------------------------------------------------------##
+
 
 ##-----------------------------------------------------------------------------------------------------##
 
