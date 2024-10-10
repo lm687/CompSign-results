@@ -325,11 +325,11 @@ give_beta_cor <- function(df, diagRE_DM, mode='leave_one_out_all_betas'){
                cor(plot_betas(df[[ct]][[j]], return_df = T, plot = F)[,'Estimate'][c(F,T)],
                    plot_betas(diagRE_DM[[ct]], return_df = T, plot = F)[,'Estimate'][-give_indices_beta(j, 2)][c(F,T)])
              }else if(mode == 'add_one'){
-               cor(plot_betas(df[[ct]][[j]], return_df = T, plot = F)[,'Estimate'],
-                   plot_betas(diagRE_DM[[ct]], return_df = T, plot = F)[,'Estimate'][-c(1:2)]) ## removing the first (new) signature
+               cor(plot_betas(df[[ct]][[j]], return_df = T, plot = F)[,'Estimate'][-c(1:2)], ## removing the first (newly added) signature
+                   plot_betas(diagRE_DM[[ct]], return_df = T, plot = F)[,'Estimate'])
              }else if(mode == 'add_one_beta_slope'){
-               cor(plot_betas(df[[ct]][[j]], return_df = T, plot = F)[,'Estimate'][c(F,T)],
-                   plot_betas(diagRE_DM[[ct]], return_df = T, plot = F)[,'Estimate'][-c(1:2)][c(F,T)])
+               cor(plot_betas(df[[ct]][[j]], return_df = T, plot = F)[,'Estimate'][-c(1:2)][c(F,T)], ## removing the first (newly added) signature
+                   plot_betas(diagRE_DM[[ct]], return_df = T, plot = F)[,'Estimate'][c(F,T)])
              }
              
            }
@@ -401,7 +401,7 @@ ggplot(df_misclassification_percentage,
 theme_set(theme_bw())
 table(is.na(beta_cor_leave_one_out_exposures$value))
 
-plot_beta_cor <- function(title_arg, ...){
+plot_beta_cor <- function(title_arg, remove_col_legend=F, ...){
   beta_cor_leave_one_out_exposures <- give_beta_cor(...)
   beta_cor_leave_one_out_exposures <- melt(beta_cor_leave_one_out_exposures)
   ## remove NAs
@@ -409,34 +409,37 @@ plot_beta_cor <- function(title_arg, ...){
   beta_cor_leave_one_out_exposures <- beta_cor_leave_one_out_exposures %>% group_by(L1) %>% arrange(-value, .by_group = TRUE)
   beta_cor_leave_one_out_exposures$x = paste0(beta_cor_leave_one_out_exposures$L2, beta_cor_leave_one_out_exposures$L1)
   beta_cor_leave_one_out_exposures$x <- factor(beta_cor_leave_one_out_exposures$x, levels=beta_cor_leave_one_out_exposures$x)
-  ggplot(beta_cor_leave_one_out_exposures, aes(x=x, y=value, col=get_pcawg_name(L1)))+geom_point()+geom_line(aes(group=L1))+
+  res <- ggplot(beta_cor_leave_one_out_exposures, aes(x=x, y=value, col=get_pcawg_name(L1)))+geom_point()+geom_line(aes(group=L1))+
     # facet_wrap(.~L1, scales = 'free_x', drop = T, nrow=1)+
     scale_color_manual(values = c(pcawg_palette, "white"="white"), na.value="cyan")+
     theme(axis.text.x=element_blank(),
           axis.ticks.x=element_blank())+
-    labs(y='Correlation', x=title_arg)
+    labs(y='Correlation', x=title_arg, col='Cancer type')
+  if(remove_col_legend){
+    res <- res+guides(col='none')
+  }
+  res
 }
 
-beta_cor_leave_one_out_all_betas <-  plot_beta_cor(diagDM_leave_one_out_exposures, diagRE_DM, mode='leave_one_out_all_betas',
-                                                   title_arg=latex2exp::TeX(r"(Datasets with one signature removed prior to parameter estimation ($\beta_0, \beta_1$))"))
-beta_cor_leave_one_out_beta_slope <-  plot_beta_cor(diagDM_leave_one_out_exposures, diagRE_DM, mode='leave_one_out_beta_slope',
-                                                    title_arg=latex2exp::TeX(r"(Datasets with one signature removed prior to parameter estimation ($\beta_1$))"))
-beta_cor_add_one <-  plot_beta_cor(diagDM_leave_one_out_exposures, diagRE_DM, mode='add_one',
-                                              title_arg=latex2exp::TeX(r"(Datasets with one signature added prior to parameter estimation ($\beta_0, \beta_1$))"))
-beta_cor_add_one_beta_slope <-  plot_beta_cor(diagDM_leave_one_out_exposures, diagRE_DM, mode='add_one_beta_slope',
-                                                    title_arg=latex2exp::TeX(r"(Datasets with one signature added prior to parameter estimation ($\beta_1$))"))
-
-cowplot::plot_grid(beta_cor_leave_one_out_all_betas,
-                   beta_cor_leave_one_out_beta_slope,
-                   beta_cor_add_one,
-                   beta_cor_add_one_beta_slope)
+# beta_cor_leave_one_out_all_betas <-  plot_beta_cor(df=diagDM_leave_one_out_exposures, diagRE_DM=diagRE_DM, mode='leave_one_out_all_betas',
+#                                                    title_arg=latex2exp::TeX(r"(Datasets with one signature removed prior to parameter estimation ($\beta_0, \beta_1$))"))
+# beta_cor_leave_one_out_beta_slope <-  plot_beta_cor(df=diagDM_leave_one_out_exposures, diagRE_DM=diagRE_DM, mode='leave_one_out_beta_slope',
+#                                                     title_arg=latex2exp::TeX(r"(Datasets with one signature removed prior to parameter estimation ($\beta_1$))"))
+# beta_cor_add_one <-  plot_beta_cor(df = diagDM_add_one_signature_exposures, diagRE_DM = diagRE_DM, mode='add_one',
+#                                               title_arg=latex2exp::TeX(r"(Datasets with one signature added prior to parameter estimation ($\beta_0, \beta_1$))"))
+# beta_cor_add_one_beta_slope <-  plot_beta_cor(df = diagDM_add_one_signature_exposures, diagRE_DM = diagRE_DM, mode='add_one_beta_slope',
+#                                                     title_arg=latex2exp::TeX(r"(Datasets with one signature added prior to parameter estimation ($\beta_1$))"))
+# 
+# cowplot::plot_grid(beta_cor_leave_one_out_all_betas,
+#                    beta_cor_leave_one_out_beta_slope,
+#                    beta_cor_add_one,
+#                    beta_cor_add_one_beta_slope)
 
 ##-----------------------------------------------------------------------------------------------------##
 ## QP signature extraction
 source("../../1_create_ROO/helper_1_create_ROO.R") ## for QPsig
 ## QPsig is the function used for the PCAWG data in the paper. extract_sigs is a wrapper
-extract_sigs(W_muts = )
-
+## example of comparison of exposures
 xxx1 <- extract_sigs_TMB_obj(dataset_obj_trinucleotide=read_info_list[[ct]]$dataset_nucleotidesubstitution3,
                      subset_signatures = active_sigs_in_ct[!(active_sigs_in_ct %in% active_sig_it)],
                      signature_version=NULL, signature_definition = sigs_cosmic0, signature_fitting_method = 'mutSigExtractor')
@@ -456,8 +459,70 @@ saveRDS(add_one_signature_exposures, file = paste0("../../../data/assessing_mode
 saveRDS(leave_one_out_exposures_QP, file = paste0("../../../data/assessing_models_real_data/simulated_datasets/leave_one_out_exposures_QP.RDS"))
 saveRDS(add_one_signature_exposures_QP, file = paste0("../../../data/assessing_models_real_data/simulated_datasets/add_one_signature_exposures_QP.RDS"))
 
+## running code
 wrapper_leave_one_out_and_add_one_exposures(dataset_name = 'leave_one_out', signature_fitting_method = 'QP')
 wrapper_leave_one_out_and_add_one_exposures(dataset_name = 'add_one_signature', signature_fitting_method = 'QP')
 wrapper_missclassified_exposures_and_nucleotides(signature_fitting_method = 'QP')
 
+## reading the results from code which were saved in the function wrapper_missclassified_exposures_and_nucleotides
+diagDM_leave_one_out_exposures_QP <- readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/leave_one_out_diagREDMQP.RDS"))
+diagDM_add_one_signature_exposures_QP <- readRDS(add_one_signature_exposures_QP, file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/add_one_signature_diagREDMQP.RDS"))
 
+##-----------------------------------------------------------------------------------------##
+## re-run if necessary (leave-one-out)
+# name_diagRE_temp <- "../../../data/assessing_models_real_data/inference_results/TMB/leave_one_out_diagREDMQP.RDS"
+# diagDM_leave_one_out_exposures_QP_to_rerun <- readRDS(file = name_diagRE_temp)
+# sapply(diagDM_leave_one_out_exposures_QP_to_rerun, function(i) length(table(sapply(i, 'class')))) ## if 2, there are errors
+# ct <- 'Prost-AdenoCA'
+# which(sapply(diagDM_leave_one_out_exposures_QP_to_rerun[[ct]], 'class') == 'try-error')
+# j = 5
+# diagDM_leave_one_out_exposures_QP_to_rerun[[ct]][[j]]
+# tmp_res <- CompSign::wrapper_run_TMB(object = leave_one_out_exposures_QP[[ct]][[j]],
+#                                      model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
+# tmp_res
+# diagDM_leave_one_out_exposures_QP_to_rerun[[ct]][[j]] <- tmp_res
+# saveRDS(diagDM_leave_one_out_exposures_QP_to_rerun, file = name_diagRE_temp)
+
+##-----------------------------------------------------------------------------------------##
+
+##-----------------------------------------------------------------------------------------##
+## re-run if necessary (missclassification)
+add_to_name = 'QP'
+repl = 1
+## save dataset
+misclassification_signature_exposures_rerun <- readRDS(file = paste0("../../../data/assessing_models_real_data/simulated_datasets/misclassification_signature_exposures_repl", repl, add_to_name, ".RDS"))
+
+if(nucleotide){
+  misclassification_signature_exposures_nucleotide_rerun = try(sapply(misclassification_signature_exposures_rerun, function(i) sapply(i, `[[`, 'nucleotide_matrix', simplify = F), simplify = F))
+  diagDM_misclassification_signature_exposures_nucleotide_rerun <- try(give_digRE_results(misclassification_signature_exposures_nucleotide_rerun))
+
+  # ## save inference results
+  # saveRDS(diagDM_misclassification_signature_exposures_nucleotide[[repl]],
+  #         file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_nucleotide_repl", repl, add_to_name, ".RDS"))
+}
+##-----------------------------------------------------------------------------------------##
+
+
+## plot
+leave_one_out_exposures_QP
+
+give_all_plots_leave_one_out_add_one <- function(res_list_with_modifications_LOO, res_list_with_modifications_ADD, res_list){
+  cowplot::plot_grid(plot_beta_cor(res_list_with_modifications_LOO, res_list, mode='leave_one_out_all_betas',
+                                   title_arg=latex2exp::TeX(r"(Datasets with one signature removed prior to parameter estimation ($\beta_0, \beta_1$))"), remove_col_legend=T),
+                     plot_beta_cor(res_list_with_modifications_LOO, res_list, mode='leave_one_out_beta_slope',
+                                   title_arg=latex2exp::TeX(r"(Datasets with one signature removed prior to parameter estimation ($\beta_1$))"), remove_col_legend=T),
+                     plot_beta_cor(res_list_with_modifications_ADD, res_list, mode='add_one',
+                                   title_arg=latex2exp::TeX(r"(Datasets with one signature added prior to parameter estimation ($\beta_0, \beta_1$))"), remove_col_legend=T),
+                     plot_beta_cor(res_list_with_modifications_ADD, res_list, mode='add_one_beta_slope',
+                                   title_arg=latex2exp::TeX(r"(Datasets with one signature added prior to parameter estimation ($\beta_1$))"), remove_col_legend=T))
+}
+
+## for mutSigExtractor 
+pdf("../../../results/results_TMB/3_real_data_assessment/1_robustness_of_results_varying_active_signatures_LOO_ADD_mutSigExtractor.pdf")
+give_all_plots_leave_one_out_add_one(diagDM_leave_one_out_exposures, diagDM_add_one_signature_exposures, diagRE_DM)
+dev.off()
+
+## for QP
+give_all_plots_leave_one_out_add_one(diagDM_leave_one_out_exposures_QP, diagDM_add_one_signature_exposures_QP, diagRE_DM)
+table(unlist(sapply(diagDM_leave_one_out_exposures_QP, function(i) sapply(i, 'class'))))
+table(unlist(sapply(diagDM_add_one_signature_exposures_QP, function(i) sapply(i, 'class'))))
