@@ -97,6 +97,17 @@ diagRE_DMDL <- lapply(read_info_list, function(i) i$diagRE_DMDL_SP)
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
+percentage_loss <- sapply(enough_samples, function(ct){
+  x <- normalise_cl(sapply(split_matrix_in_half(read_info_list[[ct]]$dataset_nucleotidesubstitution1$Y), colSums))
+  (x[2,]-x[1,])
+})
+
+
+sort(rowMeans(apply(percentage_loss, 2, function(i) i>0)))
+sort(rowSums(apply(percentage_loss, 2, function(i) i>0)))
+##-----------------------------------------------------------------------------------------------------##
+
+##-----------------------------------------------------------------------------------------------------##
 
 nucleotide1 <- sapply(read_info_list, `[`, 'fullREDM_nucleotide1')
 names(nucleotide1) <- names(read_info_list)

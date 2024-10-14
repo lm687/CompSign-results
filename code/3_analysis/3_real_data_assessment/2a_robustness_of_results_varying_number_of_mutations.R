@@ -161,8 +161,8 @@ ggplot(melt(lambda),
   labs(x=paste0('Size of clonal group with respect to subclonal'), y=latex2exp::TeX(r"($\ln(\hat{\lambda})$)"), col='Group')+
   scale_color_manual(values=c('#3b4d61', '#ef9d10'))+
   theme(legend.position = "bottom")+ggtitle(paste0('Overdispersion as clonal group is\nsynthetically reduced: ', ct))
-ggsave(paste0("../../../results/results_TMB/3_real_data_assessment/2_robustness_of_results_varying_number_of_mutations_", ct, ".pdf"),
+ggsave(paste0("../../../results/results_TMB/3_real_data_assessment/2_robustness_of_results_low_number_of_mutations/2a_robustness_of_results_varying_number_of_mutations_", ct, ".pdf"),
        height = 4, width = 4)
-ggsave(paste0("../../../results/results_TMB/3_real_data_assessment/2_robustness_of_results_varying_number_of_mutations_", ct, ".png"),
+ggsave(paste0("../../../results/results_TMB/3_real_data_assessment/2_robustness_of_results_low_number_of_mutations/2a_robustness_of_results_varying_number_of_mutations_", ct, ".png"),
        height = 4, width = 4)
 
