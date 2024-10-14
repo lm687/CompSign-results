@@ -146,27 +146,28 @@ give_linearlycombined_nocor_signature_exposures <- function(signature_fitting_me
 
 re_run=FALSE
 if(re_run){
-  ## Run diagREDM
-  dataset_original_signature_exposuresQP <- give_original_signature_exposures(signature_fitting_method = 'QP')
-  dataset_linearlycombined_nocor_signature_exposuresQP <- give_linearlycombined_nocor_signature_exposures(signature_fitting_method = 'QP')
-  saveRDS(dataset_original_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/simulated_datasets/1d_dataset_original_signature_exposuresQP.RDS"))
-  saveRDS(dataset_linearlycombined_nocor_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/simulated_datasets/1d_dataset_linearlycombined_nocor_signature_exposuresQP.RDS"))
-  
-  diagREDM_original_signature_exposuresQP <- sapply(enough_samples, function(ct){
-      try(CompSign::wrapper_run_TMB(object = dataset_original_signature_exposuresQP[[ct]],
-                                    model = "diagRE_DM", use_nlminb=T, smart_init_vals=F))
-  }, simplify = F)
-  
-  diagREDM_linearlycombined_nocor_signature_exposuresQP <- sapply(enough_samples, function(ct){
-    sapply(dataset_linearlycombined_nocor_signature_exposuresQP[[ct]], function(it_from_dataset){
-      try(CompSign::wrapper_run_TMB(object = it_from_dataset,
-                                    model = "diagRE_DM", use_nlminb=T, smart_init_vals=F))
+  for(repl in 2:5){
+    ## Run diagREDM
+    dataset_original_signature_exposuresQP <- give_original_signature_exposures(signature_fitting_method = 'QP')
+    dataset_linearlycombined_nocor_signature_exposuresQP <- give_linearlycombined_nocor_signature_exposures(signature_fitting_method = 'QP')
+    saveRDS(dataset_original_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/simulated_datasets/1d_dataset_original_signature_exposuresQP_repl", repl, ".RDS"))
+    saveRDS(dataset_linearlycombined_nocor_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/simulated_datasets/1d_dataset_linearlycombined_nocor_signature_exposuresQP_repl", repl, ".RDS"))
+    
+    diagREDM_original_signature_exposuresQP <- sapply(enough_samples, function(ct){
+        try(CompSign::wrapper_run_TMB(object = dataset_original_signature_exposuresQP[[ct]],
+                                      model = "diagRE_DM", use_nlminb=T, smart_init_vals=F))
     }, simplify = F)
-  }, simplify = F)
-  
-  saveRDS(diagREDM_original_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d_dataset_original_signature_exposuresQP.RDS"))
-  saveRDS(diagREDM_linearlycombined_nocor_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d_dataset_linearlycombined_nocor_signature_exposuresQP.RDS"))
-
+    
+    diagREDM_linearlycombined_nocor_signature_exposuresQP <- sapply(enough_samples, function(ct){
+      sapply(dataset_linearlycombined_nocor_signature_exposuresQP[[ct]], function(it_from_dataset){
+        try(CompSign::wrapper_run_TMB(object = it_from_dataset,
+                                      model = "diagRE_DM", use_nlminb=T, smart_init_vals=F))
+      }, simplify = F)
+    }, simplify = F)
+    
+    saveRDS(diagREDM_original_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d_dataset_original_signature_exposuresQP_repl", repl, ".RDS"))
+    saveRDS(diagREDM_linearlycombined_nocor_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d_dataset_linearlycombined_nocor_signature_exposuresQP_repl", repl, ".RDS"))
+  }
 }
 
 diagREDM_original_signature_exposuresQP <- readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d_dataset_original_signature_exposuresQP.RDS"))

@@ -1,9 +1,8 @@
 rm(list = ls())
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 library(CompSign)
 # data(package='CompSign')
-
-source("~/Desktop/DM/CompSign-do-not-modify_do_everything_online/R/DA_functions.R")
 
 simplified_object
 ## Looking at the differential abundance of mutational signatures in chromosomes
@@ -39,9 +38,16 @@ sapply(object_for_DA, dim)
 ## to debug
 object_for_DA$x <- cbind(rep(1, nrow(object_for_DA$x)), sample(c(0,1), size = nrow(object_for_DA$x), replace = T))
 sapply(object_for_DA, dim)
-sapply(simplified_object, dim)
 
-chrom_diagREDM <- wrapper_run_TMB(model = 'diagRE_DM', object = object_for_DA, smart_init_vals = F)
+re_run <- F
+if(re_run){
+  chrom_diagREDM <- wrapper_run_TMB(model = 'diagRE_DM', object = object_for_DA, smart_init_vals = F)
+  saveRDS(chrom_diagREDM, "../../../../data/additional_use_cases/chromosomes.RDS")
+}
 
 model = 'diagRE_DM'
 object = object_for_DA
+
+diagDM_no_small_sigs <- wrapper_run_TMB(object = simplified_object,
+                                        model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)
+diagDM_no_small_sigs

@@ -95,19 +95,20 @@ names_removal_flat_clock_signatures <- sapply(combinations_flat_and_clock_signat
 re_run <- FALSE
 if(re_run){
   
-  read_info_list_cp = read_info_list
-
   ##-----------------------------------------------------------------------------------------------------##
   ## and note which of those correspond to the actual set of active signatures
-  table(sapply(enough_samples, function(ct) rev(colnames(read_info_list_cp[[ct]]$dataset_active_sigs$Y))[1] %in% signature_vec))
+  table(sapply(enough_samples, function(ct) rev(colnames(read_info_list[[ct]]$dataset_active_sigs$Y))[1] %in% signature_vec))
   
   ## first of all, check if there is any ct for which SSB1, SBS5 or SBS40 are the baseline category
-  sapply(enough_samples, function(ct) colnames(read_info_list_cp[[ct]]$dataset_active_sigs$Y))
+  sapply(enough_samples, function(ct) colnames(read_info_list[[ct]]$dataset_active_sigs$Y))
   ## for several cancer types, one of these 3 signatures SBS1', 'SBS5', 'SBS40' is the last one.
   
   ## Re-arrange signatures so that neither of the three are used as baseline. Put them all in the beginning
   
   for(ct in enough_samples){
+    
+    read_info_list_cp = read_info_list
+    
     idx_flat_and_clock_sigs <- sapply(signature_vec, function(i) which(colnames(read_info_list_cp[[ct]]$dataset_active_sigs$Y) == i))
     if(any(sapply(idx_flat_and_clock_sigs, length) == 0)){
       ## some of these signatures is not found
