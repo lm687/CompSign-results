@@ -77,6 +77,7 @@ diagRE_DM_tests <-  sapply(diagRE_DM, CompSign::wald_TMB_wrapper, simplify = F)
 
 ##-----------------------------------------------------------------------------------------------------##
 length_out_iterations <- 6 ## 90% mutations, 80%, ...., 40%
+nreplicates <- 5
 ##-----------------------------------------------------------------------------------------------------##
 
 re_run <- FALSE
@@ -85,7 +86,7 @@ if(re_run){
   sort(sapply(enough_samples, function(ct) sum(read_info_list[[ct]]$dataset_nucleotidesubstitution3$Y)))
   
 
-  for(repl in 5){
+  for(repl in 1:nreplicates){
     lapply(enough_samples, function(ct, n = length_out_iterations){
       ## progressively remove mutations from the sample
       
@@ -139,20 +140,44 @@ if(re_run){
 }
 
 # signatures <- readRDS(file = paste0("../../../data/assessing_models_real_data/simulated_datasets/2_robustness_of_results_varying_number_of_mutations/2b_lowering_number_of_mutations/signatures_", ct, ".RDS"))
-signatures_DA <- sapply(enough_samples, function(ct) readRDS(file = paste0("../../../data/assessing_models_real_data/simulated_datasets/2_robustness_of_results_varying_number_of_mutations/2b_lowering_number_of_mutations/TMBres_", ct, ".RDS")), simplify=F)
+signatures_DA <- sapply(enough_samples, function(ct) sapply(1:nreplicates, function(repl){
+    readRDS(file = paste0("../../../data/assessing_models_real_data/simulated_datasets/2_robustness_of_results_varying_number_of_mutations/2b_lowering_number_of_mutations/TMBres_", ct, "_QP_repl", repl, ".RDS"))
+  }, simplify=F), simplify=F)
 
 signatures_DA
 
-plot_betacors_notnested_allbetas_QP <- give_plot_betacors_notnested(signatures_DA, fold_decrease_nmuts = 1:length_out_iterations,
-                                                              diagRE_DM, mode='intact', title_y = latex2exp::TeX(r"(Correlation of $\beta_0$ and $\beta_1$ with original dataset)"))
-plot_betacors_notnested_beta1_QP <- give_plot_betacors_notnested(signatures_DA, fold_decrease_nmuts = 1:length_out_iterations,
-                                                           diagRE_DM, mode='intact_beta_slope', title_y = latex2exp::TeX(r"(Correlation of $\beta_1$ with original dataset)"))
+## so far the structure is
+## - ct
+##   - replicate
+##      - parameter in 1,...length_out_iterations
+## whereas what we want is
+## - ct
+##   - parameter in 1,...length_out_iterations
+##     - replicate
+## Make this change:
+for(ct in 1:length(signatures_DA)){
+  signatures_DA[[ct]] <- sapply(1:length_out_iterations, function(i) sapply(1:length(signatures_DA[[ct]]), function(j) signatures_DA[[ct]][[j]][[i]], simplify = F), simplify = F)
+}
 
-plot_betacors_notnested_allbetas_QP
+plot_betacors_nested_allbetas_QP <- give_plot_betacors_nested(signatures_DA, fold_decrease_nmuts = 1:length_out_iterations,
+                                                              diagRE_DM, mode='intact', title_y = latex2exp::TeX(r"(Correlation of $\beta_0$ and $\beta_1$ with original dataset)"))
+
+plot_betacors_nested_beta1_QP <- give_plot_betacors_nested(signatures_DA, fold_decrease_nmuts = 1:length_out_iterations,
+                                                                 diagRE_DM, mode='intact_beta_slope', title_y = latex2exp::TeX(r"(Correlation of $\beta_1$ with original dataset)"))
+
+
+# plot_betacors_notnested_allbetas_QP <- give_plot_betacors_notnested(signatures_DA, fold_decrease_nmuts = 1:length_out_iterations,
+#                                                                     diagRE_DM, mode='intact', title_y = latex2exp::TeX(r"(Correlation of $\beta_0$ and $\beta_1$ with original dataset)"))
+# 
+# plot_betacors_notnested_beta1_QP <- give_plot_betacors_notnested(signatures_DA, fold_decrease_nmuts = 1:length_out_iterations,
+#                                                                  diagRE_DM, mode='intact_beta_slope', title_y = latex2exp::TeX(r"(Correlation of $\beta_1$ with original dataset)"))
+
+
+plot_betacors_nested_allbetas_QP
 ggsave("../../../results/results_TMB/3_real_data_assessment/2_robustness_of_results_low_number_of_mutations/2b_plot_betacors_allbetas_QP.pdf", height = 3.6, width = 8)
 ggsave("../../../results/results_TMB/3_real_data_assessment/2_robustness_of_results_low_number_of_mutations/2b_plot_betacors_allbetas_QP.png", height = 3.6, width = 8)
 
-plot_betacors_notnested_beta1_QP
+plot_betacors_nested_beta1_QP
 ggsave("../../../results/results_TMB/3_real_data_assessment/2_robustness_of_results_low_number_of_mutations/2b_plot_betacors_beta1_QP.pdf", height = 3.6, width = 8)
 ggsave("../../../results/results_TMB/3_real_data_assessment/2_robustness_of_results_low_number_of_mutations/2b_plot_betacors_beta1_QP.png", height = 3.6, width = 8)
 

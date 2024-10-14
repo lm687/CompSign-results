@@ -82,6 +82,7 @@ cbind(pcawg_palette, pcawg_palette_2)
 weight_first_sig_in_linear_comb = c(0.75, 0.5, 0.25) ## signature under analysis is a combination of 75% of the first and 25% of the second artificial signature,
 ##.                                                                                                  50-50%
 ##.                                                                                                  25-70%
+nreplicates = 5
 ##-----------------------------------------------------------------------------------------------------##
 
 active_sigs_in_ct_list <- sapply(enough_samples, function(ct){
@@ -146,7 +147,7 @@ give_linearlycombined_nocor_signature_exposures <- function(signature_fitting_me
 
 re_run=FALSE
 if(re_run){
-  for(repl in 2:5){
+  for(repl in 1:nreplicates){
     ## Run diagREDM
     dataset_original_signature_exposuresQP <- give_original_signature_exposures(signature_fitting_method = 'QP')
     dataset_linearlycombined_nocor_signature_exposuresQP <- give_linearlycombined_nocor_signature_exposures(signature_fitting_method = 'QP')
@@ -165,14 +166,16 @@ if(re_run){
       }, simplify = F)
     }, simplify = F)
     
-    saveRDS(diagREDM_original_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d_dataset_original_signature_exposuresQP_repl", repl, ".RDS"))
-    saveRDS(diagREDM_linearlycombined_nocor_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d_dataset_linearlycombined_nocor_signature_exposuresQP_repl", repl, ".RDS"))
+    saveRDS(diagREDM_original_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d/1d_dataset_original_signature_exposuresQP_repl", repl, ".RDS"))
+    saveRDS(diagREDM_linearlycombined_nocor_signature_exposuresQP, file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d/1d_dataset_linearlycombined_nocor_signature_exposuresQP_repl", repl, ".RDS"))
   }
 }
 
-diagREDM_original_signature_exposuresQP <- readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d_dataset_original_signature_exposuresQP.RDS"))
-diagREDM_linearlycombined_nocor_signature_exposuresQP <- readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d_dataset_linearlycombined_nocor_signature_exposuresQP.RDS"))
-
+diagREDM_original_signature_exposuresQP_all <- sapply(1:nreplicates, function(repl) readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d/1d_dataset_original_signature_exposuresQP_repl", repl, ".RDS")), simplify=F)
+diagREDM_linearlycombined_nocor_signature_exposuresQP_all <- sapply(1:nreplicates, function(repl) readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d/1d_dataset_linearlycombined_nocor_signature_exposuresQP_repl", repl, ".RDS")), simplify=F)
+for(i in 1:length(diagREDM_linearlycombined_nocor_signature_exposuresQP_all)){
+  names(diagREDM_linearlycombined_nocor_signature_exposuresQP_all[[i]]) <- enough_samples
+}
 
 plotbettas_wrapper <- function(df, name_cats, nsigs_to_select=1){
   name_cats_noSBS = gsub("SBS", "", name_cats)
@@ -190,6 +193,10 @@ plotbettas_wrapper <- function(df, name_cats, nsigs_to_select=1){
 re_run_plots=FALSE
 
 if(re_run_plots){
+  
+  diagREDM_original_signature_exposuresQP <- readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d/1d_dataset_original_signature_exposuresQP_repl", 1, ".RDS"))
+  diagREDM_linearlycombined_nocor_signature_exposuresQP <- readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/1d/1d_dataset_linearlycombined_nocor_signature_exposuresQP_repl", 1, ".RDS"))
+
   # ct='Bone-Osteosarc'
   for(ct in enough_samples){
     names_cats_true <- colnames(dataset_original_signature_exposuresQP[[ct]]$Y)
@@ -213,28 +220,59 @@ if(re_run_plots){
   }
 }
 
-diagREDM_original_signature_exposuresQP$`Bone-Osteosarc`
-diagREDM_linearlycombined_nocor_signature_exposuresQP$`Bone-Osteosarc`$`_weightsig1incomb0.75`
+## the structure we want is
+## - ct
+##   - parameter in 1,...length_out_iterations
+##     - replicate
+diagREDM_linearlycombined_nocor_signature_exposuresQP_all_new = list()
+for(ct in enough_samples){
+  diagREDM_linearlycombined_nocor_signature_exposuresQP_all_new[[ct]] <- sapply(weight_first_sig_in_linear_comb, function(j) sapply(1:nreplicates, function(repl) diagREDM_linearlycombined_nocor_signature_exposuresQP_all[[repl]][[ct]][[paste0('_weightsig1incomb', j)]], simplify = F), simplify = F)
+  names(diagREDM_linearlycombined_nocor_signature_exposuresQP_all_new[[ct]]) <- paste0('_weightsig1incomb', weight_first_sig_in_linear_comb)
+}
+names(diagREDM_linearlycombined_nocor_signature_exposuresQP_all_new) <- enough_samples
+diagREDM_linearlycombined_nocor_signature_exposuresQP_all = diagREDM_linearlycombined_nocor_signature_exposuresQP_all_new
+diagREDM_linearlycombined_nocor_signature_exposuresQP_all_new = NULL
 
-cors <- give_beta_cor(df = diagREDM_linearlycombined_nocor_signature_exposuresQP,
-              diagRE_DM = diagREDM_original_signature_exposuresQP, mode = 'splitting_first_signature_all_betas')
+diagREDM_original_signature_exposuresQP_all <- sapply(enough_samples, function(ct) sapply(diagREDM_original_signature_exposuresQP_all, `[[`, ct, simplify = F), simplify = F, USE.NAMES = T)
 
-plot_betacors_all_betas <- give_plot_betacors_notnested(diagREDM_varying_nmuts_with_replicates_signature_exposuresQP = diagREDM_linearlycombined_nocor_signature_exposuresQP,
-                             diagRE_DM = diagREDM_original_signature_exposuresQP,
-                             mode = 'splitting_first_signature_all_betas',
-                             fold_decrease_nmuts = 1:length(weight_first_sig_in_linear_comb),
-                             level2_is_fold_decrease = F, gsub_from_x = "_weightsig1incomb",
-                             title_y = latex2exp::TeX(r"(Correlation of $\beta_0$ and $\beta_1$ with original dataset)"),
-                             ncol_arg = 7)
+plot_betacors_all_betas <- give_plot_betacors_nested(diagRE_DM = diagREDM_original_signature_exposuresQP_all,
+                                                     fold_decrease_nmuts = 1:length(weight_first_sig_in_linear_comb),
+                                                     diagREDM_varying_nmuts_with_replicates_signature_exposuresQP = diagREDM_linearlycombined_nocor_signature_exposuresQP_all,
+                                                     mode='splitting_first_signature_all_betas', title_y = latex2exp::TeX(r"(Correlation of $\beta_0$ and $\beta_1$ with original dataset)"),
+                                                     diagRE_DM_is_nested=T, level2_is_fold_decrease=F, gsub_from_x='_weightsig1incomb',
+                                                     ncol_arg = 7)
+
+plot_betacors_betaslope <- give_plot_betacors_nested(diagRE_DM = diagREDM_original_signature_exposuresQP_all,
+                                                     fold_decrease_nmuts = 1:length(weight_first_sig_in_linear_comb),
+                                                     diagREDM_varying_nmuts_with_replicates_signature_exposuresQP = diagREDM_linearlycombined_nocor_signature_exposuresQP_all,
+                                                     mode='splitting_first_signature_beta_slope', title_y = latex2exp::TeX(r"(Correlation of $\beta_1$ with original dataset)"),
+                                                     diagRE_DM_is_nested=T, level2_is_fold_decrease=F, gsub_from_x='_weightsig1incomb',
+                                                     ncol_arg = 7)
+
 plot_betacors_all_betas
 
-plot_betacors_betaslope <- give_plot_betacors_notnested(diagREDM_varying_nmuts_with_replicates_signature_exposuresQP = diagREDM_linearlycombined_nocor_signature_exposuresQP,
-                                                        diagRE_DM = diagREDM_original_signature_exposuresQP,
-                                                        mode = 'splitting_first_signature_beta_slope',
-                                                        fold_decrease_nmuts = 1:length(weight_first_sig_in_linear_comb),
-                                                        level2_is_fold_decrease = F, gsub_from_x = "_weightsig1incomb",
-                                                        title_y = latex2exp::TeX(r"(Correlation of $\beta_1$ with original dataset)"),
-                                                        ncol_arg = 7)
+# diagREDM_original_signature_exposuresQP$`Bone-Osteosarc`
+# diagREDM_linearlycombined_nocor_signature_exposuresQP$`Bone-Osteosarc`$`_weightsig1incomb0.75`
+# 
+# cors <- give_beta_cor(df = diagREDM_linearlycombined_nocor_signature_exposuresQP,
+#               diagRE_DM = diagREDM_original_signature_exposuresQP, mode = 'splitting_first_signature_all_betas')
+# 
+# plot_betacors_all_betas <- give_plot_betacors_notnested(diagREDM_varying_nmuts_with_replicates_signature_exposuresQP = diagREDM_linearlycombined_nocor_signature_exposuresQP,
+#                              diagRE_DM = diagREDM_original_signature_exposuresQP,
+#                              mode = 'splitting_first_signature_all_betas',
+#                              fold_decrease_nmuts = 1:length(weight_first_sig_in_linear_comb),
+#                              level2_is_fold_decrease = F, gsub_from_x = "_weightsig1incomb",
+#                              title_y = latex2exp::TeX(r"(Correlation of $\beta_0$ and $\beta_1$ with original dataset)"),
+#                              ncol_arg = 7)
+# plot_betacors_all_betas
+# 
+# plot_betacors_betaslope <- give_plot_betacors_notnested(diagREDM_varying_nmuts_with_replicates_signature_exposuresQP = diagREDM_linearlycombined_nocor_signature_exposuresQP,
+#                                                         diagRE_DM = diagREDM_original_signature_exposuresQP,
+#                                                         mode = 'splitting_first_signature_beta_slope',
+#                                                         fold_decrease_nmuts = 1:length(weight_first_sig_in_linear_comb),
+#                                                         level2_is_fold_decrease = F, gsub_from_x = "_weightsig1incomb",
+#                                                         title_y = latex2exp::TeX(r"(Correlation of $\beta_1$ with original dataset)"),
+#                                                         ncol_arg = 7)
 
 # 'intact_beta_slope', title_y = latex2exp::TeX(r"(Correlation of $\beta_1$ with original dataset)"))
 

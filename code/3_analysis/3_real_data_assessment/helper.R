@@ -105,7 +105,7 @@ give_beta_cor_given_ct <- function(df_from_it, diagRE_DMct, mode, j){
           cor(plot_betas(df_from_it, return_df = T, plot = F)[,'Estimate'][-give_indices_beta(c(1, 2), 2)][c(F,T)],
               plot_betas(diagRE_DMct, return_df = T, plot = F)[,'Estimate'][-give_indices_beta(c(1), 2)][c(F,T)])
         
-          }else if(mode == 'leave_one_out_all_betas'){
+        }else if(mode == 'leave_one_out_all_betas'){
           cor(plot_betas(df_from_it, return_df = T, plot = F)[,'Estimate'],
               plot_betas(diagRE_DMct, return_df = T, plot = F)[,'Estimate'][-give_indices_beta(j, 2)])
         }else if(mode == 'leave_one_out_beta_slope'){
@@ -118,18 +118,23 @@ give_beta_cor_given_ct <- function(df_from_it, diagRE_DMct, mode, j){
         }else if(mode == 'add_one_beta_slope'){
           cor(plot_betas(df_from_it, return_df = T, plot = F)[,'Estimate'][-c(1:2)][c(F,T)], ## removing the first (newly added) signature
               plot_betas(diagRE_DMct, return_df = T, plot = F)[,'Estimate'][c(F,T)])
+        }else{
+          stop('<mode> not found')
         }
       # }
     }
   }
 }
 
-give_beta_cor <- function(df, diagRE_DM, mode='leave_one_out_all_betas', df_is_nested=F){
+give_beta_cor <- function(df, diagRE_DM, mode='leave_one_out_all_betas', df_is_nested=F, diagRE_DM_is_nested=F){
   # df_is_nested: if there are replicates, df_is_nested. df should have this structure df[[ct]][[covariate]][[repl]]
   
   if( grepl('leave_one_out', mode) | grepl('add_one', mode) | grepl('intact', mode) | grepl('splitting_first_signature', mode)){
     ## correlation can only be computed for the first n-1 signatures, as if we leave out the last category we don't have a shared baseline
     
+    if(diagRE_DM_is_nested & (!df_is_nested)){
+      stop('For diagRE_DM_is_nested=T df_is_nested should be T\n')
+    }
     ## this is with both betas, intercept and slope
     if(!df_is_nested){
       ## by default, df has two levels
@@ -145,11 +150,20 @@ give_beta_cor <- function(df, diagRE_DM, mode='leave_one_out_all_betas', df_is_n
       }, simplify = F), simplify = F)
     }else{
       ## if df has three levels
-      sapply(enough_samples, function(ct) sapply(1:length(df[[ct]]), function(j)
-        sapply(1:length(df[[ct]][[j]]), function(repl)
-          give_beta_cor_given_ct(df_from_it=df[[ct]][[j]][[repl]],
-                               diagRE_DMct=diagRE_DM[[ct]], mode=mode, j=j), simplify = F, USE.NAMES = T),
-        simplify = F, USE.NAMES = T), simplify = F, USE.NAMES = T)
+      if(diagRE_DM_is_nested){
+        sapply(enough_samples, function(ct) sapply(1:length(df[[ct]]), function(j)
+          sapply(1:length(df[[ct]][[j]]), function(repl)
+            give_beta_cor_given_ct(df_from_it=df[[ct]][[j]][[repl]],
+                                   diagRE_DMct=diagRE_DM[[ct]][[repl]], mode=mode, j=j), simplify = F, USE.NAMES = T),
+          simplify = F, USE.NAMES = T), simplify = F, USE.NAMES = T)
+        
+      }else{
+        sapply(enough_samples, function(ct) sapply(1:length(df[[ct]]), function(j)
+          sapply(1:length(df[[ct]][[j]]), function(repl)
+            give_beta_cor_given_ct(df_from_it=df[[ct]][[j]][[repl]],
+                                 diagRE_DMct=diagRE_DM[[ct]], mode=mode, j=j), simplify = F, USE.NAMES = T),
+          simplify = F, USE.NAMES = T), simplify = F, USE.NAMES = T)
+      }
       }
   }else{
     stop('Not implemented')
@@ -162,11 +176,14 @@ give_beta_cor_wrapper_replicates <- function(repl, ...){
 }
 
 
-give_plot_betacors_nested <- function(diagREDM_varying_nmuts_with_replicates_signature_exposuresQP, diagRE_DM, mode, title_y){
+give_plot_betacors_nested <- function(diagREDM_varying_nmuts_with_replicates_signature_exposuresQP, diagRE_DM, mode, title_y, fold_decrease_nmuts, diagRE_DM_is_nested=F, level2_is_fold_decrease=T, gsub_from_x="", ncol_arg=8){
   
   cat('Getting correlations...\n')
   beta_cors = give_beta_cor(df = diagREDM_varying_nmuts_with_replicates_signature_exposuresQP,
-                            diagRE_DM = diagRE_DM, mode = mode, df_is_nested = T)
+                            diagRE_DM = diagRE_DM, mode = mode, df_is_nested = T, diagRE_DM_is_nested=diagRE_DM_is_nested)
+  
+  cat('Correlations have been computed\n')
+  
   ## adding names
   for(ct in enough_samples){
     names(beta_cors[[ct]]) <- names(diagREDM_varying_nmuts_with_replicates_signature_exposuresQP[[ct]])
@@ -175,20 +192,19 @@ give_plot_betacors_nested <- function(diagREDM_varying_nmuts_with_replicates_sig
     }
   }
   
-  names(beta_cors[[1]])
-  unique(beta_cors_melt$L2)
-  unique(beta_cors_melt$L3)
-  
   cat('Plotting...\n')
   
   beta_cors_melt <- melt(beta_cors)
-  beta_cors_melt$L2 <- signif(1/as.numeric(gsub("_fold_decrease_nmuts","" , beta_cors_melt$L2)), digits = 2)
-  beta_cors_melt$L2 <- factor(beta_cors_melt$L2, levels = sort(unique(beta_cors_melt$L2), decreasing = T))
-  head(beta_cors_melt)
+  beta_cors_melt$L2 <- gsub(gsub_from_x, "", beta_cors_melt$L2)
   
+  if(level2_is_fold_decrease){
+    beta_cors_melt$L2 <- signif(1/as.numeric(gsub("_fold_decrease_nmuts","" , beta_cors_melt$L2)), digits = 2)
+    beta_cors_melt$L2 <- factor(beta_cors_melt$L2, levels = sort(unique(beta_cors_melt$L2), decreasing = T))
+  # head(beta_cors_melt)
+  }
   
   ggplot(beta_cors_melt, aes(x=L2, y=value, col=L1, group=interaction(L1,L2)))+geom_boxplot()+guides(col='none')+
-    facet_wrap(.~L1, ncol=8)+
+    facet_wrap(.~L1, ncol=ncol_arg)+
     theme(
       strip.background = element_blank(),
       strip.text.x = element_blank(),
@@ -215,7 +231,6 @@ give_plot_betacors_notnested <- function(diagREDM_varying_nmuts_with_replicates_
   cat('Plotting...\n')
   
   beta_cors_melt <- melt(beta_cors)
-  
   beta_cors_melt$L2 <- gsub(gsub_from_x, "", beta_cors_melt$L2)
   
   if(level2_is_fold_decrease){

@@ -47,7 +47,8 @@ read_info <- function(ct){
              diagRE_DMDL_nucleotides = try(readRDS(paste0("../../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDM_", ct, "_nucleotidesubstitution1.RDS"))),
              # fullRE_DMDL_SP = try(readRDS(paste0("../../../results/results_TMB/pcawg_robjects/tmb_results/nlminb/fullREDM_", ct, "_signaturesPCAWG.RDS"))),
              dataset_active_sigs = load_PCAWG(ct = ct, typedata = "signaturesPCAWG", path_to_data = "../../../data/", override_warning_X_Z = T),
-             dataset_nucleotidesubstitution3 = load_PCAWG(ct = ct, typedata = "nucleotidesubstitution3", path_to_data = "../../../data/", override_warning_X_Z = T))
+             dataset_nucleotidesubstitution3 = load_PCAWG(ct = ct, typedata = "nucleotidesubstitution3", path_to_data = "../../../data/", override_warning_X_Z = T),
+             dataset_nucleotidesubstitution1 = load_PCAWG(ct = ct, typedata = "nucleotidesubstitution1", path_to_data = "../../../data/", override_warning_X_Z = T))
   .x
 }
 read_info_list <- lapply(enough_samples, function(ct){
@@ -123,28 +124,33 @@ give_missclassified_exposures_and_nucleotides <- function(signature_fitting_meth
 ##-----------------------------------------------------------------------------------------------------##
 ## Run the model
 
-give_digRE_results <- function(misclassification_signature_exposures_list){
+give_digRE_results <- function(misclassification_signature_exposures_list, model_arg="diagRE_DM"){
   sapply(enough_samples, function(ct){
     sapply(misclassification_signature_exposures_list[[ct]], function(x){
       try({CompSign::wrapper_run_TMB(object = x,
-                                model = "diagRE_DM", use_nlminb=T, smart_init_vals=F)})
+                                model = model_arg, use_nlminb=T, smart_init_vals=F)})
     }, simplify = F)
   }, simplify = F)
 }
 
+# repl=1
+# add_to_name = 'QP'
+# ct = 'Bone-Osteosarc'
 # misclassification_signature_exposures <- list()
+# misclassification_signature_exposures_signatures <- list()
+# misclassification_signature_exposures_nucleotide <- list()
 # diagDM_misclassification_signature_exposures_nucleotide <- list()
 # diagDM_misclassification_signature_exposures_signatures <- list()
 # for(repl in 1:nreplicates){
 #   misclassification_signature_exposures[[repl]] <- readRDS(file = paste0("../../../data/assessing_models_real_data/simulated_datasets/3_robustness_in_misclassification_of_mutations/3_misclassification_signature_exposures_repl", repl, add_to_name, ".RDS"))
 #   misclassification_signature_exposures_signatures[[repl]] = try(sapply(misclassification_signature_exposures[[repl]], function(i) sapply(i, `[[`, 'signatures_matrix', simplify = F), simplify = F))
 #   misclassification_signature_exposures_nucleotide[[repl]] = try(sapply(misclassification_signature_exposures[[repl]], function(i) sapply(i, `[[`, 'nucleotide_matrix', simplify = F), simplify = F))
-#   
+# 
 #   diagDM_misclassification_signature_exposures_nucleotide[[repl]] <- readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_diagDM_misclassification_signature_exposures_nucleotide_repl", repl, add_to_name, ".RDS"))
 #   diagDM_misclassification_signature_exposures_signatures[[repl]] <- readRDS(file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_diagDM_misclassification_signature_exposures_signatures_repl", repl, add_to_name, ".RDS"))
 # }
 # 
-# repl=4
+# diagDM_misclassification_signature_exposures_nucleotide[[repl]][[ct]]$misclassified0.4
 
 generate_datasets <- function(signature_fitting_method){
   if(signature_fitting_method == 'mutSigExtractor'){
@@ -174,12 +180,27 @@ generate_datasets <- function(signature_fitting_method){
   }
 }
 
-wrapper_missclassified_exposures_and_nucleotides <- function(signature_fitting_method){
-  if(signature_fitting_method == 'mutSigExtractor'){
-    add_to_name = ''
+wrapper_missclassified_exposures_and_nucleotides <- function(signature_fitting_method, arg_model='diagRE_DM', run_only_nucleotides=F){
+  if(!run_only_nucleotides){
+    if(signature_fitting_method == 'mutSigExtractor'){
+      add_to_name = ''
+    }else{
+      add_to_name = signature_fitting_method
+    }
   }else{
-    add_to_name = signature_fitting_method
+    add_to_name = ''
   }
+  
+  
+  if(arg_model == 'diagRE_DM'){
+    add_to_name_model = 'diagDM'
+  }else if(arg_model == 'fullRE_DM'){
+    add_to_name_model = 'fullDM'
+  }else{
+    stop('Incorrect <add_to_name_model>\n')
+  }
+
+  
   misclassification_signature_exposures <- list()
   diagDM_misclassification_signature_exposures_signatures <- list()
   diagDM_misclassification_signature_exposures_nucleotide <- list()
@@ -189,8 +210,8 @@ wrapper_missclassified_exposures_and_nucleotides <- function(signature_fitting_m
   for(repl in 1:nreplicates){
     cat('Replicate: ', repl, '\n')
     
-    outnucleotide=paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_diagDM_misclassification_signature_exposures_nucleotide_repl", repl, add_to_name, ".RDS")
-    outsignatures=paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_diagDM_misclassification_signature_exposures_signatures_repl", repl, add_to_name, ".RDS")
+    outnucleotide=paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_", add_to_name_model, "_misclassification_signature_exposures_nucleotide_repl", repl, add_to_name, ".RDS")
+    outsignatures=paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_", add_to_name_model, "_misclassification_signature_exposures_signatures_repl", repl, add_to_name, ".RDS")
     
     if(file.exists(outnucleotide) & file.exists(outsignatures)){
       cat('File exists. Skipping.\n')
@@ -212,7 +233,7 @@ wrapper_missclassified_exposures_and_nucleotides <- function(signature_fitting_m
       saveRDS(diagDM_misclassification_signature_exposures_nucleotide[[repl]],
               file = outnucleotide)
     }
-    if(!file.exists(outsignatures)){
+    if(!file.exists(outsignatures) | run_only_nucleotides){
       diagDM_misclassification_signature_exposures_signatures[[repl]] <- (give_digRE_results(misclassification_signature_exposures_signatures[[repl]]))
       ## save inference results
       saveRDS(diagDM_misclassification_signature_exposures_signatures[[repl]],
@@ -238,6 +259,10 @@ if(re_run){
   ## extract signatures and run model
   wrapper_missclassified_exposures_and_nucleotides(signature_fitting_method = 'QP')
   wrapper_missclassified_exposures_and_nucleotides(signature_fitting_method = 'mutSigExtractor')
+  
+  wrapper_missclassified_exposures_and_nucleotides(signature_fitting_method = NA,
+                                                   run_only_nucleotides = T, arg_model = 'fullRE_DM')
+  
 }
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -273,40 +298,27 @@ diagDM_misclassification_signature_nucleotide_tests_mutSigExtractor <- give_test
 
 
 ##-----------------------------------------------------------------------------------------##
-## re-run if necessary (missclassification)
-# add_to_name = 'QP'
-# repl = 1
-# ## save dataset
-# misclassification_signature_exposures_rerun <- readRDS(file = paste0("../../../data/assessing_models_real_data/simulated_datasets/misclassification_signature_exposures_repl", repl, add_to_name, ".RDS"))
-# 
-# if(nucleotide){
-#   misclassification_signature_exposures_nucleotide_rerun = try(sapply(misclassification_signature_exposures_rerun, function(i) sapply(i, `[[`, 'nucleotide_matrix', simplify = F), simplify = F))
-#   diagDM_misclassification_signature_exposures_nucleotide_rerun <- try(give_digRE_results(misclassification_signature_exposures_nucleotide_rerun))
-
-# ## save inference results
-# saveRDS(diagDM_misclassification_signature_exposures_nucleotide[[repl]],
-#         file = paste0("../../../data/assessing_models_real_data/inference_results/TMB/diagDM_misclassification_signature_exposures_nucleotide_repl", repl, add_to_name, ".RDS"))
-# }
-##-----------------------------------------------------------------------------------------##
-
-##-----------------------------------------------------------------------------------------##
 ## Plots
-plt3 <- give_barplot_agreement_in_DA(resDM_sigs_tests, diagDM_misclassification_signature_nucleotide_tests_QP[[4]], ylabel='Number of datasets with misassigned mutations')
-plt4 <- give_barplot_agreement_in_DA(resDM_sigs_tests, diagDM_misclassification_signature_exposures_signatures_tests_QP[[4]], ylabel='Number of datasets with misassigned mutations')
+# plt3 <- give_barplot_agreement_in_DA(resDM_sigs_tests, diagDM_misclassification_signature_nucleotide_tests_QP[[4]], ylabel='Number of datasets with misassigned mutations')
+# plt4 <- give_barplot_agreement_in_DA(resDM_sigs_tests, diagDM_misclassification_signature_exposures_signatures_tests_QP[[4]], ylabel='Number of datasets with misassigned mutations')
+# 
+# cowplot::plot_grid(plt3, plt4)
+# 
+# sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(j){
+#   give_barplot_agreement_in_DA(resDM_sigs_tests, j, ylabel='Number of datasets with misassigned mutations')
+# }, simplify = F)
 
-cowplot::plot_grid(plt3, plt4)
+# do.call('grid.arrange', c(nrow=1, lapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(j) give_barplot_agreement_in_DA(j, resDM_sigs_tests, ylabel='Number of datasets with misassigned mutations'))))
+# do.call('grid.arrange', c(nrow=1, lapply(diagDM_misclassification_signature_nucleotide_tests_QP, function(j) give_barplot_agreement_in_DA(j, resDM_nucleotides_tests, ylabel='Number of datasets with misassigned mutations'))))
 
-sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(j){
-  give_barplot_agreement_in_DA(resDM_sigs_tests, j, ylabel='Number of datasets with misassigned mutations')
-}, simplify = F)
-
-
-do.call('grid.arrange', c(nrow=1, lapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(j) give_barplot_agreement_in_DA(j, resDM_sigs_tests, ylabel='Number of datasets with misassigned mutations'))))
-do.call('grid.arrange', c(nrow=1, lapply(diagDM_misclassification_signature_nucleotide_tests_QP, function(j) give_barplot_agreement_in_DA(j, resDM_nucleotides_tests, ylabel='Number of datasets with misassigned mutations'))))
+give_agreement_in_DA_percentages_melt <- function(diagRE_DM_tests, df, return_df=F){
+  diagDM_leave_one_out_exposures_tests_accordance_DA = melt(sapply(enough_samples, function(ct) t(t(rep(diagRE_DM_tests[[ct]] <= 0.05, length(df[[ct]])) + (df[[ct]] <= 0.05))), simplify = F, USE.NAMES = T))
+  diagDM_leave_one_out_exposures_tests_accordance_DA$accordance = ifelse(diagDM_leave_one_out_exposures_tests_accordance_DA$value == 1, 'Discordance', 'Accordance')
+  return(diagDM_leave_one_out_exposures_tests_accordance_DA)
+}
 
 give_agreement_in_DA_percentages <- function(diagRE_DM_tests, df, return_df=F){
-  diagDM_leave_one_out_exposures_tests_accordance_DA = melt(sapply(enough_samples, function(ct) t(t(rep(diagRE_DM_tests[[ct]] <= 0.05, length(df[[ct]])) + (df[[ct]] <= 0.05))), simplify = F))
-  diagDM_leave_one_out_exposures_tests_accordance_DA$accordance = ifelse(diagDM_leave_one_out_exposures_tests_accordance_DA$value == 1, 'Discordance', 'Accordance')
+  diagDM_leave_one_out_exposures_tests_accordance_DA <- give_agreement_in_DA_percentages_melt(diagRE_DM_tests, df)
   diagDM_leave_one_out_exposures_tests_accordance_DA$percentage_misclassified <- as.numeric(gsub("misclassified", "", diagDM_leave_one_out_exposures_tests_accordance_DA$Var1))
   diagDM_leave_one_out_exposures_tests_accordance_DA <- diagDM_leave_one_out_exposures_tests_accordance_DA %>%
     group_by(percentage_misclassified) %>% summarise(percent_accordance=mean(accordance == 'Accordance', na.rm=T))
@@ -324,24 +336,115 @@ give_agreement_in_DA_percentages <- function(diagRE_DM_tests, df, return_df=F){
   }
 }
 
+give_agreement_in_DA_percentages_perct <- function(diagRE_DM_tests, df, return_df=F){
+  diagDM_leave_one_out_exposures_tests_accordance_DA <- give_agreement_in_DA_percentages_melt(diagRE_DM_tests, df)
+  diagDM_leave_one_out_exposures_tests_accordance_DA$percentage_misclassified <- diagDM_leave_one_out_exposures_tests_accordance_DA$Var1
+  diagDM_leave_one_out_exposures_tests_accordance_DA <- diagDM_leave_one_out_exposures_tests_accordance_DA %>%
+    group_by(percentage_misclassified, L1) %>% summarise(percent_accordance=mean(accordance == 'Accordance', na.rm=T)) %>%
+    ungroup()
+  diagDM_leave_one_out_exposures_tests_accordance_DA$ct = diagDM_leave_one_out_exposures_tests_accordance_DA$L1
+  diagDM_leave_one_out_exposures_tests_accordance_DA$L1 = NULL
+  if(return_df){
+    diagDM_leave_one_out_exposures_tests_accordance_DA
+  }else{
+    stop()
+  }
+}
 
 
 # cowplot::plot_grid(give_agreement_in_DA_percentages(resDM_nucleotides_tests, diagDM_misclassification_signature_exposures_nucleotide_tests),
 #                    give_agreement_in_DA_percentages(resDM_sigs_tests, diagDM_misclassification_signature_exposures_signatures_tests))
 
 
-df_misclassification_percentage_QP <- rbind.data.frame(cbind.data.frame(melt(sapply(diagDM_misclassification_signature_nucleotide_tests_QP, function(j) give_agreement_in_DA_percentages(j, resDM_nucleotides_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+df_misclassification_percentage_QP <- rbind.data.frame(cbind.data.frame(melt(sapply(diagDM_misclassification_signature_nucleotide_tests_QP, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_nucleotides_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
                                                                      category='nucleotides'),
-                                                    cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(j) give_agreement_in_DA_percentages(j, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                    cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
                                                                      category='signatures'))
 df_misclassification_percentage_QP$percentage_misclassified = percentages_misclassification[df_misclassification_percentage_QP$percentage_misclassified]
 colnames(df_misclassification_percentage_QP)[colnames(df_misclassification_percentage_QP) == 'L1'] = 'Replicate'
 
-ggplot(df_misclassification_percentage_QP,
-       aes(x=percentage_misclassified, y = percent_accordance, col=category))+
-  geom_line(data = df_misclassification_percentage_QP %>% group_by(percentage_misclassified, category) %>% 
-              summarise(median=median(percent_accordance)) %>% ungroup(), aes(y=median))+
-  geom_boxplot(aes(group=interaction(percentage_misclassified, category)))+
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
-  labs(y='Percentage of accordance across cancer types', x='Percentage of misclassified mutations')
+df_misclassification_percentage_QP$percentage_misclassified <- as.character(df_misclassification_percentage_QP$percentage_misclassified)
+
+df_misclassification_percentage_QP_summary <- df_misclassification_percentage_QP %>%
+  group_by(percentage_misclassified, category) %>% 
+  dplyr::summarise(median=median(percent_accordance),
+                   min=min(percent_accordance), max=max(percent_accordance), .groups = 'drop') %>% ungroup()
+
+df_misclassification_percentage_QP_summary$category <- stringr::str_to_title(df_misclassification_percentage_QP_summary$category)
+
+ggplot(df_misclassification_percentage_QP_summary)+
+  geom_ribbon(aes(x = percentage_misclassified, ymin = min, ymax=max, fill=category, group=category), alpha=0.2)+
+  geom_line(aes(y=median, percentage_misclassified, col=category, group = category), lty='dashed')+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), legend.position = 'bottom')+
+  labs(y='Percentage of accordance in DA across cancer types', x='Percentage of misclassified mutations', fill=NULL, color=NULL)
 ##-----------------------------------------------------------------------------------------##
+
+##-----------------------------------------------------------------------------------------##
+df_misclassification_percentage_QP_perct <- rbind.data.frame(cbind.data.frame(melt(sapply(diagDM_misclassification_signature_nucleotide_tests_QP, function(replicate) give_agreement_in_DA_percentages_perct(replicate, resDM_nucleotides_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance', 'ct')),
+                                                                              category='nucleotides'),
+                                                             cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(replicate) give_agreement_in_DA_percentages_perct(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance', 'ct')),
+                                                                              category='signatures'))
+head(df_misclassification_percentage_QP_perct)
+df_misclassification_percentage_QP_perct <- df_misclassification_percentage_QP_perct %>% group_by(ct, category, percentage_misclassified) %>%
+  summarise(percent_accordance_across_replicates=mean(percent_accordance, na.rm = T))
+df_misclassification_percentage_QP_perct$percentage_misclassified = percentages_misclassification[df_misclassification_percentage_QP_perct$percentage_misclassified]
+
+ggplot(df_misclassification_percentage_QP_perct,# %>% filter(ct == 'Bone-Osteosarc'),
+       aes(x=percentage_misclassified, y=percent_accordance_across_replicates, col=ct))+
+  geom_line(aes(group=ct))+facet_wrap(.~category)
+##-----------------------------------------------------------------------------------------##
+
+##-----------------------------------------------------------------------------------------##
+## select one single run across replicates, making sure they have converged
+test_run <- function(run_it){
+  if(is.null(run_it)){
+    # find another run which did converge
+    'Fail'
+  }else{
+    if(!is.na(wald_TMB_wrapper(run_it))){
+      ## it converged. All good
+      'Good'
+    }else{
+      'Fail'
+    }
+  }
+}
+
+repl = 1
+diagDM_misclassification_signature_exposures_nucleotides_QP_onerepl_all_converged = diagDM_misclassification_signature_exposures_nucleotides_QP[[repl]]
+for(ct in enough_samples){
+  for(missclassification_it in paste0('misclassified', percentages_misclassification)){
+    run_it = diagDM_misclassification_signature_exposures_nucleotides_QP_onerepl_all_converged[[ct]][[missclassification_it]]
+    if(test_run(run_it) == 'Fail'){
+      while( (test_run(run_it) == 'Fail') & (repl < nreplicates)){
+        repl = repl+1
+        run_it = diagDM_misclassification_signature_exposures_nucleotides_QP[[repl]][[ct]][[missclassification_it]]
+        test_run(run_it)
+      }
+    }
+    if((test_run(run_it) == 'Fail')){
+      cat('Failed for ct ', ct, ' ', missclassification_it, ' \n')
+    }
+    diagDM_misclassification_signature_exposures_nucleotides_QP_onerepl_all_converged[[ct]][[missclassification_it]] = run_it
+  }
+}
+diagDM_misclassification_signature_exposures_nucleotides_QP_onerepl_all_converged$`Bone-Osteosarc`$misclassified0.4
+diagDM_misclassification_signature_exposures_nucleotides_QP_onerepl_all_converged$`CNS-Medullo`$misclassified0.4
+
+source("../4_figures_and_tables/helper_figures_manuscript.R")
+
+for(it_misclassification in 1:length(percentages_misclassification)){
+  give_plot_betas_all_ct(sapply(diagDM_misclassification_signature_exposures_nucleotides_QP_onerepl_all_converged, `[[`, it_misclassification, simplify = F),
+                         names_trinucleotide=vector_cats_to_logR(colnames(read_info_list[[1]]$dataset_nucleotidesubstitution1$Y)), prepare_for_tikz = F)+
+    ggtitle(paste0('Missclassification: ', percentages_misclassification[it_misclassification]*100, '%'))
+  ggsave(paste0("../../../results/results_TMB/3_real_data_assessment/3_missclassification/cors_trinucleotide3sorted_v3_missclassification_", it_misclassification, ".pdf"), height = 5, width = 5.5)
+  ggsave(paste0("../../../results/results_TMB/3_real_data_assessment/3_missclassification/cors_trinucleotide3sorted_v3_missclassification_", it_misclassification, ".png"), height = 5, width = 5.5)
+}
+
+##-----------------------------------------------------------------------------------------##
+
+par(mfrow=c(1, length(percentages_misclassification)))
+for(missclassification_it in paste0('misclassified', percentages_misclassification)){
+  plot(as.vector(read_info_list$`Bone-Osteosarc`$dataset_nucleotidesubstitution1$Y),
+       as.vector(misclassification_signature_exposures_onerepl$`Bone-Osteosarc`[[missclassification_it]]$nucleotide_matrix$Y))
+}

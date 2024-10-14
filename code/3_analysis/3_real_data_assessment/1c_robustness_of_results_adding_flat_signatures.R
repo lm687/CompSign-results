@@ -191,9 +191,6 @@ ggplot(diagREDM_remove_flat_and_clock_signature_exposures_tests_df,
 ggsave("../../../results/results_TMB/3_real_data_assessment/1c_flat_sigs/1c_DAagreement.pdf", height = 5, width = 5)
 ggsave("../../../results/results_TMB/3_real_data_assessment/1c_flat_sigs/1c_DAagreement.png", height = 5, width = 5)
 
-give_barplot_agreement_in_DA(diagRE_DM_tests = diagRE_DM_tests,
-                             diagDM_leave_one_out_exposures_tests = diagREDM_remove_flat_and_clock_signature_exposures_tests)
-
 diagRE_DM_tests$`Lymph-CLL`
 diagREDM_remove_flat_and_clock_signature_exposures_tests$`Lymph-CLL`
 

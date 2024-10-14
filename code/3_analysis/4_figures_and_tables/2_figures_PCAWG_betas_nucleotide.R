@@ -7,6 +7,7 @@ setwd("../../2_inference_TMB/")
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
+source("../3_analysis/4_figures_and_tables/helper_figures_manuscript.R")
 source("../2_inference_TMB/helper_TMB.R")
 # source("../../../CDA_in_Cancer/code/functions/meretricious/pretty_plots/prettySignatures.R")
 # source("../3_analysis/recovery_COSMIC_signatures/recover_COSMIC_signatures.R")
@@ -26,28 +27,6 @@ library(mutSigExtractor)
 ##-----------------------------------------------------------------------------------------------------##
 enough_samples = read.table("../../data/pcawg/CT_sufficient_samples.txt", comment.char='#')[,1]
 enough_samples
-
-nucleotide_colours_logR <- c('C$>$A/T$>$G'= '#3cb371', 'C$>$G/T$>$G'= '#90ee90', 'C$>$T/T$>$G'= '#66cdaa',
-                             'T$>$A/T$>$G'= '#cd5c5c', 'T$>$C/T$>$G'= '#f4a460')
-nucleotide_colours <- c('C>A' = '#3cb371', 'C>G'= '#90ee90', 'C>T'= '#66cdaa',
-                        'T>A'= '#cd5c5c', 'T>C'= '#f4a460', 'T>G'='red')
-nucleotide_colours_dollar <- c('C$>$A' = '#3cb371', 'C$>$G'= '#90ee90', 'C$>$T'= '#66cdaa',
-                               'T$>$A'= '#cd5c5c', 'T$>$C'= '#f4a460', 'T$>$G'='red')
-
-nucleotide_colours_logR <- c('C$>$A/T$>$G'= '#a53606', 'C$>$G/T$>$G'= '#b32db5', 'C$>$T/T$>$G'= '#881a58',
-                             'T$>$A/T$>$G'= '#0e288e', 'T$>$C/T$>$G'= '#164c64')
-nucleotide_colours <- c('C>A' = '#a53606', 'C>G'= '#b32db5', 'C>T'= '#881a58',
-                        'T>A'= '#0e288e', 'T>C'= '#164c64', 'T>G'='red')
-nucleotide_colours_dollar <- c('C$>$A' = '#a53606', 'C$>$G'= '#b32db5', 'C$>$T'= '#881a58',
-                               'T$>$A'= '#0e288e', 'T$>$C'= '#164c64', 'T$>$G'='red')
-
-nucleotide_colours_logR <- c('C$>$A/T$>$G'= '#377eb8', 'C$>$G/T$>$G'= '#ff7f00', 'C$>$T/T$>$G'= '#984ea3',
-                             'T$>$A/T$>$G'= '#f781bf', 'T$>$C/T$>$G'= '#a65628')
-nucleotide_colours <- c('C>A' = '#377eb8', 'C>G'= '#ff7f00', 'C>T'= '#984ea3',
-                        'T>A'= '#f781bf', 'T>C'= '#a65628', 'T>G'='red')
-nucleotide_colours_dollar <- c('C$>$A' = '#377eb8', 'C$>$G'= '#ff7f00', 'C$>$T'= '#984ea3',
-                               'T$>$A'= '#f781bf', 'T$>$C'= '#a65628', 'T$>$G'='red')
-
 ##-----------------------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------------------##
@@ -113,41 +92,11 @@ nucleotide1 <- sapply(read_info_list, `[`, 'fullREDM_nucleotide1')
 names(nucleotide1) <- names(read_info_list)
 names_trinucleotide <- vector_cats_to_logR(colnames(read_info_list[[1]]$dataset_nucleotidesubstitution1$Y))
 
-betas_nucleotides <- lapply(nucleotide1, function(i) plot_betas(i, return_df = T))
-betas_nucleotides <- lapply(betas_nucleotides, function(i){
-  i$LogR <- names_trinucleotide[i$LogR]
-  # rownames(i) <- make.names(i$LogR, unique = T)
-  i
-})
-
-betas_nucleotides_slopes <- do.call('cbind', lapply(betas_nucleotides, function(i) i%>% filter(type_beta == 'Slope' ) %>% select(Estimate)))
-colnames(betas_nucleotides_slopes) <- names(nucleotide1)
-rownames(betas_nucleotides_slopes) <- names_trinucleotide
-rownames(betas_nucleotides_slopes) <- gsub(">", "$>$", rownames(betas_nucleotides_slopes))
+give_plot_betas_all_ct(nucleotide1, names_trinucleotide)
 
 # tikzDevice::tikz("../../results/results_TMB/pcawg/reports_per_cancer_type/cors_trinucleotide3sorted_v3.tex", height = 4, width = 5)
 tikzDevice::tikz("../../results/results_TMB/pcawg/reports_per_cancer_type/cors_trinucleotide3sorted_v3.tex", height = 4, width = 5.5)
-ggplot(melt(as(betas_nucleotides_slopes, 'matrix')),
-       aes(x=factor(Var2,levels=names(sort(colMeans(betas_nucleotides_slopes)))),
-           col=Var1, shape=Var1, y=value))+geom_point()+
-  geom_hline(yintercept = 0, lty='dashed')+theme_bw()+geom_line(aes(group=Var1))+
-  theme_bw()+theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))+
-  theme(axis.title.x = element_blank(),
-        legend.position = "bottom",
-        # legend.position = c(.5,-.5),
-        # plot.margin = unit(c(0,0,4,0), 'lines'),
-        legend.title = element_blank())+
-  # labs(y=("$\\widehat{\\betab}_1$"))+
-  labs(y=("$\\hat{\\beta}_1$"))+
-  guides(col=guide_legend(nrow=1,byrow=TRUE))+
-  scale_color_manual(values = nucleotide_colours_logR)+
-  # geom_segment(aes(x = 5, y = 0, xend = 5, yend = Inf),
-  #              arrow = arrow(length = unit(0.2, "cm")), col='black')+
-  # geom_segment(aes(x = 19, y = 0, xend = 18, yend = -Inf),
-  #              arrow = arrow(length = unit(0.2, "cm")), col='black')+
-  annotate("text", x = 5.5, y = -0.6, label="More clonal than baseline")+
-  annotate("text", x = 18, y = 0.65, label="More subclonal than baseline")+
-  ylim(c(-0.7, 0.8))
+give_plot_betas_all_ct(nucleotide1, names_trinucleotide)
 dev.off()
 
 betas_nucleotides_slopes_softmax <- apply(betas_nucleotides_slopes, 2, function(i) softmax(c(i,0)))
