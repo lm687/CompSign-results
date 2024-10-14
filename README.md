@@ -15,7 +15,7 @@ browseVignettes("CompSign")
 ```
 
 ## Ignored folders
-Some elements inside the data folder `data/` is restricted and therefore not available. Specifically, count PCAWG data are indentifiable and with restricted access.
+Some elements inside the data folder `data/` is mostly restricted and therefore not available. Specifically, count PCAWG data are indentifiable and with restricted access.
 
 The summarised data which is not identifiable and available in this github repository is, however, enough to run the code:
 
