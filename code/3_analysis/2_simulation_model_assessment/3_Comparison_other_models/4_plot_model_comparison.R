@@ -3,12 +3,12 @@ rm(list = ls())
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 library(CompSign)
-library(HiLDA)
+# library(HiLDA)
 library(ggplot2)
-library(lsa) ## cosine similarity
+# library(lsa) ## cosine similarity
 library(reshape2)
 library(dplyr)
-library(GGally)
+# library(GGally)
 library(gridExtra)
 theme_set(theme_bw())
 source("../../../2_inference_TMB/helper_TMB.R")
@@ -20,10 +20,16 @@ source("helper.R")
 # all_in_datasets <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/datasets/")
 ##------------------------------------------------------------------------##
 
+##------------------------------------------------------------------------##
+names_out_TMB <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/inference_results/TMB/nlminb/", return_filenames = T)
+names_out_HiLDA <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/inference_results/HiLDA/", remove_HiLDAGlobal = T, return_filenames = T)
+names_out_TCSM <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/inference_results/TCSM/", return_filenames = T)
+##------------------------------------------------------------------------##
 
 ##------------------------------------------------------------------------##
 ## TMB
 all_out_TMB <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/inference_results/TMB/nlminb/")
+# 1283  files found
 all_out_TMB <- all_out_TMB[-grep('_NC', names(all_out_TMB))]
 names(all_out_TMB) <- sapply(names(all_out_TMB), rename_datasets_fun)
 
@@ -112,12 +118,13 @@ ggsave("../../../../results/figures_paper/comparison_methods/TMB_ROC.pdf", heigh
 
 ##------------------------------------------------------------------------##
 ## HiLDA
-all_out_HiLDA <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/inference_results/HiLDA/",
-                                     remove_HiLDAGlobal = T)
-names(all_out_HiLDA) <- sapply(names(all_out_HiLDA), rename_datasets_fun)
-names(all_out_HiLDA) <- paste0(gsub("HiLDA.*", "", names(all_out_HiLDA)),
-                               gsub(".*dataset", "", names(all_out_HiLDA)))
-
+# all_out_HiLDA <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/inference_results/HiLDA/",
+#                                      remove_HiLDAGlobal = T)
+# names(all_out_HiLDA) <- modify_names_HiLDA(names(all_out_HiLDA) )
+all_out_HiLDA_betas <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/inference_results/HiLDA/",
+                                     remove_HiLDAGlobal = T, HiLDA_return='betas')
+# 800  files found
+names(all_out_HiLDA_betas) <- modify_names_HiLDA(names(all_out_HiLDA_betas))
 
 ## globaltest for hildaglobal runs
 df_pvals_HiLDA <- sapply(all_out_HiLDA, hildaGlobal_from_beta)
@@ -160,6 +167,7 @@ aucs_HiLDA <- give_AUC_df(df_pvals, df_pvals_parameter_expand, column_pvalues_ar
 ##------------------------------------------------------------------------##
 ## TCSM
 all_out_TCSM <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/inference_results/TCSM/")
+# 1280  files found
 names(all_out_TCSM) <- sapply(names(all_out_TCSM), rename_datasets_fun)
 all_out_TCSM[[1]]$effect
 all_out_TCSM[[1]]$sigma
@@ -309,25 +317,6 @@ stopifnot(names(all_out_TCSM_matched) == names(all_out_HiLDA_matched))
 
 ##------------------------------------------------------------------------##
 ## Comparison of beta coefficients (sorting them, as we don't have their correspondence)
-
-## get the beta coefficients for each type of input data
-output_to_beta_matrix <- function(output, model){
-  if(length(output) == 0){
-    return(NA)
-  }else{
-    if(model =='TCSM'){
-      return_obj <- output$effect
-    }else if(model == 'TMB'){
-      return_obj <- plot_betas(output, return_df = T, plot = F)
-      return_obj <- dcast(return_obj, LogR~type_beta, value.var = 'Estimate')[,-1]
-    }else if(model == 'HiLDA'){
-      return_obj <- data.frame(output$BUGSoutput$summary) %>% slice(grep('alpha', row.names(.)))
-      return_obj <- matrix((return_obj$mean), ncol=2, byrow=T)
-      return_obj <- cbind(return_obj[,1], return_obj[,2]-return_obj[,1])
-    }
-    return(return_obj)
-  }
-}
 
 # output_to_beta_matrix(all_out_TCSM_matched[[idx]], 'TCSM') ## d
 # output_to_beta_matrix(all_out_TMB_matched[[idx]], 'TMB') ## d-1
@@ -719,7 +708,10 @@ ggplot(mse %>% filter(model == 'C1', n==100, nlambda==50), aes(x=factor(pi_softm
 ggplot(mse, aes(x=factor(pi_softmax), y=mse, group=pi_softmax))+
   facet_wrap(.~model+n+nlambda, scales = "free")+geom_boxplot()
 
-rhats <- lapply(all_out_HiLDA, function(i) try(python_like_select_rownames(i$BUGSoutput$summary, 'alpha|beta')[,'Rhat']))
+rhats <- get_inference_files(folder_in = "../../../../data/assessing_models_simulation/inference_results/HiLDA/",
+                                           remove_HiLDAGlobal = T, HiLDA_return='rhats')
+
+# rhats <- lapply(all_out_HiLDA, function(i) try(python_like_select_rownames(i$BUGSoutput$summary, 'alpha|beta')[,'Rhat']))
 plot(density(unlist(rhats)))
 min(unlist(rhats))
 

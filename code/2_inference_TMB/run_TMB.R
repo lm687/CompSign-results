@@ -23,6 +23,16 @@ if(debug){
   opt$read_directly = T 
   opt$use_previous_run_startingvals  = T
   
+  opt <- list()
+  opt$read_directly = T 
+  opt$simulation_bool = T
+  opt$input = '../data/assessing_models_simulation/datasets/multiple_GenerationMixturewithCCFb_68_NA_500_96_0.2_NA_NA_NA/multiple_GenerationMixturewithCCFb_68_NA_500_96_0.2_NA_NA_NA_dataset1.RDS'
+  opt$output = '../data/assessing_models_simulation/inference_results/TMB/nlminb/multiple_GenerationMixturewithCCFb_68_NA_500_96_0.2_diagREDM_NA_NA_NA/multiple_GenerationMixturewithCCFb_68_NA_500_96_0.2_diagREDM_NA_NA_NA_dataset1.RDS'
+  opt$model = 'diagREDM'
+  opt$optimiser = 'nlminb'
+  opt$use_previous_run_startingvals = T
+  opt$feature_type = "signatures"
+  
 }
 
 

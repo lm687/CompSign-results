@@ -275,11 +275,9 @@ diagDM_misclassification_signature_exposures_signatures_mutSigExtractor <- lappl
   readRDS(paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_diagDM_misclassification_signature_exposures_signatures_repl",
                  repl, ".RDS")))
 
-diagDM_misclassification_signature_exposures_nucleotides_QP <- lapply(1:nreplicates, function(repl)
-  readRDS(paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_diagDM_misclassification_signature_exposures_nucleotide_repl",
-                 repl, "QP.RDS")))
-diagDM_misclassification_signature_exposures_nucleotides_mutSigExtractor <- lapply(1:nreplicates, function(repl)
-  readRDS(paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_diagDM_misclassification_signature_exposures_nucleotide_repl",
+## nucleotides are the same (neither QP not MSE are used)
+fullDM_misclassification_signature_exposures_nucleotides <- lapply(1:nreplicates, function(repl)
+  readRDS(paste0("../../../data/assessing_models_real_data/inference_results/TMB/3_robustness_in_misclassification_of_mutations/3_fullDM_misclassification_signature_exposures_nucleotide_repl",
                  repl, ".RDS")))
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -291,8 +289,8 @@ give_test_results <-function(k) lapply(k, function(j) sapply(j, function(ct){
 
 diagDM_misclassification_signature_exposures_signatures_tests_QP <- give_test_results(diagDM_misclassification_signature_exposures_signatures_QP)
 diagDM_misclassification_signature_exposures_signatures_tests_mutSigExtractor <- give_test_results(diagDM_misclassification_signature_exposures_signatures_mutSigExtractor)
-diagDM_misclassification_signature_nucleotide_tests_QP <- give_test_results(diagDM_misclassification_signature_exposures_nucleotides_QP)
-diagDM_misclassification_signature_nucleotide_tests_mutSigExtractor <- give_test_results(diagDM_misclassification_signature_exposures_nucleotides_mutSigExtractor)
+fullDM_misclassification_signature_nucleotide_tests <- give_test_results(fullDM_misclassification_signature_exposures_nucleotides)
+fullDM_misclassification_signature_nucleotide_tests <- give_test_results(fullDM_misclassification_signature_exposures_nucleotides)
 
 ##-----------------------------------------------------------------------------------------------------##
 
@@ -356,23 +354,38 @@ give_agreement_in_DA_percentages_perct <- function(diagRE_DM_tests, df, return_d
 #                    give_agreement_in_DA_percentages(resDM_sigs_tests, diagDM_misclassification_signature_exposures_signatures_tests))
 
 
-df_misclassification_percentage_QP <- rbind.data.frame(cbind.data.frame(melt(sapply(diagDM_misclassification_signature_nucleotide_tests_QP, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_nucleotides_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
-                                                                     category='nucleotides'),
-                                                    cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
-                                                                     category='signatures'))
-df_misclassification_percentage_QP$percentage_misclassified = percentages_misclassification[df_misclassification_percentage_QP$percentage_misclassified]
-colnames(df_misclassification_percentage_QP)[colnames(df_misclassification_percentage_QP) == 'L1'] = 'Replicate'
 
-df_misclassification_percentage_QP$percentage_misclassified <- as.character(df_misclassification_percentage_QP$percentage_misclassified)
+df_misclassification_percentage_QP <- rbind.data.frame(cbind.data.frame(melt(sapply(fullDM_misclassification_signature_nucleotide_tests, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_nucleotides_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                         category='nucleotides'),
+                                                        cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                         category='signatures'))
 
-df_misclassification_percentage_QP_summary <- df_misclassification_percentage_QP %>%
+df_misclassification_percentage_MSE <- rbind.data.frame(cbind.data.frame(melt(sapply(fullDM_misclassification_signature_nucleotide_tests, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_nucleotides_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                        category='nucleotides'),
+                                                       cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_mutSigExtractor, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                        category='signatures'))
+
+df_misclassification_percentage_both <- rbind.data.frame(cbind.data.frame(melt(sapply(fullDM_misclassification_signature_nucleotide_tests, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_nucleotides_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                         category='nucleotides'),
+                                                         cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                          category='signatures QP'),
+                                                        cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_mutSigExtractor, function(replicate) give_agreement_in_DA_percentages(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                         category='signatures mutSigExtractor'))
+
+
+df_misclassification_percentage_both$percentage_misclassified = percentages_misclassification[df_misclassification_percentage_both$percentage_misclassified]
+colnames(df_misclassification_percentage_both)[colnames(df_misclassification_percentage_both) == 'L1'] = 'Replicate'
+
+df_misclassification_percentage_both$percentage_misclassified <- as.character(df_misclassification_percentage_both$percentage_misclassified)
+
+df_misclassification_percentage_both <- df_misclassification_percentage_both %>%
   group_by(percentage_misclassified, category) %>% 
   dplyr::summarise(median=median(percent_accordance),
                    min=min(percent_accordance), max=max(percent_accordance), .groups = 'drop') %>% ungroup()
 
-df_misclassification_percentage_QP_summary$category <- stringr::str_to_title(df_misclassification_percentage_QP_summary$category)
+df_misclassification_percentage_both$category <- stringr::str_to_title(df_misclassification_percentage_both$category)
 
-ggplot(df_misclassification_percentage_QP_summary)+
+ggplot(df_misclassification_percentage_both)+
   geom_ribbon(aes(x = percentage_misclassified, ymin = min, ymax=max, fill=category, group=category), alpha=0.2)+
   geom_line(aes(y=median, percentage_misclassified, col=category, group = category), lty='dashed')+
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), legend.position = 'bottom')+
@@ -380,18 +393,26 @@ ggplot(df_misclassification_percentage_QP_summary)+
 ##-----------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------##
-df_misclassification_percentage_QP_perct <- rbind.data.frame(cbind.data.frame(melt(sapply(diagDM_misclassification_signature_nucleotide_tests_QP, function(replicate) give_agreement_in_DA_percentages_perct(replicate, resDM_nucleotides_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance', 'ct')),
-                                                                              category='nucleotides'),
-                                                             cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(replicate) give_agreement_in_DA_percentages_perct(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance', 'ct')),
-                                                                              category='signatures'))
-head(df_misclassification_percentage_QP_perct)
-df_misclassification_percentage_QP_perct <- df_misclassification_percentage_QP_perct %>% group_by(ct, category, percentage_misclassified) %>%
-  summarise(percent_accordance_across_replicates=mean(percent_accordance, na.rm = T))
-df_misclassification_percentage_QP_perct$percentage_misclassified = percentages_misclassification[df_misclassification_percentage_QP_perct$percentage_misclassified]
+df_misclassification_percentage_perct <- rbind.data.frame(cbind.data.frame(melt(sapply(fullDM_misclassification_signature_nucleotide_tests, function(replicate) give_agreement_in_DA_percentages_perct(replicate, resDM_nucleotides_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                           category='nucleotides'),
+                                                          cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_QP, function(replicate) give_agreement_in_DA_percentages_perct(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                           category='signatures QP'),
+                                                          cbind.data.frame(melt(sapply(diagDM_misclassification_signature_exposures_signatures_tests_mutSigExtractor, function(replicate) give_agreement_in_DA_percentages_perct(replicate, resDM_sigs_tests, return_df=T), simplify = F), id.vars=c('percentage_misclassified', 'percent_accordance')),
+                                                                           category='signatures mutSigExtractor'))
+df_misclassification_percentage_perct$ct = df_misclassification_percentage_perct$value
 
-ggplot(df_misclassification_percentage_QP_perct,# %>% filter(ct == 'Bone-Osteosarc'),
+df_misclassification_percentage_perct <- df_misclassification_percentage_perct %>% group_by(ct, category, percentage_misclassified) %>%
+  summarise(percent_accordance_across_replicates=mean(percent_accordance, na.rm = T))
+df_misclassification_percentage_perct$percentage_misclassified = percentages_misclassification[df_misclassification_percentage_perct$percentage_misclassified]
+
+ggplot(df_misclassification_percentage_perct,# %>% filter(ct == 'Bone-Osteosarc'),
        aes(x=percentage_misclassified, y=percent_accordance_across_replicates, col=ct))+
   geom_line(aes(group=ct))+facet_wrap(.~category)
+
+ggplot(df_misclassification_percentage_perct, aes(x=ct, y=factor(percentage_misclassified),
+                                                  fill=percent_accordance_across_replicates))+
+  facet_wrap(.~category)+geom_tile()
+
 ##-----------------------------------------------------------------------------------------##
 
 ##-----------------------------------------------------------------------------------------##

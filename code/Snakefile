@@ -221,12 +221,12 @@ rule all:
       # d = 'NA',\
       # beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1],\
       # itnum=range(10))
-      expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
-      datasetgeneration=['GenerationMixtureSimulationTwoCT'],\
-      model=['diagREDM'], optimiser = 'nlminb', \
-      fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
-      sdRE_input = 'NA', n = ['100'], nlambda = ['50', '1773'], lmbda = ['NA'],\
-      d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
+      # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixtureSimulationTwoCT'],\
+      # model=['diagREDM'], optimiser = 'nlminb', \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA', n = ['100'], nlambda = ['50', '1773'], lmbda = ['NA'],\
+      # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
       # --------------------- #
       ## HilDA results:
       ## as it is slow, start with a subset of parameters
@@ -281,7 +281,60 @@ rule all:
       # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
       # sdRE_input = 'NA', n = ['100'], nlambda = ['50', '1773'], lmbda = ['NA'],\
       # d = 'NA', beta_intensity=[-8, -7, -6, -5,  -3.75, -3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1, 0, 0.5, 1], itnum=range(10))
-# expand(['/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/'+x.strip('.gz')+'.annovar' for x in listdir('/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/') if re.search('.gz$', x)])
+      # expand(['/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/annovar_annotation/'+x.strip('.gz')+'.annovar' for x in listdir('/Users/morril01/Documents/PhD/GlobalDA/data/restricted/pcawg/pcawg_restricted_snv/') if re.search('.gz$', x)])
+      ##---------------------
+      ## run simulations to compare with TrackSig
+      # expand("../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      #  datasetgeneration='GenerationMixturewithCCFa', n=51, itnum=range(5), fixed_beta_intercept='NA', fixed_beta_slope='NA', sdRE_input='NA', beta_intensity=4, nlambda='NA', lmbda=[100, 250, 500], d=96)
+      # [expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixturewithCCFa'],\
+      # model=['diagREDM'], optimiser = 'nlminb', \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA',  nlambda = 'NA', lmbda = [100, 250, 500],\
+      # d = 96, n = ['51'],\
+      # beta_intensity=[0, 0.1, 0.2, 1, 2, 4],\
+      # itnum=range(5)),
+      # expand("../data/assessing_models_simulation/inference_results/TMBregressionCCF/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixturewithCCFa'],\
+      # model=['fullREM'], optimiser = 'nlminb', \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA',  nlambda = 'NA', lmbda = [100, 250, 500],\
+      # d = 96, n = ['51'],\
+      # beta_intensity=[0, 0.1, 0.2, 1, 2, 4],\
+      # itnum=range(5)),
+      # expand("../data/assessing_models_simulation/inference_results/TrackSig/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixturewithCCFa'],\
+      # model=['SigFreq'], \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA',  nlambda = 'NA', lmbda = [100, 250, 500],\
+      # d = 96, n = ['51'],\
+      # beta_intensity=[0, 0.1, 0.2, 1, 2, 4],\
+      # itnum=range(5)),
+      # # same as above, with another cancer type
+      # expand("../data/assessing_models_simulation/inference_results/TMB/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixturewithCCFb'],\
+      # model=['diagREDM'], optimiser = 'nlminb', \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA',  nlambda = 'NA', lmbda = [100, 250, 500],\
+      # d = 96, n = ['68'],\
+      # beta_intensity=[0, 0.05, 0.1, 0.2, 1, 2, 4],\
+      # itnum=range(5)),
+      # expand("../data/assessing_models_simulation/inference_results/TMBregressionCCF/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      # datasetgeneration=['GenerationMixturewithCCFb'],\
+      # model=['fullREM'], optimiser = 'nlminb', \
+      # fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      # sdRE_input = 'NA',  nlambda = 'NA', lmbda = [100, 250, 500],\
+      # d = 96, n = ['68'],\
+      # beta_intensity=[0, 0.05, 0.1, 0.2, 1, 2, 4],\
+      # itnum=range(5)),
+      expand("../data/assessing_models_simulation/inference_results/TrackSig/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS",
+      datasetgeneration=['GenerationMixturewithCCFb'],\
+      model=['SigFreq'], \
+      fixed_beta_intercept = 'NA', fixed_beta_slope = 'NA',\
+      sdRE_input = 'NA',  nlambda = 'NA', lmbda = [100, 250, 500],\
+      d = 96, n = ['68'],\
+      beta_intensity=[0, 0.05, 0.1, 0.2, 1, 2, 4],\
+      itnum=range(5))
 
 
 numreplicates_for_bias = 1000 ## for bias analysis
@@ -380,6 +433,20 @@ rule inference_simulation_TMB_multiple_LRT:
        "../data/assessing_models_simulation/inference_results/TMB_LRT/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
     shell:
        "Rscript 2_inference_TMB/run_TMB.R --return_opt_bool T --input {input} --output {output} --model {params.model} --optimiser {params.optimiser}  --use_previous_run_startingvals T"
+
+rule inference_simulation_TMB_multiple_regression:
+    input:
+        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    log:
+        "logs/inference/{optimiser}/simulation_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_Model{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.log"
+    params:
+       model="{model}",
+       optimiser="{optimiser}"
+    output:
+       "../data/assessing_models_simulation/inference_results/TMBregressionCCF/{optimiser}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    shell:
+       "Rscript 2_inference_TMB/run_TMB_regressionccf.R --input {input} --output {output} --model {params.model} --optimiser {params.optimiser}  --use_previous_run_startingvals T"
+
 #-----------------------------------------------------------------------------------------------------------------#
 
 
@@ -520,6 +587,22 @@ rule inference_simulation_TCSM_multiple_4:
        " --filestring ../data/assessing_models_simulation/inference_results/TCSM/multiple_{wildcards.datasetgeneration}_{wildcards.n}_{wildcards.nlambda}_{wildcards.lmbda}_{wildcards.d}_{wildcards.beta_intensity}_{wildcards.model}_{wildcards.fixed_beta_intercept}_{wildcards.fixed_beta_slope}_{wildcards.sdRE_input}/"+\
        " --it {wildcards.itnum} --input {input} --output {output}"
 #-----------------------------------------------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------------------------------------------#
+rule inference_simulation_TrackSig:
+    input:
+        "../data/assessing_models_simulation/datasets/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    log:
+        "logs/inference/TrackSig/simulation_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_Model{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.log"
+    params:
+       model="{model}",
+       datasetgeneration = "{datasetgeneration}"
+    output:
+       "../data/assessing_models_simulation/inference_results/TrackSig/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}/multiple_{datasetgeneration}_{n}_{nlambda}_{lmbda}_{d}_{beta_intensity}_{model}_{fixed_beta_intercept}_{fixed_beta_slope}_{sdRE_input}_dataset{itnum}.RDS"
+    shell:
+       "Rscript 3_analysis/2_simulation_model_assessment/3_Comparison_other_models/6_run_TrackSig.R --input {input} --output {output} --model {params.model} --datasetgeneration {params.datasetgeneration}"
+#-----------------------------------------------------------------------------------------------------------------#
+
 
 #-----------------------------------------------------------------------------------------------------------------#
 rule inference_simulation_TMB_sigreextraction_multiple:

@@ -11,7 +11,15 @@ add_metadata <- function(df, vector_from_DA_with_runname){
 ##------------------------------------------------------------------------##
 
 ##------------------------------------------------------------------------##
-get_inference_files <- function(folder_in, verbose=T, remove_HiLDAGlobal=F, runtime=F){
+modify_names_HiLDA <- function(j){
+  sapply(j, function(i){
+    i <- sapply(i, rename_datasets_fun)
+    i <- paste0(gsub("HiLDA.*", "", i), gsub(".*dataset", "", i))
+    return(i)
+  })
+}
+
+get_inference_files <- function(folder_in, verbose=T, remove_HiLDAGlobal=F, runtime=F, return_filenames=F, HiLDA_return='all'){
   in_files <- unlist(sapply(grep('GenerationMixtureSimulation_|GenerationMixtureSimulationv4_|GenerationMixtureSimulationv7_|GenerationMixtureSimulationTwoCT', 
                      list.files(folder_in, full.names = T),
                      value = T),
@@ -40,7 +48,26 @@ get_inference_files <- function(folder_in, verbose=T, remove_HiLDAGlobal=F, runt
       }
     })
   }else{
-    all_out_TMB <- lapply(in_files, readRDS)
+    if(return_filenames){
+      all_out_TMB <- in_files
+    }else{
+      if(HiLDA_return == 'all'){
+        all_out_TMB <- lapply(in_files, readRDS)
+      }else if (HiLDA_return == 'betas'){
+        all_out_TMB <- sapply(in_files, function(i){
+          x = readRDS(i)
+          output_to_beta_matrix(x,  model='HiLDA')
+        }, simplify = F)
+      }else if (HiLDA_return == 'rhats'){
+        all_out_TMB <- sapply(in_files, function(i){
+          x = readRDS(i)
+          try(python_like_select_rownames(x$BUGSoutput$summary, 'alpha|beta')[,'Rhat'])
+        }, simplify = F)
+        
+      }else{
+        stop('<HiLDA_return> not found\n')
+      }
+    }
   }
   
   names(all_out_TMB) <- paste0(gsub(".RDS", "", 
@@ -113,6 +140,25 @@ hildaGlobal_from_alpha <- function(jagsOutput){
     0
   }else{
     1
+  }
+}
+
+output_to_beta_matrix <- function(output, model){
+  ## get the beta coefficients for each type of input data
+  if(length(output) == 0){
+    return(NA)
+  }else{
+    if(model =='TCSM'){
+      return_obj <- output$effect
+    }else if(model == 'TMB'){
+      return_obj <- plot_betas(output, return_df = T, plot = F)
+      return_obj <- dcast(return_obj, LogR~type_beta, value.var = 'Estimate')[,-1]
+    }else if(model == 'HiLDA'){
+      return_obj <- data.frame(output$BUGSoutput$summary) %>% slice(grep('alpha', row.names(.)))
+      return_obj <- matrix((return_obj$mean), ncol=2, byrow=T)
+      return_obj <- cbind(return_obj[,1], return_obj[,2]-return_obj[,1])
+    }
+    return(return_obj)
   }
 }
 ##------------------------------------------------------------------------##
